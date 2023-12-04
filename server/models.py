@@ -40,23 +40,6 @@ class Artwork(db.Model, SerializerMixin):
     #Serialization
 
 
-class Artwork(db.Model, SerializerMixin):
-    __tablename__='artworks'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    title = db.Column(db.String)
-    description = db.Column(db.String)
-    image = db.Column(db.String)
-    tags = db.Column(db.String)
-    created_at = db.Column(db.DateTime, server_default=(db.func.now()))
-    updated_at = db.Column(db.DateTime, onupdate=(db.func.now()))
-        
-    #Relationships
-    
-    
-    #Serialization
-
-
 class Like(db.Model, SerializerMixin):
     __tablename__='likes'
     id = db.Column(db.Integer, primary_key=True)
