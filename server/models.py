@@ -90,7 +90,8 @@ class Artwork(db.Model, SerializerMixin):
     title = db.Column(db.String, nullable=False)
     description = db.Column(db.String)
     image = db.Column(db.String, nullable=False)
-    tags = db.Column(db.String)
+    price = db.Column(db.Integer, nullable=False)
+    preview = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     
     __table_args__ = (
@@ -101,6 +102,7 @@ class Artwork(db.Model, SerializerMixin):
     user = db.relationship("User", back_populates="artworks")
     likes = db.relationship("Like", back_populates="artwork", cascade="all, delete-orphan")
     comments = db.relationship("Comment", back_populates="artwork", cascade="all, delete-orphan")
+    tags = db.relationship("Tag", back_populates="artworks", cascade="all, delete-orphan")
     
     #Serialization
     serialize_rules=("-user.artworks", "-likes.artwork", "-comments.artwork")
@@ -136,9 +138,8 @@ class Artwork(db.Model, SerializerMixin):
 
 class Like(db.Model, SerializerMixin):
     __tablename__="likes"
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.id"), primary_key=True)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
         
     #Relationships
@@ -245,3 +246,40 @@ class Follow(db.Model, SerializerMixin):
             return following_id
         else:
             raise ValueError('User id must be a valid user')
+
+class Tag(db.Model, SerializerMixin):
+    __tablename__="follows"
+    id = db.Column(db.Integer, primary_key=True)
+    keyword = db.Column(db.String, nullable=False)
+    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.id"))
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    
+    #Relationship
+    artworks = db.relationship("Artwork", back_populates="tags")
+    
+    #Serialization
+    serialize_rules = ("-artworks.tags",)
+    
+    #Validations
+    @validates('artwork_id')
+    def artwork_id_validation(self, k, artwork_id):
+        if artwork_id and db.session.get(Artwork, artwork_id):
+            return artwork_id
+        else:
+            raise ValueError('Artwork id must be a valid artwork')
+        
+    @validates('keyword')
+    def content_validation(self, k, keyword):
+        if keyword and (1 <= len(keyword) <= 50):
+            return keyword
+        else:
+            raise ValueError('Keyword must be between 1 and 50 chars and not empty')
+        
+class Transactions(db.Model, SerializerMixin):
+    __tablename__="follows"
+    id = db.Column(db.Integer, primary_key=True)
+    buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    seller_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    amount_paid = db.Column(db.Float, nullable=False)
+    artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.id"))
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
