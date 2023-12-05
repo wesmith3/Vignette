@@ -2,7 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
 from sqlalchemy.schema import UniqueConstraint
 from sqlalchemy.ext.hybrid import hybrid_property
-import bcrypt
+from config import flask_bcrypt
 import re
 
 from config import db
@@ -30,21 +30,14 @@ class User(db.Model, SerializerMixin):
     #Serialization
     serialize_rules=("-password", "-artworks.user", "-likes.user", "-comments.user")
     
-    
     @hybrid_property
     def password(self):
-        raise AttributeError('No looking at the password')
-
+        raise AttributeError("Passwords are private")
+    
     @password.setter
-    def password(self, password):
-        if password and  5<= len(str(password)) <= 75:
-            self._password_hash = bcrypt.hashpw(password=password.encode('utf-8'),salt=bcrypt.gensalt())
-        else:
-            raise ValueError('Password must be longer than 5 characters and less than 75')
-       
-
-    def authenticate(self,password):
-        return bcrypt.checkpw(password.encode('utf-8'),self._password_hash)
+    def password(self, new_password):
+        pw_hash = flask_bcrypt.generate_password_hash(new_password).decode("utf-8")
+        self._password = pw_hash
     
     #Validations
     @validates('full_name')
@@ -54,15 +47,15 @@ class User(db.Model, SerializerMixin):
         else:
             raise ValueError('Full_name has to be less than 50 chars and not empty')
         
-    @validates('username')
-    def username_validation(self, key, username):
-        if username and (5 <= len(str(username)) <= 12):
-            if re.match('^[a-zA-Z0-9_]+$', str(username)):
-                return str(username)
-            else:
-                raise ValueError('Name can only contain letters, numbers, and underscores')
-        else:
-            raise ValueError('Username must be between 5 and 12 characters')
+    # @validates('username')
+    # def username_validation(self, key, username):
+    #     if username and (5 <= len(str(username)) <= 12):
+    #         if re.match('^[a-zA-Z0-9_]+$', str(username)):
+    #             return str(username)
+    #         else:
+    #             raise ValueError('Name can only contain letters, numbers, and underscores')
+    #     else:
+    #         raise ValueError('Username must be between 5 and 12 characters')
         
     @validates('email')
     def email_validation(self, k, email):

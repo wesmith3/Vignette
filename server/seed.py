@@ -22,10 +22,8 @@ if __name__ == '__main__':
                 # pw_hash = flask_bcrypt.generate_password_hash("password").decode("utf-8")
                 c = User(
                     full_name=fake.name(),
+                    username=fake.username(),
                     email=fake.email(),
-                    phone_number=fake.phone_number(),
-                    address=fake.address(),
-                    is_employee=fake.boolean(chance_of_getting_true=20),
                     created_at= fake.date_time()
                 )
                 c.password = "password"
