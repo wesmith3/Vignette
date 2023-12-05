@@ -14,7 +14,7 @@ class User(db.Model, SerializerMixin):
     full_name = db.Column(db.String, nullable=False)
     username = db.Column(db.String, unique=True)
     email = db.Column(db.String, unique=True)
-    password = db.Column(db.String, nullable=False)
+    _password = db.Column(db.String, nullable=False)
     bio = db.Column(db.String)
     location = db.Column(db.String)
     profile_image = db.Column(db.String)
@@ -28,7 +28,35 @@ class User(db.Model, SerializerMixin):
     following = db.relationship("Follow", foreign_keys="Follow.follower_id", back_populates="follower", cascade="all, delete-orphan")
     
     #Serialization
-    serialize_rules=("-password", "-artworks.user", "-likes.user", "-comments.user")
+    serialize_only=(
+        "id",
+        "full_name",
+        "username",
+        "email",
+        "bio",
+        "location",
+        "profile_image",
+        "artworks.id",
+        "artworks.title",
+        "artworks.image",
+        "artworks.description",
+        "artworks.tags",
+        "likes.id",
+        "likes.artwork_id",
+        "comments.id",
+        "comments.artwork_id",
+        "comments.content",
+        "followers",
+        "following",
+        "-followers.user",
+        "-following.user",
+        "-followers.follower",
+        "-followers.following",
+        "-followers.following_id",
+        "-following.follower",
+        "-following.following",
+        "-following.follower_id"
+    )
     
     @hybrid_property
     def password(self):
@@ -42,27 +70,18 @@ class User(db.Model, SerializerMixin):
     #Validations
     @validates('full_name')
     def full_name_validation(self, k, full_name):
-        if full_name and len(full_name) <=50:
+        if full_name and len(full_name) <=150:
             return full_name
         else:
-            raise ValueError('Full_name has to be less than 50 chars and not empty')
+            raise ValueError('Full_name has to be less than 150 chars and not empty')
         
-    # @validates('username')
-    # def username_validation(self, key, username):
-    #     if username and (5 <= len(str(username)) <= 12):
-    #         if re.match('^[a-zA-Z0-9_]+$', str(username)):
-    #             return str(username)
-    #         else:
-    #             raise ValueError('Name can only contain letters, numbers, and underscores')
-    #     else:
-    #         raise ValueError('Username must be between 5 and 12 characters')
-        
+
     @validates('email')
     def email_validation(self, k, email):
-        if email and len(email) <=30:
+        if email and len(email) <=130:
             return email
         else:
-            raise ValueError('Full_name has to be less than 30 chars and not empty')
+            raise ValueError('Full_name has to be less than 130 chars and not empty')
 
 class Artwork(db.Model, SerializerMixin):
     __tablename__="artworks"
@@ -103,10 +122,10 @@ class Artwork(db.Model, SerializerMixin):
         
     @validates('title')
     def title_validation(self, key, title):
-        if title and (1 <= len(title) <= 30):
+        if title and (1 <= len(title) <= 130):
             return title
         else:
-            raise ValueError('Title must be between 1 and 30 chars and not empty')
+            raise ValueError('Title must be between 1 and 130 chars and not empty')
         
     @validates('description')
     def description_length_validation(self, k, description):
@@ -127,7 +146,11 @@ class Like(db.Model, SerializerMixin):
     artwork = db.relationship("Artwork", back_populates="likes")
     
     #Serialization
-    serialize_rules=("-user.likes", "-artwork.likes")
+    serialize_only=(
+        "id",
+        "user_id",
+        "artwork_id"
+    )
     
     #Validations
     @validates('user_id')
@@ -158,7 +181,15 @@ class Comment(db.Model, SerializerMixin):
     artwork = db.relationship("Artwork", back_populates="comments")
     
     #Serialization
-    serialize_rules=("-user.comments", "-artwork.comments")
+    # serialize_rules=("-user",)
+    serialize_only=(
+        "id",
+        "user_id",
+        "artwork_id",
+        "content",
+        "created_at",
+        "updated_at"
+        )
     
     #Validations
     @validates('user_id')
@@ -177,10 +208,10 @@ class Comment(db.Model, SerializerMixin):
         
     @validates('content')
     def content_validation(self, k, content):
-        if content and (1 <= len(content) <= 30):
+        if content and (1 <= len(content) <= 150):
             return content
         else:
-            raise ValueError('Content must be between 1 and 50 chars and not empty')
+            raise ValueError('Content must be between 1 and 150 chars and not empty')
     
 class Follow(db.Model, SerializerMixin):
     __tablename__="follows"
@@ -193,8 +224,12 @@ class Follow(db.Model, SerializerMixin):
     follower = db.relationship('User', foreign_keys=[follower_id], back_populates='following')
     following = db.relationship('User', foreign_keys=[following_id], back_populates='followers')
     
-    #Serialization
-    serialize_rules=("-follower.following", "-following.followers")
+    # #Serialization
+    serialize_only=(
+        "id",
+        "follower_id",
+        "following_id"
+    )
     
     #Validations
     @validates('follower_id')
