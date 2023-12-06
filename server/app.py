@@ -5,7 +5,13 @@
 # Remote library imports
 from flask import request, Flask, make_response
 from flask_restful import Resource
-from models import User, Artwork, Like, Comment, Follow
+from .models.user import User
+from .models.artwork import Artwork
+from .models.like import Like
+from .models.comment import Comment
+from .models.follow import Follow
+from .models.tag import Tag
+from .models.transaction import Transaction
 import json
 import flask_bcrypt
 
