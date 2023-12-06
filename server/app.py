@@ -3,21 +3,35 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, Flask, make_response
+from flask import request, Flask, make_response, jsonify
+from sqlalchemy.exc import IntegrityError
 from flask_restful import Resource
-from .models.user import User
-from .models.artwork import Artwork
-from .models.like import Like
-from .models.comment import Comment
-from .models.follow import Follow
-from .models.tag import Tag
-from .models.transaction import Transaction
+from models.user import User
+from schemas.user_schema import UserSchema
+from models.artwork import Artwork
+from models.like import Like
+from models.comment import Comment
+from models.follow import Follow
+from models.tag import Tag
+from models.transaction import Transaction
 import json
 import flask_bcrypt
+from flask_jwt_extended import (
+    create_access_token,
+    create_refresh_token,
+    set_access_cookies,
+    set_refresh_cookies,
+    unset_access_cookies,
+    unset_refresh_cookies,
+    jwt_required,
+    current_user,
+    get_jwt_identity,
+)
 
 # Local imports
 from config import app, db, api
 # Add your model imports
+user_schema = UserSchema(session=db.session)
 
 class Users(Resource):
     def get(self):
@@ -441,6 +455,79 @@ class FollowersByUserId(Resource):
         return users_following, 200
     
 api.add_resource(FollowersByUserId, "/users/<int:id>/followers")
+
+class Signup(Resource):
+    def post(self):
+        try:
+            data = {
+                "email": request.get_json().get("email"),
+                "username": request.get_json().get("username"),
+            }
+            user_schema.validate(data)
+            user = user_schema.load(data)
+            user.password_hash = request.get_json().get("password")
+            db.session.add(user)
+            db.session.commit()
+            
+            jwt = create_access_token(identity=user.id)
+            refresh_token = create_refresh_token(identity=user.id)
+            serialized_user = user_schema.dump(user)
+            response = jsonify(serialized_user)
+            set_access_cookies(response, jwt)
+            set_refresh_cookies(response, refresh_token)
+            return response, 201
+        except (Exception, IntegrityError) as e:
+            db.session.rollback()
+            return {"message": str(e)}, 400
+
+api.add_resource(Signup, "/signup")
+
+class Login(Resource):
+    def post(self):
+        try:
+            data = request.get_json()
+            user = User.query.filter_by(email=data.get("email")).first()
+            if user and user.authenticate(data.get("password")):
+                jwt = create_access_token(identity=user.id)
+                refresh_token = create_refresh_token(identity=user.id)
+                serialized_user = user_schema.dump(user)
+                response = make_response(serialized_user, 200)
+                set_access_cookies(response, jwt)
+                set_refresh_cookies(response, refresh_token)
+                return response
+            return {"message": "Invalid Credentials"}, 403
+        except Exception as e:
+            return {"message": "Invalid Credentials"}, 403
+        
+api.add_resource(Login, "/login")
+
+class Logout(Resource):
+    def delete(self):
+        # del session["user_id"]
+        response = make_response({}, 204)
+        unset_access_cookies(response)
+        unset_refresh_cookies(response)
+        return response
+
+api.add_resource(Logout, "/logout")
+
+class Me(Resource):
+    @jwt_required()
+    def get(self):
+        return user_schema.dump(current_user), 200
+    
+api.add_resource(Me, "/me")
+
+class Refresh(Resource):
+    @jwt_required(refresh=True)
+    def post(self):
+        id_ = get_jwt_identity()
+        response = make_response(user_schema.dump(current_user), 200)
+        access_token = create_access_token(identity=id_)
+        set_access_cookies(response, access_token)
+        return response
+
+api.add_resource(Refresh, "/refresh")
 
 # Views go here!
 

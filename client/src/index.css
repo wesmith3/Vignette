@@ -1,7 +1,39 @@
-:root {
-  --bg: #282c34;
-  --header: #fff;
-  --link: #61dafb;
-  --text: hsla(0, 0%, 100%, 0.88);
+body {
+    overflow: hidden;
 }
 
+.menu-bar {
+    background-color: black !important;
+    box-shadow: 4px 5px 5px 0 grey, 0 10px 50px 0 grey !important;
+}
+
+.artwork {
+    position: absolute;
+    box-shadow: 4px 8px 2px 0 black, 0 0 0 0 grey !important;
+    width: 268px;
+    height: 200px;
+    background-color: blue;
+}
+
+.account-table {
+    font-family: monospace;
+    width: 60% !important;
+    margin: 2% auto !important;
+    border-collapse: collapse !important;
+    text-align: center !important;
+    box-shadow: 4px 6px 2px 0 grey, 0 0 0 0 grey !important;
+  }
+
+.transaction-table {
+    font-family: monospace;
+    background-color: white;
+    width: 90% !important;
+    margin: 2% auto !important;
+    border-collapse: collapse !important;
+    text-align: center !important;
+    box-shadow: 4px 6px 2px 0 grey, 0 0 0 0 grey !important;
+  }
+
+  .profile {
+    background-color: #FAF9F6;
+  }

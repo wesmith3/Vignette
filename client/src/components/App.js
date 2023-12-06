@@ -1,9 +1,11 @@
 import React from 'react';
-import Login from './Login'
+import Router from './Router'
 
 function App() {
   return (
-    <Login />
+    <div>
+      <Router />
+    </div>
   )
 }
 

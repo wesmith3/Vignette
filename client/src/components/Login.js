@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
 
-function Home() {
+function Login() {
     const background = "././Gallery.jpg"
 
 
@@ -12,7 +12,12 @@ function Home() {
             <br />
             <Form size='large'>
                 <Segment stacked>
-                    <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' />
+                    <Form.Input
+                        fluid
+                        icon='user'
+                        iconPosition='left'
+                        placeholder='E-mail address'
+                    />
                     <Form.Input
                         fluid
                         icon='lock'
@@ -33,5 +38,5 @@ function Home() {
   )
 }
 
-export default Home
+export default Login
 

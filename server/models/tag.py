@@ -4,7 +4,7 @@ from .artwork import Artwork
 from . import validates, re
 
 class Tag(db.Model, SerializerMixin):
-    __tablename__="follows"
+    __tablename__="tags"
     id = db.Column(db.Integer, primary_key=True)
     keyword = db.Column(db.String, nullable=False)
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.id"))
