@@ -8,4 +8,4 @@ class UserSchema(ma.SQLAlchemySchema):
         load_instance = True
         
     email = fields.Email(required=True)
-    password_hash = fields.String(validate=validate.Length(min=10, max=50))
+    _password = fields.String(validate=validate.Length(min=10, max=50))

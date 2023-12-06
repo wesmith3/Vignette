@@ -1,7 +1,9 @@
+from flask_bcrypt import Bcrypt
+bcrypt = Bcrypt()
 
 def create_users():
     from models.user import User
-    users = []
+    user_instances = []
     # Artist Instances
     a1 = User(
         full_name= "Leonardo da Vinci",
@@ -111,9 +113,25 @@ def create_users():
         location= "Cody, USA",
         profile_image= "pollock.jpg"
     )
-    users.extend([a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12])
+    users = [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12]
 
-    return users
+    for user in users:
+        pw_hash = bcrypt.generate_password_hash(user._password).decode("utf-8")
+
+        user_instance = User(
+            full_name=user.full_name,
+            username=user.username,
+            email=user.email,
+            _password=pw_hash,  # Use the hashed password here
+            bio=user.bio,
+            location=user.location,
+            profile_image=user.profile_image
+        )
+
+        # Append the user instance to the list
+        user_instances.append(user_instance)
+
+    return user_instances
 
 def create_artworks():
     from models.artwork import Artwork

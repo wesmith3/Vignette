@@ -487,17 +487,21 @@ class Login(Resource):
         try:
             data = request.get_json()
             user = User.query.filter_by(email=data.get("email")).first()
+            print(user)
             if user and user.authenticate(data.get("password")):
                 jwt = create_access_token(identity=user.id)
+                print(jwt)
                 refresh_token = create_refresh_token(identity=user.id)
                 serialized_user = user_schema.dump(user)
+                print(serialized_user)
                 response = make_response(serialized_user, 200)
+                print(response)
                 set_access_cookies(response, jwt)
                 set_refresh_cookies(response, refresh_token)
                 return response
             return {"message": "Invalid Credentials"}, 403
         except Exception as e:
-            return {"message": "Invalid Credentials"}, 403
+            return {"message": "Invalid Credentials, Exceptions"}, 403
         
 api.add_resource(Login, "/login")
 
