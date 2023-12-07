@@ -13,13 +13,13 @@ function Login() {
 
   const formSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required("Please enter an email."),
-    password: yup.string().required("Please enter a password.").min(5)
+    _password: yup.string().required("Please enter a password.").min(5)
   })
   
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: ''
+      _password: ''
     },
     validationSchema: formSchema,
     onSubmit: (values) => {
@@ -34,10 +34,14 @@ function Login() {
         if (res.status === 200) {
           navigate('/') 
         } else {
-          setAlertMessage('Invalid user credentials.');
+          setAlertMessage('Invalid user credentials.')
           setSnackType('error');
         }
       })
+      .catch(
+        setAlertMessage('Invalid user credentials.'),
+        setSnackType('error')
+        )
     }
   })
 
@@ -62,12 +66,12 @@ function Login() {
                     <Form.Input
                         fluid
                         icon='lock'
-                        id='password'
+                        id='_password'
                         iconPosition='left'
                         placeholder='Password'
                         type='password'
                         onChange={formik.handleChange}
-                        value={formik.values.password}
+                        value={formik.values._password}
                     />
                     <Button type='submit' color='black' fluid size='large'>
                         Login

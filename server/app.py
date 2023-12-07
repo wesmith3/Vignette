@@ -487,8 +487,8 @@ class Login(Resource):
         try:
             data = request.get_json()
             user = User.query.filter_by(email=data.get("email")).first()
-            print(user)
-            if user and user.authenticate(data.get("password")):
+            print(user.verify((data.get("_password"))))
+            if user and user.verify((data.get("_password"))):
                 jwt = create_access_token(identity=user.id)
                 print(jwt)
                 refresh_token = create_refresh_token(identity=user.id)

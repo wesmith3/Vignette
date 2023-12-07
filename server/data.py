@@ -1,73 +1,78 @@
-from flask_bcrypt import Bcrypt
-bcrypt = Bcrypt()
 
 def create_users():
     from models.user import User
-    user_instances = []
+    users = []
     # Artist Instances
     a1 = User(
         full_name= "Leonardo da Vinci",
         username= "leo_da_vinci",
         email= "leo_da_vinci@example.com",
-        _password= "password123",
         bio= "Italian Renaissance polymath",
         location= "Vinci, Italy",
         profile_image= "leonardo.jpg"
     )
+    a1.password= "password123"
+    users.append(a1)
     a2 = User(
         full_name= "Vincent van Gogh",
         username= "vincent_van_gogh",
         email= "vincent_van_gogh@example.com",
-        _password= "password456",
         bio= "Post-Impressionist painter",
         location= "Zundert, Netherlands",
         profile_image= "van_gogh.jpg"
     )
+    a2.password= "password456"
+    users.append(a2)
     a3 = User(
         full_name= "Pablo Picasso",
         username= "pablo_picasso",
         email= "pablo_picasso@example.com",
-        _password= "password789",
         bio= "Cubist artist and sculptor",
         location= "Málaga, Spain",
         profile_image= "picasso.jpg"
     )
+    a3.password= "password111"
+    users.append(a3)
     a4 = User(
         full_name= "Claude Monet",
         username= "claude_monet",
         email= "claude_monet@example.com",
-        _password= "password112",
         bio= "Impressionist painter",
         location= "Paris, France",
         profile_image= "monet.jpg"
     )
+    a4.password= "password121"
+    users.append(a4)
     a5 = User(
         full_name= "Salvador Dalí",
         username= "salvador_dali",
         email= "salvador_dali@example.com",
-        _password= "password131",
         bio= "Surrealist artist",
         location= "Figueres, Spain",
         profile_image= "dali.jpg"
     )
+    a5.password= "password131"
+    users.append(a5)
     a6 = User(
         full_name= "Michelangelo Buonarroti",
         username= "michelangelo",
         email= "michelangelo@example.com",
-        _password= "password141",
         bio= "Renaissance sculptor and painter",
         location= "Caprese, Italy",
         profile_image= "michelangelo.jpg"
     )
+    a6.password= "password141"
+    users.append(a6)
     a7 = User(
         full_name= "Frida Kahlo",
         username= "frida_kahlo",
         email= "frida_kahlo@example.com",
-        _password= "password151",
         bio= "Mexican painter known for her self-portraits",
         location= "Coyoacán, Mexico",
         profile_image= "frida_kahlo.jpg"
     )
+    a7.password= "password151"
+    users.append(a7)
     a8 = User(
         full_name= "Andy Warhol",
         username= "andy_warhol",
@@ -77,61 +82,50 @@ def create_users():
         location= "Pittsburgh, USA",
         profile_image= "warhol.jpg"
     )
+    a8.password= "password161"
+    users.append(a8)
     a9 = User(
         full_name= "Raphael Sanzio",
         username= "raphael_sanzio",
         email= "raphael_sanzio@example.com",
-        _password= "password171",
         bio= "High Renaissance painter",
         location= "Urbino, Italy",
         profile_image= "raphael.jpg"
     )
+    a9.password= "password171"
+    users.append(a9)
     a10 = User(
         full_name= "Edvard Munch",
         username= "edvard_munch",
         email= "edvard_munch@example.com",
-        _password= "password181",
         bio= "Expressionist painter",
         location= "Oslo, Norway",
         profile_image= "munch.jpg"
     )
+    a10.password= "password181"
+    users.append(a10)
     a11 = User(
         full_name= "Rembrandt van Rijn",
         username= "rembrandt",
         email= "rembrandt@example.com",
-        _password= "password191",
         bio= "Dutch Golden Age painter",
         location= "Leiden, Netherlands",
         profile_image= "rembrandt.jpg"
     )
+    a11.password= "password191"
+    users.append(a11)
     a12 = User(
         full_name= "Jackson Pollock",
         username= "jackson_pollock",
         email= "jackson_pollock@example.com",
-        _password= "password201",
         bio= "Abstract expressionist painter",
         location= "Cody, USA",
         profile_image= "pollock.jpg"
     )
-    users = [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12]
-
-    for user in users:
-        pw_hash = bcrypt.generate_password_hash(user._password).decode("utf-8")
-
-        user_instance = User(
-            full_name=user.full_name,
-            username=user.username,
-            email=user.email,
-            _password=pw_hash,  # Use the hashed password here
-            bio=user.bio,
-            location=user.location,
-            profile_image=user.profile_image
-        )
-
-        # Append the user instance to the list
-        user_instances.append(user_instance)
-
-    return user_instances
+    a12.password= "password201"
+    users.append(a12)
+    
+    return users
 
 def create_artworks():
     from models.artwork import Artwork

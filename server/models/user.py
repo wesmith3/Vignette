@@ -63,6 +63,12 @@ class User(db.Model, SerializerMixin):
         pw_hash = flask_bcrypt.generate_password_hash(new_password).decode("utf-8")
         self._password = pw_hash
     
+    def verify(self, password_to_be_checked):
+        return flask_bcrypt.check_password_hash(self._password, password_to_be_checked)
+    
+    def verify_jwt(self, jwt_to_be_checked):
+        return self.jwt == jwt_to_be_checked
+    
     #Validations
     @validates('full_name')
     def full_name_validation(self, k, full_name):
