@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Error from "./Error";
 import Login from "./Login";
 import Profile from "./Profile";
@@ -10,13 +10,13 @@ function Router() {
   
   return (
     <>
-    <Switch>
-        <Route path="/profile" exact component={Profile} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/login" component={Login} />
-        <Route path="/" component={Home} />
+    <Routes>
+        <Route path="/profile" exact element={<Profile />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
         {/* <Route path="" component={Error} /> */}
-    </Switch>
+    </Routes>
     </>
   );
 }

@@ -1,17 +1,21 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import MenuBar from './MenuBar';
-import { Icon, Table } from 'semantic-ui-react'
+import { Icon, Table, Button } from 'semantic-ui-react';
 
 function Profile() {
-
+  
 
   return (
     <div className='profile'>
     <MenuBar />
+    <br/>
+    <br/>
     <Table className='account-table' celled striped size='large'>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell colSpan='3'>My Account</Table.HeaderCell>
+          <Table.HeaderCell colSpan='3'>
+            My Account <Button icon='edit outline'/>
+            </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 
@@ -48,10 +52,22 @@ function Profile() {
 
     <Table.Body>
       <Table.Row>
-        <Table.Cell>Date</Table.Cell>
-        <Table.Cell>Artwork</Table.Cell>
-        <Table.Cell>Seller</Table.Cell>
-        <Table.Cell>Amount Paid</Table.Cell>
+        <Table.Cell>
+          <Icon name='calendar alternate outline'/>
+          Date
+          </Table.Cell>
+        <Table.Cell>
+          <Icon name='paint brush'/>
+          Artwork
+          </Table.Cell>
+        <Table.Cell>
+          <Icon name='user outline'/>
+          Seller
+          </Table.Cell>
+        <Table.Cell>
+          <Icon name='dollar'/>
+          Amount Paid
+          </Table.Cell>
       </Table.Row>
       <Table.Row>
         <Table.Cell></Table.Cell>

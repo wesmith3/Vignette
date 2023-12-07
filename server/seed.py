@@ -15,6 +15,8 @@ from models.artwork import Artwork
 from models.comment import Comment
 from models.like import Like
 from models.follow import Follow
+from models.tag import Tag
+from models.transaction import Transaction
 
 fake = Faker()
 
@@ -72,6 +74,37 @@ def create_follows(users):
 
     return follows
 
+def create_tags(artworks):
+    tags = []
+    keywords = ["Abstract", "Portrait", "Landscape", "Modern", "Classic", "Surreal", "Nature", "Cityscape", "Minimalist"]
+
+    for artwork in artworks:
+        selected_keywords = rc(keywords)
+
+        for keyword in selected_keywords:
+            t = Tag(keyword=keyword, artwork_id=artwork.id)
+            tags.append(t)
+
+    return tags
+
+def create_transactions(users, artworks):
+    transactions = []
+    for _ in range(30):
+        buyer_id = rc([user.id for user in users])
+        seller_id = rc([user.id for user in users if user.id != buyer_id])
+        artwork_id = rc([artwork.id for artwork in artworks])
+        amount_paid = randint(1000, 10000)
+
+        t = Transaction(
+            buyer_id=buyer_id,
+            seller_id=seller_id,
+            artwork_id=artwork_id,
+            amount_paid=amount_paid
+        )
+        transactions.append(t)
+
+    return transactions
+
 if __name__ == '__main__':
     
     with app.app_context():
@@ -84,6 +117,8 @@ if __name__ == '__main__':
         Like.query.delete()
         Comment.query.delete()
         Follow.query.delete()
+        Tag.query.delete()
+        Transaction.query.delete()
         
         print("Creating tables...")
         db.create_all()
@@ -113,4 +148,14 @@ if __name__ == '__main__':
         db.session.add_all(follows)
         db.session.commit()
         
-        print("Seeding complete!")
+        print("Seeding tags...")
+        tags = create_tags(artworks)
+        db.session.add_all(tags)
+        db.session.commit()
+        
+        print("Seeding transactions...")
+        transactions = create_transactions(users, artworks)
+        db.session.add_all(transactions)
+        db.session.commit()
+        
+        print("Seeding complete!!!!!!!")

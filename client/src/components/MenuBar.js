@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -59,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function MenuBar() {
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const history = useHistory()
+  const navigate = useNavigate()
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -70,6 +70,20 @@ export default function MenuBar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   }
+
+  const handleSignOut = () => {
+    fetch("/logout", {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.ok) {
+          navigate("/login")
+  }
+})
+}
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -89,8 +103,8 @@ export default function MenuBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>My Gallery</MenuItem>
-      <MenuItem onClick={() => {history.push("/profile")}}>My Account</MenuItem>
-      <MenuItem onClick={() => {history.push("/login")}}>Sign Out</MenuItem>
+      <MenuItem onClick={() => {navigate("/profile")}}>My Account</MenuItem>
+      <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
     </Menu>
   )
 

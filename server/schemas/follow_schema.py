@@ -1,11 +1,34 @@
 from . import fields, validate
 from models.follow import Follow
+from models.user import User
 from config import ma
 
 class FollowSchema(ma.SQLAlchemySchema):
-    class Meta():
+    class Meta:
         model = Follow
         load_instance = True
-        
-    email = fields.Email(required=True)
-    password_hash = fields.String(validate=validate.Length(min=10, max=50))
+
+    id = fields.Integer(dump_only=True)
+    follower_id = fields.Integer(
+        required=True,
+        validate=lambda follower_id: Follow.validate_follower_id(follower_id),
+        error_messages={"required": "Follower ID is required."},
+    )
+    following_id = fields.Integer(
+        required=True,
+        validate=lambda following_id: Follow.validate_following_id(following_id),
+        error_messages={"required": "Following ID is required."},
+    )
+    created_at = fields.DateTime(dump_only=True)
+
+    @staticmethod
+    def validate_follower_id(follower_id):
+        if follower_id and User.query.get(follower_id):
+            return follower_id
+        raise ValueError('Follower ID must be a valid user.')
+
+    @staticmethod
+    def validate_following_id(following_id):
+        if following_id and User.query.get(following_id):
+            return following_id
+        raise ValueError('Following ID must be a valid user.')
