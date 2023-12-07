@@ -1,11 +1,35 @@
-from . import fields, validate
+from . import fields
 from models.like import Like
+from models.artwork import Artwork
+from models.user import User
 from config import ma
 
+
 class LikeSchema(ma.SQLAlchemySchema):
-    class Meta():
+    class Meta:
         model = Like
         load_instance = True
-        
-    email = fields.Email(required=True)
-    password_hash = fields.String(validate=validate.Length(min=10, max=50))
+
+    user_id = fields.Integer(
+        required=True,
+        validate=lambda user_id: Like.validate_user_id(user_id),
+        error_messages={"required": "User ID is required."},
+    )
+    artwork_id = fields.Integer(
+        required=True,
+        validate=lambda artwork_id: Like.validate_artwork_id(artwork_id),
+        error_messages={"required": "Artwork ID is required."},
+    )
+    created_at = fields.DateTime(dump_only=True)
+
+    @staticmethod
+    def validate_user_id(user_id):
+        if user_id and User.query.get(user_id):
+            return user_id
+        raise ValueError("User ID must be a valid user.")
+
+    @staticmethod
+    def validate_artwork_id(artwork_id):
+        if artwork_id and Artwork.query.get(artwork_id):
+            return artwork_id
+        raise ValueError("Artwork ID must be connected to a valid artwork.")
