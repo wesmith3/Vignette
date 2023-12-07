@@ -71,6 +71,20 @@ export default function MenuBar() {
     setAnchorEl(null);
   }
 
+  const handleSignOut = () => {
+    fetch("/logout", {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        if (res.ok) {
+          navigate("/login")
+  }
+})
+}
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -90,7 +104,7 @@ export default function MenuBar() {
     >
       <MenuItem onClick={handleMenuClose}>My Gallery</MenuItem>
       <MenuItem onClick={() => {navigate("/profile")}}>My Account</MenuItem>
-      <MenuItem onClick={() => {navigate("/login")}}>Sign Out</MenuItem>
+      <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
     </Menu>
   )
 

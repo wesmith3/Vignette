@@ -1,9 +1,9 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import MenuBar from './MenuBar';
-import { Icon, Table, Button } from 'semantic-ui-react'
+import { Icon, Table, Button } from 'semantic-ui-react';
 
 function Profile() {
-
+  
 
   return (
     <div className='profile'>

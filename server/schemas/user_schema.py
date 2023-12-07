@@ -1,4 +1,4 @@
-from . import fields, validate
+from . import fields, validates
 from models.user import User
 from config import ma
 
@@ -44,13 +44,13 @@ class UserSchema(ma.SQLAlchemySchema):
     followers = fields.Nested("FollowSchema", exclude=("following",), many=True)
     following = fields.Nested("FollowSchema", exclude=("follower",), many=True)
 
-    @validate("full_name")
+    @validates("full_name")
     def validate_full_name(self, value):
         if value and len(value) <= 150:
             return value
         raise ValueError("Full name must be between 1 and 150 characters.")
 
-    @validate("email")
+    @validates("email")
     def validate_email(self, value):
         if value and len(value) <= 130:
             return value

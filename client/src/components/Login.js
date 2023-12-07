@@ -32,16 +32,12 @@ function Login() {
       })
       .then((res) => {
         if (res.status === 200) {
-          navigate('/') 
+          navigate('/')
         } else {
           setAlertMessage('Invalid user credentials.')
           setSnackType('error');
         }
       })
-      .catch(
-        setAlertMessage('Invalid user credentials.'),
-        setSnackType('error')
-        )
     }
   })
 
