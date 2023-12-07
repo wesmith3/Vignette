@@ -26,7 +26,7 @@ class Transaction(db.Model, SerializerMixin):
     # Serialization
     serialize_only = (
         "id",
-        "buy_id",
+        "buyer_id",
         "seller_id",
         "amount_paid",
         "artwork_id",

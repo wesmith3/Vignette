@@ -1,6 +1,7 @@
 from . import fields
 from models.tag import Tag
 from models.artwork import Artwork
+# from .artwork_schema import ArtworkSchema
 from config import ma
 
 
@@ -24,6 +25,8 @@ class TagSchema(ma.SQLAlchemySchema):
         error_messages={"required": "Artwork ID is required."},
     )
     created_at = fields.DateTime(dump_only=True)
+    
+    # artwork = fields.Nested("ArtworkSchema", exclude=("tags",), dump_only=True)
 
     @staticmethod
     def validate_keyword(keyword):

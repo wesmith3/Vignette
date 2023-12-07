@@ -2,6 +2,9 @@ from . import fields
 from models.comment import Comment
 from models.artwork import Artwork
 from models.user import User
+# from .artwork_schema import ArtworkSchema
+# from .user_schema import UserSchema
+
 from config import ma
 
 
@@ -31,6 +34,9 @@ class CommentSchema(ma.SQLAlchemySchema):
     )
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
+    
+    # artwork = fields.Nested("ArtworkSchema", exclude=("comments",), dump_only=True, many=False)
+    # user = fields.Nested("UserSchema", exclude=("comments",))
 
     @staticmethod
     def validate_user_id(user_id):

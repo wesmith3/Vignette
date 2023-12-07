@@ -456,6 +456,45 @@ class FollowersByUserId(Resource):
     
 api.add_resource(FollowersByUserId, "/users/<int:id>/followers")
 
+class TransactionsByUserId(Resource):
+    def get(self, id):
+        try:
+            t_list = []
+            user = db.session.get(User, id).to_dict()
+            user_id = user['id']
+            transactions = Transaction.query.filter(Transaction.buyer_id==user_id or Transaction.seller_id==user_id)
+            for transaction in transactions:
+                t_list.append(transaction.to_dict())
+            return t_list, 200
+        except (ValueError, AttributeError, TypeError) as e:
+            return make_response(
+                {"errors": [str(e)]}
+            )
+    
+    def post(self, id):
+        try:
+            data = json.loads(request.data)
+            
+            new_transaction = Transaction(
+                buyer_id = id,
+                seller_id = data["seller_id"],
+                amount_paid = data["amount_paid"],
+                description = data["description"],
+                artwork_id = data["artwork_id"]
+            )
+
+            db.session.add(new_transaction)
+            db.session.commit()
+            return make_response(new_transaction.to_dict(rules=("-user",)), 201)
+        except (ValueError, AttributeError, TypeError) as e:
+            db.session.rollback()
+            return make_response(
+                {"errors": [str(e)]}, 400
+            )
+    
+api.add_resource(TransactionsByUserId, "/users/<int:id>/transactions")
+    
+
 class Signup(Resource):
     def post(self):
         try:
@@ -487,17 +526,22 @@ class Login(Resource):
         try:
             data = request.get_json()
             user = User.query.filter_by(email=data.get("email")).first()
+            print(user.verify((data.get("_password"))))
             if user and user.verify((data.get("_password"))):
                 jwt = create_access_token(identity=user.id)
                 refresh_token = create_refresh_token(identity=user.id)
+                print(user)
                 serialized_user = user_schema.dump(user)
                 response = make_response(serialized_user, 200)
+                print(response)
                 set_access_cookies(response, jwt)
                 set_refresh_cookies(response, refresh_token)
                 return response
             return {"message": "Invalid Credentials"}, 403
         except Exception as e:
-            return {"message": "Invalid Credentials, Exceptions"}, 403
+            return make_response(
+                {"errors": [str(e)]}
+            )
         
 api.add_resource(Login, "/login")
 
@@ -533,7 +577,7 @@ api.add_resource(Refresh, "/refresh")
 
 @app.route('/')
 def index():
-    return '<h1>Project Server</h1>'
+    return '<h1>Vignette Server</h1>'
 
 
 if __name__ == '__main__':

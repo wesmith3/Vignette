@@ -1,6 +1,8 @@
 from . import fields, validate
 from models.follow import Follow
 from models.user import User
+# from .user_schema import UserSchema
+
 from config import ma
 
 class FollowSchema(ma.SQLAlchemySchema):
@@ -20,6 +22,10 @@ class FollowSchema(ma.SQLAlchemySchema):
         error_messages={"required": "Following ID is required."},
     )
     created_at = fields.DateTime(dump_only=True)
+    
+    # follower = fields.Nested("UserSchema", exclude=("followers", "following"), dump_only=True)
+    # following = fields.Nested("UserSchema", exclude=("followers", "following"), dump_only=True)
+
 
     @staticmethod
     def validate_follower_id(follower_id):

@@ -2,6 +2,9 @@ from . import fields
 from models.like import Like
 from models.artwork import Artwork
 from models.user import User
+# from .artwork_schema import ArtworkSchema
+# from .user_schema import UserSchema
+
 from config import ma
 
 
@@ -22,6 +25,9 @@ class LikeSchema(ma.SQLAlchemySchema):
     )
     created_at = fields.DateTime(dump_only=True)
 
+    # artwork = fields.Nested("ArtworkSchema", exclude=("likes",), dump_only=True, many=False)
+    # user = fields.Nested("UserSchema", exclude=("likes",))
+
     @staticmethod
     def validate_user_id(user_id):
         if user_id and User.query.get(user_id):
@@ -33,3 +39,4 @@ class LikeSchema(ma.SQLAlchemySchema):
         if artwork_id and Artwork.query.get(artwork_id):
             return artwork_id
         raise ValueError("Artwork ID must be connected to a valid artwork.")
+

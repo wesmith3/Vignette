@@ -1,5 +1,9 @@
 from . import fields, validates
 from models.user import User
+# from .artwork_schema import ArtworkSchema
+# from .comment_schema import CommentSchema
+# from .like_schema import LikeSchema
+# from .follow_schema import FollowSchema
 from config import ma
 
 
@@ -38,11 +42,11 @@ class UserSchema(ma.SQLAlchemySchema):
     profile_image = fields.String()
     created_at = fields.DateTime(dump_only=True)
 
-    artworks = fields.Nested("ArtworkSchema", exclude=("user",), many=True)
-    likes = fields.Nested("LikeSchema", exclude=("user",), many=True)
-    comments = fields.Nested("CommentSchema", exclude=("user",), many=True)
-    followers = fields.Nested("FollowSchema", exclude=("following",), many=True)
-    following = fields.Nested("FollowSchema", exclude=("follower",), many=True)
+    # artworks = fields.Nested("ArtworkSchema", exclude=("user",), many=True)
+    # likes = fields.Nested("LikeSchema", exclude=("user",), many=True)
+    # comments = fields.Nested("CommentSchema", exclude=("user",), many=True)
+    # followers = fields.Nested("FollowSchema", exclude=("following",), many=True)
+    # following = fields.Nested("FollowSchema", exclude=("follower",), many=True)
 
     @validates("full_name")
     def validate_full_name(self, value):

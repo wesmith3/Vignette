@@ -1,7 +1,11 @@
 from . import fields
 from models.artwork import Artwork
 from models.user import User
-from config import ma
+# from .user_schema import UserSchema
+# from .comment_schema import CommentSchema
+# from .like_schema import LikeSchema
+# from .tag_schema import TagSchema
+# from config import ma
 
 
 class ArtworkSchema(ma.SQLAlchemySchema):
@@ -9,10 +13,10 @@ class ArtworkSchema(ma.SQLAlchemySchema):
         model = Artwork
         load_instance = True
 
-    user = fields.Nested("UserSchema", exclude=("artworks",))
-    likes = fields.Nested("LikeSchema", exclude=("artwork",))
-    comments = fields.Nested("CommentSchema", exclude=("artwork",))
-    tags = fields.Nested("TagSchema", exclude=("artworks",))
+    # user = fields.Nested("UserSchema", exclude=("artworks",))
+    # likes = fields.Nested("LikeSchema", exclude=("artwork",))
+    # comments = fields.Nested("CommentSchema", exclude=("artwork",))
+    # tags = fields.Nested("TagSchema", exclude=("artworks",))
 
     user_id = fields.Integer(
         required=True,

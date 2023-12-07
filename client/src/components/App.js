@@ -1,12 +1,13 @@
 import React from 'react';
-import Router from './Router'
+import { AuthProvider } from './AuthProvider'
+import Router from './Router';
 
 function App() {
   return (
-    <div>
+    <AuthProvider>
       <Router />
-    </div>
-  )
+    </AuthProvider>
+  );
 }
 
 export default App;

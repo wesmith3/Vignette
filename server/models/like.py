@@ -16,7 +16,6 @@ class Like(db.Model, SerializerMixin):
     
     #Serialization
     serialize_only=(
-        "id",
         "user_id",
         "artwork_id"
     )

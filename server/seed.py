@@ -76,14 +76,11 @@ def create_follows(users):
 
 def create_tags(artworks):
     tags = []
-    keywords = ["Abstract", "Portrait", "Landscape", "Modern", "Classic", "Surreal", "Nature", "Cityscape", "Minimalist"]
+    key_list = ["Abstract", "Portrait", "Landscape", "Modern", "Classic", "Surreal", "Nature", "Cityscape", "Minimalist"]
 
     for artwork in artworks:
-        selected_keywords = rc(keywords)
-
-        for keyword in selected_keywords:
-            t = Tag(keyword=keyword, artwork_id=artwork.id)
-            tags.append(t)
+        t = Tag(keyword=rc(key_list), artwork_id=artwork.id)
+        tags.append(t)
 
     return tags
 

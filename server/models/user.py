@@ -57,7 +57,6 @@ class User(db.Model, SerializerMixin):
         "artworks.image",
         "artworks.description",
         "artworks.tags",
-        "likes.id",
         "likes.artwork_id",
         "comments.id",
         "comments.artwork_id",

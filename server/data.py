@@ -7,9 +7,9 @@ def create_users():
         full_name= "Leonardo da Vinci",
         username= "leo_da_vinci",
         email= "leo_da_vinci@example.com",
-        bio= "Italian Renaissance polymath",
+        bio= "I'm Leonardo da Vinci, the original Renaissance rockstar, juggling art, science, and engineering like I had a million arms – from painting masterpieces like the Mona Lisa to sketching flying machines; I was the guy who made multitasking look like a stroll through the Medici gardens.",
         location= "Vinci, Italy",
-        profile_image= "leonardo.jpg"
+        profile_image= "https://hips.hearstapps.com/hmg-prod/images/portrait-of-leonardo-da-vinci-1452-1519-getty.jpg"
     )
     a1.password= "password123"
     users.append(a1)
@@ -17,9 +17,9 @@ def create_users():
         full_name= "Vincent van Gogh",
         username= "vincent_van_gogh",
         email= "vincent_van_gogh@example.com",
-        bio= "Post-Impressionist painter",
+        bio= "I'm Vincent van Gogh, the artist who cut off his ear and painted masterpieces like it was going out of style, turning sunflowers and starry nights into my own vivid symphony of colors. because life\'s too short to paint with just one shade of melancholy.",
         location= "Zundert, Netherlands",
-        profile_image= "van_gogh.jpg"
+        profile_image= "https://hips.hearstapps.com/hmg-prod/images/vincent_van_gogh_self_portrait_painting_musee_dorsay_via_wikimedia_commons_promojpg.jpg"
     )
     a2.password= "password456"
     users.append(a2)
@@ -27,9 +27,9 @@ def create_users():
         full_name= "Pablo Picasso",
         username= "pablo_picasso",
         email= "pablo_picasso@example.com",
-        bio= "Cubist artist and sculptor",
+        bio= "I'm Pablo Picasso, the maestro who rocked berets, broke artistic molds, and turned Cubism into the coolest thing since sliced bread.",
         location= "Málaga, Spain",
-        profile_image= "picasso.jpg"
+        profile_image= "https://www.pablopicasso.org/images/picasso.jpg"
     )
     a3.password= "password111"
     users.append(a3)
@@ -37,9 +37,9 @@ def create_users():
         full_name= "Claude Monet",
         username= "claude_monet",
         email= "claude_monet@example.com",
-        bio= "Impressionist painter",
+        bio= "I'm Claude Monet, the French maestro who turned water lilies and haystacks into art-world rockstars, proving that my palette was as vibrant as a summer garden and my dedication to capturing light was more unwavering than a snail's journey across a water lily pond.",
         location= "Paris, France",
-        profile_image= "monet.jpg"
+        profile_image= "https://www.claude-monet.com/images/claude-monet.jpg"
     )
     a4.password= "password121"
     users.append(a4)
