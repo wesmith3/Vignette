@@ -33,7 +33,7 @@ function Profile() {
           {formattedDate(transaction.created_at)}
         </Table.Cell>
         <Table.Cell>
-          {transaction.artwork_id}
+          "{transaction.artwork.title}"
         </Table.Cell>
         <Table.Cell>
           {transaction.buyer_id === user.id ? 'Bought from' : 'Sold to'}:{' '}
@@ -42,7 +42,7 @@ function Profile() {
             : transaction.buyer_id}
         </Table.Cell>
         <Table.Cell>
-          {transaction.amount_paid}
+          ${transaction.amount_paid}
         </Table.Cell>
       </Table.Row>
     ));
@@ -62,7 +62,7 @@ function Profile() {
       >
           <Image src={user.profile_image} className='account-image' alt='Profile' size='medium' circular>
           </Image>
-            <Button icon='edit outline' circular size='tiny'/>
+            <Button className='edit-image' icon='edit outline' circular size='tiny'/>
         <Table className='account-table' celled striped size='large'>
           <Table.Header>
             <Table.Row>

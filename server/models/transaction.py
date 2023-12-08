@@ -24,6 +24,7 @@ class Transaction(db.Model, SerializerMixin):
     artwork = db.relationship("Artwork", back_populates="transactions")
 
     # Serialization
+    serialize_rules=("-buyer.buyer_transactions", "-seller.seller_transactions")
     serialize_only = (
         "id",
         "buyer_id",
@@ -31,6 +32,7 @@ class Transaction(db.Model, SerializerMixin):
         "amount_paid",
         "artwork_id",
         "created_at",
+        "artwork.title"
     )
 
     # Validations

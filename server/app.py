@@ -5,6 +5,7 @@
 # Remote library imports
 from flask import request, Flask, make_response, jsonify
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import or_
 from flask_restful import Resource
 from models.user import User
 from schemas.user_schema import UserSchema
@@ -462,14 +463,18 @@ class TransactionsByUserId(Resource):
             t_list = []
             user = db.session.get(User, id).to_dict()
             user_id = user['id']
-            transactions = Transaction.query.filter(Transaction.buyer_id==user_id or Transaction.seller_id==user_id)
+            
+            transactions = Transaction.query.filter(or_(Transaction.buyer_id == user_id, Transaction.seller_id == user_id))
+
             for transaction in transactions:
                 t_list.append(transaction.to_dict())
+            
             return t_list, 200
+
         except (ValueError, AttributeError, TypeError) as e:
             return make_response(
                 {"errors": [str(e)]}
-            )
+        )
     
     def post(self, id):
         try:

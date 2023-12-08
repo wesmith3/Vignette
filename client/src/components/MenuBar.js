@@ -112,7 +112,6 @@ export default function MenuBar() {
             </IconButton>
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
               color="inherit"
             >
               <Badge badgeContent={0} color="error">

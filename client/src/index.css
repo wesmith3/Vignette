@@ -1,6 +1,6 @@
-body {
+/* body {
     overflow: hidden;
-}
+} */
 
 .menu-bar {
     background-color: black !important;
@@ -16,7 +16,7 @@ body {
 }
 
 .account-image {
-  margin-left: 2%;
+  margin-left: 7%;
   box-shadow: 4px 8px 2px 0 grey, 0 2px 0 0 grey !important;
 }
 
@@ -50,3 +50,8 @@ body {
   .profile {
     background-color: #FAF9F6;
   }
+
+  .gallery {
+    background-color: #FAF9F6;
+  }
+
