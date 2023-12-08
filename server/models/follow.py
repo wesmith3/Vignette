@@ -19,7 +19,8 @@ class Follow(db.Model, SerializerMixin):
     serialize_only=(
         "id",
         "follower_id",
-        "following_id"
+        "following_id",
+        "following.artworks"
     )
     
     #Validations

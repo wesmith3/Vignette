@@ -7,7 +7,7 @@ import Profile from './Profile';
 import Signup from './SignUp';
 import Search from './Search';
 import Home from './MenuBar';
-import Gallery from './Gallery';
+import MyGallery from './MyGallery';
 
 function Router() {
   const { login } = useContext(AuthContext);
@@ -17,7 +17,7 @@ function Router() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/my_gallery" element={<Gallery />} />
+        <Route path="/my_gallery" element={<MyGallery />} />
         <Route
           path="/login"
           element={<Login onLogin={(userData) => login(userData)} />}

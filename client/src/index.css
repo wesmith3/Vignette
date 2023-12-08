@@ -4,28 +4,28 @@
 
 .menu-bar {
     background-color: black !important;
-    box-shadow: 4px 5px 5px 0 grey, 0 10px 50px 0 grey !important;
+    box-shadow: 4px 5px 5px 0 grey !important;
 }
 
 .artwork {
-    box-shadow: 4px 8px 5px 5px grey, 0 0 0 0 grey !important;
+    box-shadow: 4px 8px 5px 5px grey !important;
 }
 
 .search-bar {
-  box-shadow: 4px 8px 2px 0 grey, 0 2px 0 0 grey !important;
+  box-shadow: 4px 8px 2px 0 grey !important;
 }
 
 .artist-plaque {
   background-color: #D4AF37;
-  padding: 20px;
+  padding: 5px;
   border: 2px solid #bfbfbf;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 25%;
+  width: 15%;
   margin-left: auto;
   margin-right: auto;
 
-  color: #333;
+  color: #8C6C1F;
   font-family: 'Arial', sans-serif;
   font-size: 16px;
   font-weight: bold;
@@ -35,6 +35,18 @@
 .artist-plaque:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
+}
+
+.carved-text {
+  font-size: 16px; /* Adjust as needed */
+  font-family: 'Arial', sans-serif;
+
+  /* Carved text effect using text-shadow */
+  /* text-shadow: 2px 2px 2px #8C6C1F; */
+}
+
+.artist {
+  background-color: black !important;
 }
 
 .artwork:hover {
@@ -49,7 +61,7 @@
 
 .account-image {
   margin-left: 7%;
-  box-shadow: 4px 8px 2px 0 grey, 0 2px 0 0 grey !important;
+  box-shadow: 4px 8px 2px 0 grey !important;
 }
 
 .table-header {
@@ -66,7 +78,7 @@
     margin: 2% auto !important;
     border-collapse: collapse !important;
     text-align: center !important;
-    box-shadow: 4px 6px 2px 0 grey, 0 0 0 0 grey !important;
+    box-shadow: 4px 6px 2px 0 grey !important;
   }
 
 .transaction-table {
@@ -76,7 +88,7 @@
     margin: 2% auto !important;
     border-collapse: collapse !important;
     text-align: center !important;
-    box-shadow: 4px 6px 2px 0 grey, 0 0 0 0 grey !important;
+    box-shadow: 4px 6px 2px 0 grey !important;
   }
 
   .profile {

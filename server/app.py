@@ -521,10 +521,10 @@ class Signup(Resource):
             jwt = create_access_token(identity=new_user.id)
             refresh_token = create_refresh_token(identity=new_user.id)
             serialized_user = user_schema.dump(new_user)
-            response = jsonify(serialized_user)
+            response = make_response(serialized_user, 201)
             set_access_cookies(response, jwt)
             set_refresh_cookies(response, refresh_token)
-            return response, 201
+            return response
         except (Exception, IntegrityError) as e:
             db.session.rollback()
             return {"message": str(e)}, 400

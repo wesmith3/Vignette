@@ -51,7 +51,7 @@ function MenuBar() {
               <MenuIcon />
             </IconButton>
         <Box sx={{ flexGrow: 1 }}>
-          <Image src="././Logo.png" alt="logo" size="small" padded centered/>
+          <Image src="././Logo.png" alt="logo" size="small" centered/>
         </Box>
           <Box >
             <IconButton

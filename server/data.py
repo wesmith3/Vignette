@@ -134,7 +134,7 @@ def create_artworks():
         user_id=1,
         title = "Mona Lisa",
         description = "Portrait of Lisa Gherardini, wife of Francesco del Giocondo",
-        image = "mona_lisa.jpg",
+        image = "https://cdn.britannica.com/24/189624-050-F3C5BAA9/Mona-Lisa-oil-wood-panel-Leonardo-da.jpg",
         price=1000.00,
         preview=True
     )
@@ -142,7 +142,7 @@ def create_artworks():
         user_id=1,
         title = "The Last Supper",
         description = "Depiction of the last meal of Jesus with his disciples",
-        image = "last_supper.jpg",
+        image = "https://kottke.org/plus/misc/images/last-supper-copy-01.jpg",
         price=500.00,
         preview=True
     )
@@ -150,7 +150,7 @@ def create_artworks():
         user_id=1,
         title = "Vitruvian Man",
         description = "Study of the proportions of the human body according to Vitruvius",
-        image = "vitruvian_man.jpg",
+        image = "https://www.leonardodavinci.net/images/gallery/the-vitruvian-man.jpg",
         price=225.00,
         preview=True
     )
@@ -158,7 +158,7 @@ def create_artworks():
         user_id=1,
         title = "Annunciation",
         description = "Archangel Gabriel announcing to the Virgin Mary that she will conceive Jesus",
-        image = "annunciation.jpg",
+        image = "https://ap.uffizi.it/1688661762-1503990074029518-568314.jpg?auto=format&max-w=800",
         price=100.00,
         preview=True
     )
@@ -166,7 +166,7 @@ def create_artworks():
         user_id=1,
         title = "Lady with an Ermine",
         description = "Portrait of Cecilia Gallerani holding an ermine",
-        image = "lady_with_an_ermine.jpg",
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Lady_with_an_Ermine_-_Leonardo_da_Vinci_%28adjusted_levels%29.jpg/1200px-Lady_with_an_Ermine_-_Leonardo_da_Vinci_%28adjusted_levels%29.jpg",
         price=199.99,
         preview=True
     )
