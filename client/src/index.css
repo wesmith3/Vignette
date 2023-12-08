@@ -8,12 +8,40 @@
 }
 
 .artwork {
-    position: absolute;
-    box-shadow: 4px 8px 2px 0 black, 0 0 0 0 grey !important;
-    width: 268px;
-    height: 200px;
-    background-color: blue;
+    box-shadow: 4px 8px 5px 5px grey, 0 0 0 0 grey !important;
 }
+
+.search-bar {
+  box-shadow: 4px 8px 2px 0 grey, 0 2px 0 0 grey !important;
+}
+
+.artist-plaque {
+  background-color: #D4AF37;
+  padding: 20px;
+  border: 2px solid #bfbfbf;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.artist-plaque:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.artwork:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
 
 .app-bar-logo {
   align-items: center !important;

@@ -1,5 +1,5 @@
-import { useState, useContext } from 'react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -24,31 +24,32 @@ function Login({ onLogin }) {
       _password: '',
     },
     validationSchema: formSchema,
-    onSubmit: (values) => {
-      fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            return res.json(); // Assuming the server responds with user data
-          } else {
-            setAlertMessage('Invalid user credentials.');
-            setSnackType('error');
-            throw new Error('Invalid user credentials.');
-          }
+    onSubmit: async (values) => {
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
         })
-        .then((userData) => {
-          onLogin(userData); // Call the onLogin callback with user data
-          login(userData); // Update the authentication context with user data
+
+        if (response.ok) {
+          const userData = await response.json();
+          onLogin(userData);
+          login(userData);
           navigate('/');
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
+        } else {
+          const errorData = await response.json();
+          console.error('Error from server:', errorData); // Log the error data
+          setAlertMessage(errorData.message || 'Invalid user credentials.');
+          setSnackType('error');
+        }
+      } catch (error) {
+        console.error(error.message);
+        setAlertMessage('An unexpected error occurred.');
+        setSnackType('error');
+      }
     },
   });
 
@@ -76,7 +77,9 @@ function Login({ onLogin }) {
               iconPosition="left"
               placeholder="E-mail address"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.email}
+              error={formik.touched.email && formik.errors.email ? { content: formik.errors.email } : null}
             />
             <Form.Input
               fluid
@@ -86,7 +89,13 @@ function Login({ onLogin }) {
               placeholder="Password"
               type="password"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values._password}
+              error={
+                formik.touched._password && formik.errors._password
+                  ? { content: formik.errors._password }
+                  : null
+              }
             />
             <Button type="submit" color="black" fluid size="large">
               Login

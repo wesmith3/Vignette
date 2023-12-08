@@ -5,7 +5,9 @@ import Error from './Error';
 import Login from './Login';
 import Profile from './Profile';
 import Signup from './SignUp';
+import Search from './Search';
 import Home from './MenuBar';
+import Gallery from './Gallery';
 
 function Router() {
   const { login } = useContext(AuthContext);
@@ -14,6 +16,8 @@ function Router() {
       <Routes>
         <Route path="/profile" element={<Profile />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/my_gallery" element={<Gallery />} />
         <Route
           path="/login"
           element={<Login onLogin={(userData) => login(userData)} />}

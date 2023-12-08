@@ -499,23 +499,28 @@ class TransactionsByUserId(Resource):
     
 api.add_resource(TransactionsByUserId, "/users/<int:id>/transactions")
     
-
 class Signup(Resource):
     def post(self):
         try:
-            data = {
-                "email": request.get_json().get("email"),
-                "username": request.get_json().get("username"),
-            }
-            user_schema.validate(data)
-            user = user_schema.load(data)
-            user.password_hash = request.get_json().get("password")
-            db.session.add(user)
+            data = json.loads(request.data)
+            pw_hash = flask_bcrypt.generate_password_hash(data["password"])
+            
+            new_user = User(
+                full_name = data["full_name"],
+                username = data["username"],
+                email = data["email"],
+                _password = pw_hash,
+                bio = data["bio"],
+                location = data["location"],
+                profile_image = ""
+            )
+
+            db.session.add(new_user)
             db.session.commit()
             
-            jwt = create_access_token(identity=user.id)
-            refresh_token = create_refresh_token(identity=user.id)
-            serialized_user = user_schema.dump(user)
+            jwt = create_access_token(identity=new_user.id)
+            refresh_token = create_refresh_token(identity=new_user.id)
+            serialized_user = user_schema.dump(new_user)
             response = jsonify(serialized_user)
             set_access_cookies(response, jwt)
             set_refresh_cookies(response, refresh_token)
@@ -531,17 +536,19 @@ class Login(Resource):
         try:
             data = request.get_json()
             user = User.query.filter_by(email=data.get("email")).first()
-            print(user.verify((data.get("_password"))))
+            
             if user and user.verify((data.get("_password"))):
                 jwt = create_access_token(identity=user.id)
                 refresh_token = create_refresh_token(identity=user.id)
-                print(user)
+                
                 serialized_user = user_schema.dump(user)
                 response = make_response(serialized_user, 200)
-                print(response)
+                
                 set_access_cookies(response, jwt)
                 set_refresh_cookies(response, refresh_token)
+                
                 return response
+            
             return {"message": "Invalid Credentials"}, 403
         except Exception as e:
             return make_response(

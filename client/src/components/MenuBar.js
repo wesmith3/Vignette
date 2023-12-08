@@ -10,28 +10,15 @@ import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import { Image } from 'semantic-ui-react'
 import Badge from '@mui/material/Badge'
-import MenuItem from '@mui/material/MenuItem'
-import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import Avatar from '@mui/material/Avatar'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
 
 
 function MenuBar() {
-  const [anchorEl, setAnchorEl] = useState(null)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const navigate = useNavigate()
   const { user } = useContext(AuthContext)
-
-  const isMenuOpen = Boolean(anchorEl)
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleSignOut = () => {
     fetch('/logout', {
@@ -47,27 +34,6 @@ function MenuBar() {
   };
 
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={() => {navigate("/")}}>My Gallery</MenuItem>
-      <MenuItem onClick={() => {navigate("/profile")}}>My Account</MenuItem>
-      <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-    </Menu>
-  )
 
   return (
     <>
@@ -104,7 +70,6 @@ function MenuBar() {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <Avatar 
@@ -116,7 +81,6 @@ function MenuBar() {
           </Box>
         </Toolbar>
       </AppBar>
-      {renderMenu}
       <Drawer
           anchor="left"
           className='drawer'
@@ -143,12 +107,12 @@ function MenuBar() {
             </ListItem>
             <br />
             <br />
-            <ListItem button onClick={() => navigate('/profile')}>
+            <ListItem button onClick={() => navigate('/')}>
               Explore
             </ListItem>
             <br />
             <br />
-            <ListItem button onClick={handleSignOut}>
+            <ListItem button onClick={() => navigate('/search')}>
               Search
             </ListItem>
           </List>
@@ -160,7 +124,7 @@ function MenuBar() {
             fontSize: "25px"
           }}
           >
-            <ListItem button onClick={() => navigate("/profile")}>
+            <ListItem button onClick={() => navigate("/my_gallery")}>
               My Gallery
             </ListItem>
             <ListItem button onClick={() => navigate("/profile")}>
