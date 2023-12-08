@@ -1,6 +1,6 @@
-/* body {
+.drawer {
     overflow: hidden;
-} */
+}
 
 .menu-bar {
     background-color: black !important;
@@ -13,6 +13,10 @@
     width: 268px;
     height: 200px;
     background-color: blue;
+}
+
+.app-bar-logo {
+  align-items: center !important;
 }
 
 .account-image {

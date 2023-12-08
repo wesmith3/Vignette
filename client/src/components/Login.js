@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
