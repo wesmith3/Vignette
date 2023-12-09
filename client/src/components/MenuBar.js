@@ -102,7 +102,7 @@ function MenuBar() {
           <List>
             <br />
             <br />
-            <ListItem button onClick={() => navigate('/')}>
+            <ListItem button onClick={() => navigate('/home')}>
               Home
             </ListItem>
             <br />

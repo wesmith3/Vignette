@@ -15,6 +15,10 @@
   box-shadow: 4px 8px 2px 0 grey !important;
 }
 
+.add-artwork-btn {
+  margin-right: 2.5% !important;
+}
+
 .artist-plaque {
   background-color: #D4AF37;
   padding: 5px;

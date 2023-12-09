@@ -127,6 +127,45 @@ class UserById(Resource):
 
 api.add_resource(UserById, "/users/<int:id>")
 
+class Artworks(Resource):
+    def get(self):
+        try:
+            a_list = []
+            artworks = Artwork.query
+            for artwork in artworks:
+                a_list.append(artwork.to_dict())
+            return make_response(a_list, 200)
+        except (ValueError, AttributeError, TypeError) as e:
+            return make_response(
+                {"errors": [str(e)]}, 400
+            )
+    
+    def post(self):
+        try:
+            data = json.loads(request.data)
+            pw_hash = flask_bcrypt.generate_password_hash(data["password"])
+            
+            new_user = User(
+                full_name = data["full_name"],
+                username = data["username"],
+                email = data["email"],
+                _password = pw_hash,
+                bio = data["bio"],
+                location = data["location"],
+                profile_image = data["profile_image"]
+            )
+
+            db.session.add(new_user)
+            db.session.commit()
+            return make_response(new_user.to_dict(rules=("-password",)), 201)
+        except (ValueError, AttributeError, TypeError) as e:
+            db.session.rollback()
+            return make_response(
+                {"errors": [str(e)]}, 400
+            )
+
+api.add_resource(Artworks, "/artworks")
+
 class ArtworksByUserId(Resource):
     def get(self, id):
         try:

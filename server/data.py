@@ -174,7 +174,7 @@ def create_artworks():
         user_id=2,
         title = "Starry Night",
         description = "A night sky filled with swirling clouds and bright stars over a tranquil village.",
-        image = "starry_night.jpg",
+        image = "https://cdn.pixabay.com/photo/2015/12/15/05/43/starry-night-1093721_1280.jpg",
         price = 500000.00,
         preview = True
 
@@ -183,7 +183,7 @@ def create_artworks():
         user_id=2,
         title = "Sunflowers",
         description = "A series of still life paintings depicting vibrant sunflowers in various stages of bloom.",
-        image = "sunflowers.jpg",
+        image = "https://usa.masterpiecebynumbers.com/cdn/shop/products/Van_Gogh_-_Sunflowers.jpg?v=1571674640",
         price = 350000.00,
         preview = False
     )
@@ -191,7 +191,7 @@ def create_artworks():
         user_id=2,
         title = "The Bedroom",
         description = "A depiction of Van Gogh's bedroom in the Yellow House in Arles with bold colors and distinctive brushstrokes.",
-        image = "the_bedroom.jpg",
+        image = "https://iiif.micr.io/ZKSPH/full/1280,/0/default.jpg",
         price = 700000.00,
         preview = True
     )
@@ -199,7 +199,7 @@ def create_artworks():
         user_id=2,
         title = "Irises",
         description = "A masterpiece featuring vibrant irises set against a background of lush greenery.",
-        image = "irises.jpg",
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Irises-Vincent_van_Gogh.jpg/1200px-Irises-Vincent_van_Gogh.jpg",
         price = 450000.00,
         preview = True
     )
@@ -207,7 +207,7 @@ def create_artworks():
         user_id=2,
         title = "Café Terrace at Night",
         description = "A charming night scene of a cafe terrace illuminated by warm light under a starry sky.",
-        image = "cafe_terrace.jpg",
+        image = "https://www.vangoghstudio.com//Files/6/102000/102147/ProductPhotos/Source/1938150426.jpg",
         price = 600000.00,
         preview = False
     )
@@ -216,7 +216,7 @@ def create_artworks():
         user_id=3,
         title = "Guernica",
         description = "A powerful anti-war mural depicting the horrors of the bombing of Guernica during the Spanish Civil War.",
-        image = "guernica.jpg",
+        image = "https://2.bp.blogspot.com/-dlllLhl8c7s/UnrFUvtgMxI/AAAAAAAARXQ/Cv8QKBgfVD4/s1600/guernica.jpg",
         price = 800000.00,
         preview = True
     )
@@ -224,7 +224,7 @@ def create_artworks():
         user_id=3,
         title = "Les Demoiselles d'Avignon",
         description = "A groundbreaking work in modern art, portraying five nude women with influences from African art.",
-        image = "demoiselles_davignon.jpg",
+        image = "https://upload.wikimedia.org/wikipedia/en/4/4c/Les_Demoiselles_d%27Avignon.jpg",
         price = 950000.00,
         preview = False
     )
@@ -232,7 +232,7 @@ def create_artworks():
         user_id=3,
         title = "The Weeping Woman",
         description = "A powerful portrayal of grief and pain, featuring a woman with tears streaming down her face.",
-        image = "weeping_woman.jpg",
+        image = "https://miro.medium.com/v2/resize:fit:1400/1*D1w37WAU9cZVS6_J5Q4gdw.jpeg",
         price = 700000.00,
         preview = True
     )
@@ -240,7 +240,7 @@ def create_artworks():
         user_id=3,
         title = "Three Musicians",
         description = "A colorful and abstract composition depicting three musicians playing instruments.",
-        image = "three_musicians.jpg",
+        image = "https://www.pablopicasso.org/images/paintings/three-musicians.jpg",
         price = 600000.00,
         preview = False
     )
@@ -248,7 +248,7 @@ def create_artworks():
         user_id=3,
         title = "The Old Guitarist",
         description = "A melancholic painting of an old blind guitarist, reflecting Picasso's Blue Period.",
-        image = "old_guitarist.jpg",
+        image = "https://upload.wikimedia.org/wikipedia/en/b/bc/Old_guitarist_chicago.jpg",
         price = 500000.00,
         preview = True
     )
@@ -256,7 +256,7 @@ def create_artworks():
         user_id=4,
         title = "Water Lilies",
         description = "A series of paintings depicting Monet's water garden at Giverny, featuring water lilies and reflections.",
-        image = "water_lilies.jpg",
+        image = "https://www.artic.edu/iiif/2/3c27b499-af56-f0d5-93b5-a7f2f1ad5813/full/843,/0/default.jpg",
         price = 750000.00,
         preview = True
     )
@@ -264,7 +264,7 @@ def create_artworks():
         user_id=4,
         title = "Impression, Sunrise",
         description = "The painting that gave rise to the term 'Impressionism,' featuring a harbor at sunrise.",
-        image = "impression_sunrise.jpg",
+        image = "https://i.etsystatic.com/18641759/r/il/0982d3/3854750965/il_fullxfull.3854750965_7ag7.jpg",
         price = 900000.00,
         preview = False
     )
@@ -272,7 +272,7 @@ def create_artworks():
         user_id=4,
         title = "Woman with a Parasol - Madame Monet and Her Son",
         description = "A lively scene of Monet's wife and son walking in a sunlit meadow with a parasol.",
-        image = "woman_with_parasol.jpg",
+        image = "https://media.nga.gov/iiif/99758d9d-c10b-4d02-a198-7e49afb1f3a6/full/full/0/default.jpg?attachment_filename=woman_with_a_parasol_-_madame_monet_and_her_son_1983.1.29.jpg",
         price = 680000.00,
         preview = True
     )
@@ -280,18 +280,333 @@ def create_artworks():
         user_id=4,
         title = "Haystacks Series",
         description = "A series of paintings capturing the play of light and atmosphere on haystacks in the countryside.",
-        image = "haystacks_series.jpg",
+        image = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Claude_Monet_-_Stacks_of_Wheat_%28End_of_Summer%29_-_1985.1103_-_Art_Institute_of_Chicago.jpg/800px-Claude_Monet_-_Stacks_of_Wheat_%28End_of_Summer%29_-_1985.1103_-_Art_Institute_of_Chicago.jpg",
         price = 520000.00,
         preview = False
     )
     a20 = Artwork(
-        user_id=4,
-        title = "Rouen Cathedral Series",
-        description = "Monet's exploration of the Rouen Cathedral facade in different lighting conditions and times of day.",
-        image = "rouen_cathedral_series.jpg",
-        price = 630000.00,
-        preview = True
+        user_id=5,
+        title="The Persistence of Memory",
+        description="Dali's iconic surrealist painting featuring melting clocks in a dreamlike landscape.",
+        image="https://www.artchive.com/wp-content/uploads/2023/04/The-Persistence-of-Memory-DALI-Salvador-1931-2.jpg",
+        price=1200000.00,
+        preview=True
     )
-    
-    artworks.extend([a11,a12,a13,a14,a15,a16,a17,a18,a19,a20])
+    artworks.extend([a11,a12,a13,a14,a15,a16,a17,a18,a19, a20])
+    a21 = Artwork(
+        user_id=5,
+        title="Swans Reflecting Elephants",
+        description="A mind-bending optical illusion depicting swans on a calm lake transforming into elephants in their reflection.",
+        image="https://penflukyhome.files.wordpress.com/2020/06/81izy657uyl._sl1500_.jpg?w=825&h=510&crop=1",
+        price=850000.00,
+        preview=False
+    )
+    a22 = Artwork(
+        user_id=5,
+        title="The Elephants",
+        description="Dali's surreal depiction of spindly-legged elephants carrying obelisks on their backs in a barren landscape.",
+        image="https://www.ladykflo.com/wp-content/uploads/2022/04/jmy-elephants-in-the-style-of-salvador-dali_2020-02-03T12-53-54.jpg",
+        price=950000.00,
+        preview=True
+    )
+    a23 = Artwork(
+        user_id=5,
+        title="The Sacrament of the Last Supper",
+        description="A religious-themed painting by Dali featuring a distorted interpretation of the traditional Last Supper.",
+        image="https://www.tallengestore.com/cdn/shop/products/the_20sacrament_20of_20the_20last_20supper_32d93374-c315-4739-bd47-d6114f4e03e3.jpg?v=1479717541",
+        price=1100000.00,
+        preview=False
+    )
+    a24 = Artwork(
+        user_id=5,
+        title="Galatea of the Spheres",
+        description="Dali's exploration of the concept of atomic particles and the harmony of the universe through a portrait of his wife.",
+        image="https://m.media-amazon.com/images/I/719Hn8X+XtL._AC_UF894,1000_QL80_.jpg",
+        price=780000.00,
+        preview=True
+    )
+    a25 = Artwork(
+        user_id=6,
+        title="David",
+        description="Michelangelo's iconic marble statue of the biblical hero David, symbolizing the strength of the human spirit.",
+        image="https://news.artnet.com/app/news-upload/2023/04/GettyImages-1395079230-1024x682.jpg",
+        price=1500000.00,
+        preview=True
+    )
+    a26 = Artwork(
+        user_id=6,
+        title="Sistine Chapel Ceiling",
+        description="A masterpiece fresco in the Sistine Chapel depicting scenes from Genesis, including the creation of Adam.",
+        image="https://cdn.thecollector.com/wp-content/uploads/2020/05/sistine_chapel_painted_frescoes_by_michelangelo_in_vatican_featured.jpg",
+        price=2000000.00,
+        preview=False
+    )
+    a27 = Artwork(
+        user_id=6,
+        title="Pieta",
+        description="Michelangelo's sculpture of the Virgin Mary cradling the body of Jesus, showcasing profound grief and beauty.",
+        image="https://upload.wikimedia.org/wikipedia/commons/6/65/Pieta_de_Michelangelo_-_Vaticano.jpg",
+        price=1800000.00,
+        preview=True
+    )
+    a28 = Artwork(
+        user_id=6,
+        title="The Creation of Adam",
+        description="A central panel from the Sistine Chapel Ceiling, depicting the iconic moment of God giving life to Adam through touch.",
+        image="https://cdn.thecollector.com/wp-content/uploads/2022/03/michelangelo-creation-adam-detail-featured.jpg?width=1400&quality=70",
+        price=1700000.00,
+        preview=False
+    )
+    a29 = Artwork(
+        user_id=6,
+        title="The Last Judgment",
+        description="A monumental fresco on the altar wall of the Sistine Chapel, depicting the Second Coming of Christ and final judgment.",
+        image="https://smarthistory.org/wp-content/uploads/2022/01/LastJudgement.jpg",
+        price=2200000.00,
+        preview=True
+    )
+    a30 = Artwork(
+        user_id=7,
+        title="The Two Fridas",
+        description="A powerful and symbolic self-portrait featuring two versions of Frida Kahlo, representing her duality and inner emotions.",
+        image="https://www.fridakahlo.org/images/paintings/the-two-fridas.jpg",
+        price=950000.00,
+        preview=True
+    )
+    artworks.extend([a21,a22,a23,a24,a25,a26,a27,a28,a29, a30])
+    a31 = Artwork(
+        user_id=7,
+        title="Self-Portrait with Thorn Necklace and Hummingbird",
+        description="A poignant self-portrait where Frida wears a thorn necklace, reflecting her pain, and a hummingbird symbolizing hope.",
+        image="https://www.arthistoryproject.com/site/assets/files/19982/frida-kahlo-self-portrait-with-thorn-necklace-and-hummingbird-1940-trivium-art-history.jpg",
+        price=800000.00,
+        preview=False
+    )
+    a32 = Artwork(
+        user_id=7,
+        title="The Broken Column",
+        description="An emotional self-portrait portraying Frida with a shattered column as her spine, revealing her physical and emotional pain.",
+        image="https://www.dailyartmagazine.com/wp-content/uploads/2021/10/ddd-4.jpg",
+        price=1100000.00,
+        preview=True
+    )
+    a33 = Artwork(
+        user_id=7,
+        title="Diego and I",
+        description="A representation of Frida Kahlo alongside her husband Diego Rivera, showcasing their complex and passionate relationship.",
+        image="https://www.fridakahlo.org/images/paintings/frida-and-diego-rivera.jpg",
+        price=900000.00,
+        preview=False
+    )
+    a34 = Artwork(
+        user_id=7,
+        title="The Love Embrace of the Universe",
+        description="A vibrant and surreal self-portrait where Frida is embraced by the universe, symbolizing her connection to the world and life.",
+        image="https://www.fridakahlo.org/images/paintings/the-love-embrace-of-the-universe-the-earth-mexico-myself-diego-and-senor-xolotl.jpg",
+        price=1200000.00,
+        preview=True
+    )
+    a35 = Artwork(
+        user_id=8,
+        title="Campbell's Soup Cans",
+        description="A groundbreaking series of 32 paintings featuring different flavors of Campbell's soup cans, symbolizing consumer culture.",
+        image="https://origins.osu.edu/sites/default/files/inline-images/andy-warhol-soup-cans.jpg",
+        price=1800000.00,
+        preview=True
+    )
+    a36 = Artwork(
+        user_id=8,
+        title="Marilyn Diptych",
+        description="An iconic artwork featuring multiple images of Marilyn Monroe, exploring the relationship between celebrity and mass production.",
+        image="https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/andy-warhols-marilyn-diptych-douglas-sacha.jpg",
+        price=2200000.00,
+        preview=False
+    )
+    a37 = Artwork(
+        user_id=8,
+        title="Brillo Boxes",
+        description="A series of sculptures resembling Brillo soap pad boxes, blurring the lines between art and everyday consumer products.",
+        image="https://www.artchive.com/wp-content/uploads/2023/02/Warhol_Brillo_Foundation-768x576-1.jpg",
+        price=1500000.00,
+        preview=True
+    )
+    a38 = Artwork(
+        user_id=8,
+        title="Elvis Presley",
+        description="A portrait of Elvis Presley, one of Warhol's many celebrity portraits that became synonymous with his Pop art movement.",
+        image="https://cdn.sanity.io/images/dqllnil6/production/f65231f34a6ac6707176013dcf64b257cff3e591-516x525.jpg?w=1920&q=60&auto=format",
+        price=1600000.00,
+        preview=False
+    )
+    a39 = Artwork(
+        user_id=8,
+        title="Gold Marilyn Monroe",
+        description="A glamorous depiction of Marilyn Monroe in gold tones, emphasizing her status as a cultural icon and symbol of beauty.",
+        image="https://www.moma.org/d/assets/W1siZiIsIjIwMTkvMDkvMDUvOWQ5MmNjYjJ5NF8zMTZfMTk2Ml9DUl9QcmVzc19Vc2VfXzMwMDBfcGl4ZWxfbGVuZ3RoXy5qcGciXSxbInAiLCJjb252ZXJ0IiwiLXF1YWxpdHkgOTAgLXJlc2l6ZSAyMDAweDIwMDBcdTAwM2UiXV0/316_1962_CR-Press_Use_%283000_pixel_length%29.jpg?sha=745ff28c35b4fb0d",
+        price=2000000.00,
+        preview=True
+    )
+    a40 = Artwork(
+        user_id=9,
+        title="The School of Athens",
+        description="A masterpiece fresco depicting philosophers and scholars from different periods gathered in an imaginary classical setting.",
+        image="https://antigonejournal.com/wp-content/uploads/2023/02/SoAR-3.png",
+        price=2500000.00,
+        preview=True
+    )
+    artworks.extend([a31,a32,a33,a34,a35,a36,a37,a38,a39, a40])
+    a41 = Artwork(
+        user_id=9,
+        title="Madonna and Child with the Infant Saint John the Baptist",
+        description="A tender portrayal of the Madonna and Child with the young Saint John the Baptist, showcasing Raphael's skill in depicting grace and harmony.",
+        image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Madona_del_gran_duque%2C_por_Rafael.jpg/512px-Madona_del_gran_duque%2C_por_Rafael.jpg",
+        price=1800000.00,
+        preview=False
+    )
+    a42 = Artwork(
+        user_id=9,
+        title="The Sistine Madonna",
+        description="An iconic painting featuring the Madonna and Child surrounded by angels, known for its emotional depth and ethereal beauty.",
+        image="https://uploads3.wikiart.org/00340/images/raphael/the-sistine-madonna-1513.jpg!Large.jpg",
+        price=2200000.00,
+        preview=True
+    )
+    a43 = Artwork(
+        user_id=9,
+        title="Portrait of Baldassare Castiglione",
+        description="A celebrated portrait of the Italian diplomat and writer Baldassare Castiglione, showcasing Raphael's mastery in capturing personality.",
+        image="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Baldassare_Castiglione%2C_by_Raffaello_Sanzio%2C_from_C2RMF_retouched.jpg/1200px-Baldassare_Castiglione%2C_by_Raffaello_Sanzio%2C_from_C2RMF_retouched.jpg",
+        price=1900000.00,
+        preview=False
+    )
+    a44 = Artwork(
+        user_id=9,
+        title="The Transfiguration",
+        description="Raphael's final masterpiece, a large altarpiece depicting the Transfiguration of Christ, showcasing both earthly and divine scenes.",
+        image="https://upload.wikimedia.org/wikipedia/commons/5/51/Transfiguration_Raphael.jpg",
+        price=2600000.00,
+        preview=True
+    )
+    a45 = Artwork(
+        user_id=10,
+        title="The Scream",
+        description="One of the most iconic paintings in art history, depicting a figure in distress against a surreal, swirling backdrop.",
+        image="https://smarthistory.org/wp-content/uploads/2021/12/Edvard_Munch_-_The_Scream_-_Google_Art_Project.jpeg",
+        price=3000000.00,
+        preview=True
+    )
+    a46 = Artwork(
+        user_id=10,
+        title="The Madonna",
+        description="A haunting depiction of Madonna holding a child, marked by Munch's distinctive style and emotional intensity.",
+        image="https://www.munchmuseet.no/globalassets/kunstverk/madonna-litografi?w=800",
+        price=1800000.00,
+        preview=False
+    )
+    a47 = Artwork(
+        user_id=10,
+        title="The Dance of Life",
+        description="A symbolic painting representing the stages of life through three figures dancing under the moonlight.",
+        image="https://upload.wikimedia.org/wikipedia/commons/b/b6/Edvard_Munch_-_The_dance_of_life_%281899-1900%29.jpg",
+        price=2500000.00,
+        preview=True
+    )
+    a48 = Artwork(
+        user_id=10,
+        title="Jealousy",
+        description="A striking portrayal of jealousy, featuring a green-faced figure watching a couple with a sense of longing.",
+        image="https://upload.wikimedia.org/wikipedia/commons/c/cb/Edvard_Munch_-_Jealousy_%281895%29.jpg",
+        price=2000000.00,
+        preview=False
+    )
+    a49 = Artwork(
+        user_id=10,
+        title="Starry Night",
+        description="Munch's interpretation of the night sky, filled with swirling stars and a sense of cosmic energy.",
+        image="https://lh3.googleusercontent.com/ci/ALr3YSHlxJNyDh0Yd9HzL9BeUhs8W_E0cqozXYjVq5LZBXERPXcGkvq6aEeostbvg7nD-uY2MCXD8qI_=s1200",
+        price=2200000.00,
+        preview=True
+    )
+    a50 = Artwork(
+        user_id=11,
+        title="The Night Watch",
+        description="Rembrandt's famous group portrait of a city militia, known for its dynamic composition and use of light and shadow.",
+        image="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Night_Watch_-_HD.jpg/1200px-The_Night_Watch_-_HD.jpg",
+        price=3500000.00,
+        preview=True
+    )
+    artworks.extend([a41,a42,a43,a44,a45,a46,a47,a48,a49, a50])
+    a51 = Artwork(
+        user_id=11,
+        title="Self-Portrait with Two Circles",
+        description="A powerful self-portrait by Rembrandt, showcasing his introspective gaze and mastery in capturing texture and expression.",
+        image="https://smarthistory.org/wp-content/uploads/2019/08/Edited-Rembrandt_Self-portrait_Kenwood.jpg",
+        price=2800000.00,
+        preview=False
+    )
+    a52 = Artwork(
+        user_id=11,
+        title="The Anatomy Lesson of Dr. Nicolaes Tulp",
+        description="A compelling group portrait depicting a dissection, highlighting Rembrandt's skill in portraying human anatomy and emotion.",
+        image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg/1200px-Rembrandt_-_The_Anatomy_Lesson_of_Dr_Nicolaes_Tulp.jpg",
+        price=3200000.00,
+        preview=True
+    )
+    a53 = Artwork(
+        user_id=11,
+        title="The Jewish Bride",
+        description="A tender and intimate portrait of a couple, often interpreted as a depiction of love and marital bliss.",
+        image="https://upload.wikimedia.org/wikipedia/commons/0/0c/Rembrandt_Harmensz._van_Rijn_-_Portret_van_een_paar_als_oudtestamentische_figuren%2C_genaamd_%27Het_Joodse_bruidje%27_-_Google_Art_Project.jpg",
+        price=3000000.00,
+        preview=False
+    )
+    a54 = Artwork(
+        user_id=11,
+        title="The Storm on the Sea of Galilee",
+        description="A dramatic seascape depicting a biblical scene, showcasing Rembrandt's skill in capturing tumultuous emotions and nature.",
+        image="https://upload.wikimedia.org/wikipedia/commons/f/f3/Rembrandt_Christ_in_the_Storm_on_the_Lake_of_Galilee.jpg",
+        price=3300000.00,
+        preview=True
+    )
+    a55 = Artwork(
+        user_id=12,
+        title="No. 5, 1948",
+        description="A groundbreaking example of Pollock's drip painting technique, characterized by energetic and chaotic splatters of paint.",
+        image="https://www.jackson-pollock.org/images/paintings/number-5.jpg",
+        price=4000000.00,
+        preview=True
+    )
+    a56 = Artwork(
+        user_id=12,
+        title="Autumn Rhythm",
+        description="A rhythmic and dynamic composition created through Pollock's unique drip painting style, conveying a sense of movement.",
+        image="https://collectionapi.metmuseum.org/api/collection/v1/iiif/488978/preview",
+        price=3500000.00,
+        preview=False
+    )
+    a57 = Artwork(
+        user_id=12,
+        title="Blue Poles",
+        description="A celebrated painting featuring tall, thin poles surrounded by energetic drips and splatters of vibrant blue paint.",
+        image="https://cdn.swarezart.com/wp-content/uploads/2016/09/Blue-Poles-replica-painting-1.jpg",
+        price=3800000.00,
+        preview=True
+    )
+    a58 = Artwork(
+        user_id=12,
+        title="One: Number 31, 1950",
+        description="A large-scale canvas filled with intricate and densely layered drips and swirls, showcasing Pollock's mastery of abstract expressionism.",
+        image="https://i.ytimg.com/vi/2JleSka1klc/sddefault.jpg",
+        price=4200000.00,
+        preview=False
+    )
+    a59 = Artwork(
+        user_id=12,
+        title="Convergence",
+        description="A vibrant and dynamic composition created through the spontaneous and gestural nature of Pollock's drip painting technique.",
+        image="https://www.jackson-pollock.org/images/paintings/convergence.jpg",
+        price=3700000.00,
+        preview=True
+    )
+    artworks.extend([a51,a52,a53,a54,a55,a56,a57,a58,a59])
     return artworks

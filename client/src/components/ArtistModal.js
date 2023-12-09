@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Image, Modal } from 'semantic-ui-react'
+import { Image, Modal } from 'semantic-ui-react'
 
 function ArtistModal({ onClose, user }) {
   return (

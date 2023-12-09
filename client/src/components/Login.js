@@ -38,7 +38,7 @@ function Login({ onLogin }) {
           const userData = await response.json();
           onLogin(userData);
           login(userData);
-          navigate('/');
+          navigate('/home');
         } else {
           const errorData = await response.json();
           console.error('Error from server:', errorData); // Log the error data

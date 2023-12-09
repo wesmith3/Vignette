@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import { useContext, useEffect, useState } from 'react'
+import { Button, Popup } from 'semantic-ui-react'
 import MenuBar from './MenuBar'
 import ArtistModal from './ArtistModal'
 import { AuthContext } from './AuthProvider'
@@ -35,6 +36,17 @@ const MyGallery = () => {
     <>
       <MenuBar />
       <br />
+        <Popup 
+        content='Add New Artwork'
+        position='left center'
+        trigger={
+          <Button className='add-artwork-btn'
+          color='black'
+          icon='add'
+          circular
+          floated='right'/>
+          } 
+        />
       <div className='artist-plaque' onClick={openModal}>
         <div className='carved-text'>
         {user.full_name}

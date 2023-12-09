@@ -22,7 +22,7 @@ function Router() {
           path="/login"
           element={<Login onLogin={(userData) => login(userData)} />}
         />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         {/* <Route path="" element={<Error />} /> */}
       </Routes>
     </AuthProvider>
