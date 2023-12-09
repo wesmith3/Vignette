@@ -1,22 +1,22 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import AlertBar from './AlertBar';
-import { AuthContext } from './AuthProvider';
+import React, { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import AlertBar from './AlertBar'
+import { AuthContext } from './AuthProvider'
 
 function Login({ onLogin }) {
-  const navigate = useNavigate();
-  const background = '././Gallery.jpg';
-  const [alertMessage, setAlertMessage] = useState(null);
-  const [snackType, setSnackType] = useState('');
-  const { login } = useContext(AuthContext);
+  const navigate = useNavigate()
+  const background = '././Gallery.jpg'
+  const [alertMessage, setAlertMessage] = useState(null)
+  const [snackType, setSnackType] = useState('')
+  const { login } = useContext(AuthContext)
 
   const formSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Please enter an email.'),
     _password: yup.string().required('Please enter a password.').min(5),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -35,23 +35,23 @@ function Login({ onLogin }) {
         })
 
         if (response.ok) {
-          const userData = await response.json();
-          onLogin(userData);
-          login(userData);
-          navigate('/home');
+          const userData = await response.json()
+          onLogin(userData)
+          login(userData)
+          navigate('/home')
         } else {
-          const errorData = await response.json();
-          console.error('Error from server:', errorData); // Log the error data
-          setAlertMessage(errorData.message || 'Invalid user credentials.');
-          setSnackType('error');
+          const errorData = await response.json()
+          console.error('Error from server:', errorData) // Log the error data
+          setAlertMessage(errorData.message || 'Invalid user credentials.')
+          setSnackType('error')
         }
       } catch (error) {
-        console.error(error.message);
-        setAlertMessage('An unexpected error occurred.');
-        setSnackType('error');
+        console.error(error.message)
+        setAlertMessage('An unexpected error occurred.')
+        setSnackType('error')
       }
     },
-  });
+  })
 
   return (
     <Grid
@@ -115,7 +115,7 @@ function Login({ onLogin }) {
         </Message>
       </Grid.Column>
     </Grid>
-  );
+  )
 }
 
-export default Login;
+export default Login

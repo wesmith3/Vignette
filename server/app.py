@@ -395,6 +395,32 @@ class LikesByArtworkId(Resource):
             return make_response(
                 {"errors": [str(e)]}, 400
             )
+            
+    def delete(self, id):
+        try:
+            data = json.loads(request.data)
+            user_id = data.get("user_id")
+            
+            if not user_id:
+                return make_response(
+                    {"errors": ["user_id is required in the request body"]}, 400
+                )
+
+            like = Like.query.filter_by(artwork_id=id, user_id=user_id).first()
+
+            if like:
+                db.session.delete(like)
+                db.session.commit()
+                return make_response({}, 204)
+            else:
+                return make_response(
+                    {"errors": "Delete unsuccessful. Like not found for the specified user and artwork"}, 400
+                )
+        except (ValueError, AttributeError, TypeError) as e:
+            db.session.rollback()
+            return make_response(
+                {"errors": [str(e)]}, 400
+            )
         
 api.add_resource(LikesByArtworkId, "/artworks/<int:id>/likes")
 

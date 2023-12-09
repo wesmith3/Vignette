@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Image, Modal } from 'semantic-ui-react'
 
 function ArtistModal({ onClose, user }) {

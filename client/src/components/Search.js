@@ -1,9 +1,16 @@
-import React from 'react';
+import { useContext } from 'react'
+import { AuthContext } from './AuthProvider'
 import Box from '@mui/material/Box';
+import ImageList from '@mui/material/ImageList'
+import ImageListItem from '@mui/material/ImageListItem'
 import TextField from '@mui/material/TextField';
 import MenuBar from './MenuBar';
 
 function Search() {
+  const { artworks } = useContext(AuthContext);
+
+  console.log(artworks)
+
   return (
     <>
       <MenuBar />
@@ -37,7 +44,22 @@ function Search() {
             }}
           />
         </Box>
-      </div>
+                </div>
+          <br />
+          <br />
+          <br />
+          <div>
+            <Box sx={{ width: '100%' }}>
+              <ImageList variant="woven" cols={3} gap={0}>
+                {artworks.map((artwork) => (
+                  <ImageListItem key={artwork.id} sx={{ margin: 5 }}>
+                    <img className='artwork' src={artwork.image} alt={artwork.title} />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            </Box>
+            <br />
+          </div>
     </>
   );
 }

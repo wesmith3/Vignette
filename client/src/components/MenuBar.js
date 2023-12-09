@@ -28,7 +28,7 @@ function MenuBar() {
       },
     }).then((res) => {
       if (res.ok) {
-        navigate('/login');
+        navigate('/');
       }
     });
   };

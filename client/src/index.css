@@ -68,6 +68,14 @@
   box-shadow: 4px 8px 2px 0 grey !important;
 }
 
+.artwork-modal{
+  background-color: black !important;
+}
+
+.artwork-image{
+  width:100% !important;
+}
+
 .table-header {
   font-weight: bolder !important;
   /* background-color: #FAF9F6 !important; */
@@ -101,5 +109,7 @@
 
   .gallery {
     background-color: #FAF9F6;
+    /* background-color: black; */
   }
+
 
