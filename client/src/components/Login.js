@@ -1,22 +1,22 @@
-import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import AlertBar from './AlertBar';
-import { AuthContext } from './AuthProvider';
+import React, { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import AlertBar from './AlertBar'
+import { AuthContext } from './AuthProvider'
 
 function Login({ onLogin }) {
-  const navigate = useNavigate();
-  const background = '././Gallery.jpg';
-  const [alertMessage, setAlertMessage] = useState(null);
-  const [snackType, setSnackType] = useState('');
-  const { login } = useContext(AuthContext);
+  const navigate = useNavigate()
+  const background = '././Gallery.jpg'
+  const [alertMessage, setAlertMessage] = useState(null)
+  const [snackType, setSnackType] = useState('')
+  const { login } = useContext(AuthContext)
 
   const formSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Please enter an email.'),
     _password: yup.string().required('Please enter a password.').min(5),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -24,33 +24,34 @@ function Login({ onLogin }) {
       _password: '',
     },
     validationSchema: formSchema,
-    onSubmit: (values) => {
-      fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      })
-        .then((res) => {
-          if (res.status === 200) {
-            return res.json(); // Assuming the server responds with user data
-          } else {
-            setAlertMessage('Invalid user credentials.');
-            setSnackType('error');
-            throw new Error('Invalid user credentials.');
-          }
+    onSubmit: async (values) => {
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
         })
-        .then((userData) => {
-          onLogin(userData); // Call the onLogin callback with user data
-          login(userData); // Update the authentication context with user data
-          navigate('/');
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
+
+        if (response.ok) {
+          const userData = await response.json()
+          onLogin(userData)
+          login(userData)
+          navigate('/loading')
+        } else {
+          const errorData = await response.json()
+          console.error('Error from server:', errorData)
+          setAlertMessage(errorData.message || 'Invalid user credentials.')
+          setSnackType('error')
+        }
+      } catch (error) {
+        console.error(error.message)
+        setAlertMessage('An unexpected error occurred.')
+        setSnackType('error')
+      }
     },
-  });
+  })
 
   return (
     <Grid
@@ -76,7 +77,9 @@ function Login({ onLogin }) {
               iconPosition="left"
               placeholder="E-mail address"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values.email}
+              error={formik.touched.email && formik.errors.email ? { content: formik.errors.email } : null}
             />
             <Form.Input
               fluid
@@ -86,7 +89,13 @@ function Login({ onLogin }) {
               placeholder="Password"
               type="password"
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               value={formik.values._password}
+              error={
+                formik.touched._password && formik.errors._password
+                  ? { content: formik.errors._password }
+                  : null
+              }
             />
             <Button type="submit" color="black" fluid size="large">
               Login
@@ -106,7 +115,7 @@ function Login({ onLogin }) {
         </Message>
       </Grid.Column>
     </Grid>
-  );
+  )
 }
 
-export default Login;
+export default Login

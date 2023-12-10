@@ -1,23 +1,79 @@
-/* body {
+.drawer {
     overflow: hidden;
-} */
+}
 
 .menu-bar {
     background-color: black !important;
-    box-shadow: 4px 5px 5px 0 grey, 0 10px 50px 0 grey !important;
+    box-shadow: 4px 5px 5px 0 grey !important;
 }
 
 .artwork {
-    position: absolute;
-    box-shadow: 4px 8px 2px 0 black, 0 0 0 0 grey !important;
-    width: 268px;
-    height: 200px;
-    background-color: blue;
+    box-shadow: 4px 8px 5px 5px grey !important;
+}
+
+.search-bar {
+  box-shadow: 4px 8px 2px 0 grey !important;
+}
+
+.add-artwork-btn {
+  margin-right: 2.5% !important;
+}
+
+.artist-plaque {
+  background-color: #D4AF37;
+  padding: 5px;
+  border: 2px solid #bfbfbf;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 15%;
+  margin-left: auto;
+  margin-right: auto;
+
+  color: #8C6C1F;
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.artist-plaque:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.carved-text {
+  font-size: 16px; /* Adjust as needed */
+  font-family: 'Arial', sans-serif;
+
+  /* Carved text effect using text-shadow */
+  /* text-shadow: 2px 2px 2px #8C6C1F; */
+}
+
+.artist {
+  background-color: black !important;
+}
+
+.artwork:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+
+.app-bar-logo {
+  align-items: center !important;
 }
 
 .account-image {
   margin-left: 7%;
-  box-shadow: 4px 8px 2px 0 grey, 0 2px 0 0 grey !important;
+  box-shadow: 4px 8px 2px 0 grey !important;
+}
+
+.artwork-modal{
+  background-color: black !important;
+}
+
+.artwork-image{
+  width:100% !important;
 }
 
 .table-header {
@@ -34,7 +90,7 @@
     margin: 2% auto !important;
     border-collapse: collapse !important;
     text-align: center !important;
-    box-shadow: 4px 6px 2px 0 grey, 0 0 0 0 grey !important;
+    box-shadow: 4px 6px 2px 0 grey !important;
   }
 
 .transaction-table {
@@ -44,7 +100,7 @@
     margin: 2% auto !important;
     border-collapse: collapse !important;
     text-align: center !important;
-    box-shadow: 4px 6px 2px 0 grey, 0 0 0 0 grey !important;
+    box-shadow: 4px 6px 2px 0 grey !important;
   }
 
   .profile {
@@ -53,5 +109,12 @@
 
   .gallery {
     background-color: #FAF9F6;
+    /* background-color: black; */
   }
 
+  .loading{
+    background-color: black !important;
+    color: white !important;
+    /* width: 100% !important;
+    height: 100% !important; */
+  }

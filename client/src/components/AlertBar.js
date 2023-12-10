@@ -1,25 +1,27 @@
-import { useState, forwardRef, useEffect } from "react";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
+import { useState, forwardRef, useEffect } from "react"
+import Snackbar from "@mui/material/Snackbar"
+import MuiAlert from "@mui/material/Alert"
 
 const Alert = forwardRef((props, ref) => (
   <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 ));
 
 const AlertBar = ({ message, setAlertMessage, snackType, handleSnackType }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true)
 
   useEffect(() => {
-    setOpen(false);
-  }, [message]);
+    if (message) {
+      setOpen(true)
+    }
+  }, [message])
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
-      return;
+      return
     }
-    setOpen(false);
-    setAlertMessage(null);
-    handleSnackType("");
+    setOpen(false)
+    setAlertMessage(null)
+    handleSnackType("")
   };
 
   return (

@@ -1,30 +1,28 @@
-import { useContext, useEffect, useState } from 'react';
-import MenuBar from './MenuBar';
-import { AuthContext } from './AuthProvider';
-import { Icon, Table, Button, Image } from 'semantic-ui-react';
-import Badge from '@mui/material/Badge';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useContext, useEffect, useState } from 'react'
+import MenuBar from './MenuBar'
+import { AuthContext } from './AuthProvider'
+import { Icon, Table, Button, Image } from 'semantic-ui-react'
 
 function Profile() {
-  const { user } = useContext(AuthContext);
-  const [transactions, setTransactions] = useState([]);
+  const { user } = useContext(AuthContext)
+  const [transactions, setTransactions] = useState([])
 
   function formattedDate(date) {
     return new Date(date).toLocaleDateString('en-US', {
       year: '2-digit',
       month: '2-digit',
       day: '2-digit',
-    });
+    })
   }
 
   useEffect(() => {
     fetch(`/users/${user.id}/transactions`)
       .then(res => res.json())
       .then(data => {
-        setTransactions(data);
+        setTransactions(data)
       })
-      .catch(err => console.log(err));
-  }, [user.id]);
+      .catch(err => console.log(err))
+  }, [user.id])
 
   const mappedTransactions = () => {
     return transactions.map(transaction => (
@@ -45,8 +43,8 @@ function Profile() {
           ${transaction.amount_paid}
         </Table.Cell>
       </Table.Row>
-    ));
-  };
+    ))
+  }
 
   return (
     <div className='profile'>
@@ -128,7 +126,7 @@ function Profile() {
       <br />
       <br />
     </div>
-  );
+  )
 }
 
-export default Profile;
+export default Profile
