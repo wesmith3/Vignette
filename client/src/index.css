@@ -112,9 +112,8 @@
     /* background-color: black; */
   }
 
-  .loading{
-    background-color: black !important;
-    color: white !important;
-    /* width: 100% !important;
-    height: 100% !important; */
+  .load-phrase{
+    /* font-size: 100% !important; */
+    font-family: cursive !important;
+    text-align: center !important;
   }

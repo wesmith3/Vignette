@@ -1,17 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Transition, Divider } from 'semantic-ui-react';
+import Box from '@mui/material/Box';
+import Fade from '@mui/material/Fade';
+import Divider from '@mui/material/Divider';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthProvider';
 
 const Loading = ({ onLoad }) => {
   const navigate = useNavigate();
   const { setArtworks, setUsers } = useContext(AuthContext);
-  const [section, setSection] = useState(0);
+  const [sectionIndex, setSectionIndex] = useState(0);
   const [visible, setVisible] = useState(true);
   const sections = [
-    'Welcome!',
-    'Vignette: noun',
-    'a brief evocative description, account, or episode.',
+    'Welcome to <span style="color: #85144b;">Vignette</span>!',
+    'Your <span style="color: #85144b;">Brushstroke</span> in the Digital Gallery of <span style="color: #85144b;">Expression</span>',
+    '<span style="color: #85144b;">Vignette</span> (noun): a brief evocative description, account, or episode.'
   ];
 
   function shuffleArray(array) {
@@ -22,62 +24,80 @@ const Loading = ({ onLoad }) => {
     return array;
   }
 
+  const calculateTotalDuration = () => {
+    const displayTime = 750; 
+    return sections.length * displayTime;
+  };
+
   useEffect(() => {
     const fetchDataAndNavigate = async () => {
       try {
-        // Fetch artworks
         const artworksResponse = await fetch('/artworks');
         const artworkData = await artworksResponse.json();
 
-        // Fetch users
         const usersResponse = await fetch('/users');
         const userData = await usersResponse.json();
 
-        // Set data in AuthProvider context
         setArtworks(shuffleArray(artworkData));
         onLoad(shuffleArray(artworkData));
         setUsers(userData);
 
-        // Wait for 5 seconds (5000 milliseconds)
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        await new Promise((resolve) => setTimeout(resolve, calculateTotalDuration()));
 
-        // Navigate to Home.js
         navigate('/home');
       } catch (error) {
         console.error('Error fetching data:', error);
-        // Handle error, e.g., redirect to an error page
       }
     };
 
+    let shuffledSections = shuffleArray(sections);
+    let currentIndex = 0;
+
+    setVisible(false);
+    setTimeout(() => {
+      setSectionIndex(currentIndex);
+      setVisible(true);
+      currentIndex++;
+    }, 750);
+
     const interval = setInterval(() => {
       setVisible(false);
-      setSection((prevSection) => (prevSection + 1) % sections.length);
+
       setTimeout(() => {
+        setSectionIndex(currentIndex);
         setVisible(true);
-      }, 500); // Duration of the Transition animation
-    }, 1500); // Duration for each section
 
-    // Clear the interval after 5 seconds
-    setTimeout(() => {
-      clearInterval(interval);
-      fetchDataAndNavigate(); // Call fetchDataAndNavigate after the loading phrases are displayed
-    }, 5000);
+        currentIndex++;
 
-    // Clean up the interval on component unmount
+        if (currentIndex === shuffledSections.length) {
+          clearInterval(interval);
+          setTimeout(fetchDataAndNavigate, calculateTotalDuration());
+        }
+      }, 500);
+    }, calculateTotalDuration() + 500);
+
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div>
-      <Transition visible={visible} animation='scale' duration={500}>
-        <div>
-          <h1>{sections[section]}</h1>
-        </div>
-      </Transition>
-      <Divider hidden />
-    </div>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        backgroundColor: 'black',
+        color: 'white',
+        fontSize: '75px',
+        lineHeight: 1.5,
+      }}
+    >
+      <Fade in={visible} timeout={250}>
+        <div className='load-phrase' dangerouslySetInnerHTML={{ __html: sections[sectionIndex] }} />
+      </Fade>
+      <Divider sx={{ width: '20px' }} />
+    </Box>
   );
 };
 
 export default Loading;
-

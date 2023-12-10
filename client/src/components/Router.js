@@ -11,11 +11,20 @@ import MyGallery from "./MyGallery";
 import Loading from "./Loading";
 
 function Router() {
-  const { login, setArtworks, setUsers } = useContext(AuthContext);
+  const { login, setArtworks, setUsers, setUser } = useContext(AuthContext);
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+          <Profile 
+              onLoad={(editedUser) => {
+              setUser(editedUser)
+          }}
+            />
+          }
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/search" element={<Search />} />
         <Route 

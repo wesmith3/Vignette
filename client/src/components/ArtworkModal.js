@@ -71,7 +71,7 @@ function ArtworkModal({ onClose, artwork }) {
             />
             <Button color='blue' icon labelPosition='left' onClick={() => setShowComments(!showComments)}>
               <Icon name='comment' />
-              {showComments ? 'Hide Comments' : 'Show Comments'}
+              {showComments ? 'Hide Comments' : `Comments (${artwork.comments.length})`}
             </Button>
             <Button color='black' icon floated='right' labelPosition='left'>
               <Icon name='cart' />
@@ -83,27 +83,27 @@ function ArtworkModal({ onClose, artwork }) {
                   Comments
                 </Header>
                 {artwork.comments.map((comment) => {
-            const commentUser = users.find((u) => u.id === comment.user_id);
+                  const commentUser = users.find((u) => u.id === comment.user_id);
 
-            return (
-              <Comment key={comment.id}>
-                <Comment.Avatar src={commentUser ? commentUser.profile_image : ''} />
-                <Comment.Content>
-                  <Comment.Author as='a'>@{commentUser ? commentUser.username : 'Unknown User'}</Comment.Author>
-                  <Comment.Metadata>
-                    <div>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</div>
-                  </Comment.Metadata>
-                  <Comment.Text>{comment.content}</Comment.Text>
-                  <Comment.Actions>
-                    <Comment.Action>Reply</Comment.Action>
-                  </Comment.Actions>
-                </Comment.Content>
-              </Comment>
-            );
-          })}
+                  return (
+                    <Comment key={comment.id}>
+                      <Comment.Avatar src={commentUser ? commentUser.profile_image : ''} />
+                      <Comment.Content>
+                        <Comment.Author as='a'>@{commentUser ? commentUser.username : 'Unknown User'}</Comment.Author>
+                        <Comment.Metadata>
+                          <div>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</div>
+                        </Comment.Metadata>
+                        <Comment.Text>{comment.content}</Comment.Text>
+                        <Comment.Actions>
+                          <Comment.Action>Reply</Comment.Action>
+                        </Comment.Actions>
+                      </Comment.Content>
+                    </Comment>
+                  );
+                })}
                 <Form reply>
-                  <Form.TextArea rows={2} />
-                  <Button content='Add Reply' labelPosition='left' icon='edit' primary />
+                  <Form.TextArea style={{ maxHeight: '40px' }} />
+                  <Button content='Add Comment' labelPosition='left' size='small' icon='edit' primary />
                 </Form>
               </Comment.Group>
             )}
@@ -111,7 +111,7 @@ function ArtworkModal({ onClose, artwork }) {
         </Card>
       </Modal.Content>
     </Modal>
-  )
+  );
 }
 
 export default ArtworkModal
