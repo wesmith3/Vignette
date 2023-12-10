@@ -38,10 +38,10 @@ function Login({ onLogin }) {
           const userData = await response.json()
           onLogin(userData)
           login(userData)
-          navigate('/home')
+          navigate('/loading')
         } else {
           const errorData = await response.json()
-          console.error('Error from server:', errorData) // Log the error data
+          console.error('Error from server:', errorData)
           setAlertMessage(errorData.message || 'Invalid user credentials.')
           setSnackType('error')
         }

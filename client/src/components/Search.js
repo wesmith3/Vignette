@@ -9,7 +9,6 @@ import MenuBar from './MenuBar';
 function Search() {
   const { artworks } = useContext(AuthContext);
 
-  console.log(artworks)
 
   return (
     <>

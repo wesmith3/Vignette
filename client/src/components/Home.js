@@ -1,16 +1,14 @@
 import Box from '@mui/material/Box'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
-import { useEffect, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { AuthContext } from './AuthProvider'
 import MenuBar from './MenuBar'
 import ArtworkModal from './ArtworkModal'
 
-function Home({ onLoad }) {
-  const { setArtworks, artworks } = useContext(AuthContext)
-  const [ darkMode, isDarkMode ] = useState(false)
+function Home() {
+  const { artworks } = useContext(AuthContext);
   const [selectedArtworkId, setSelectedArtworkId] = useState(null)
-
 
   
   const openModal = (artworkId) => {
@@ -20,24 +18,6 @@ function Home({ onLoad }) {
   const closeModal = () => {
     setSelectedArtworkId(null);
   }
-
-  function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  }
-  
-  useEffect(() => {
-    fetch('/artworks')
-      .then(res => res.json())
-      .then(artworkData => {
-        setArtworks(shuffleArray(artworkData))
-        onLoad(shuffleArray(artworkData))
-      })
-      .catch(err => console.log(err))
-  }, [])
 
   return (
     <>

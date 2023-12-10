@@ -1,17 +1,24 @@
-import React, { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Image, Modal, Grid, Card, Button, Icon, Comment, Form, Header } from 'semantic-ui-react'
 import { AuthContext } from './AuthProvider'
 import { formatDistanceToNow } from 'date-fns'
 
 function ArtworkModal({ onClose, artwork }) {
-  const { user } = useContext(AuthContext)
+  const { user, users } = useContext(AuthContext)
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(artwork.likes.length)
   const [showComments, setShowComments] = useState(false)
 
+  useEffect(() => {
+    // Check if the current user's ID is in the likes array
+    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
+      setLiked(true);
+    }
+  }, [user, artwork.likes]);
+
   const handleLike = () => {
-    const likeEndpoint = `/artworks/${artwork.id}/likes`
-    const method = liked ? 'DELETE' : 'POST'
+    const likeEndpoint = `/artworks/${artwork.id}/likes`;
+    const method = liked ? 'DELETE' : 'POST';
 
     fetch(likeEndpoint, {
       method: method,
@@ -22,19 +29,19 @@ function ArtworkModal({ onClose, artwork }) {
     })
       .then((response) => {
         if (response.ok) {
-          setLiked(!liked)
-          setLikeCount((count) => (liked ? count - 1 : count + 1))
+          setLiked(!liked);
+          setLikeCount((count) => (liked ? count - 1 : count + 1));
         } else {
-          console.error('Error liking/unliking artwork')
+          console.error('Error liking/unliking artwork');
         }
       })
       .catch((error) => {
-        console.error('Fetch error:', error)
-      })
-  }
+        console.error('Fetch error:', error);
+      });
+  };
 
   return (
-    <Modal onClose={onClose} open={true} className='artwork-modal' size='small' dimmer='true'>
+    <Modal onClose={onClose} open={true} className='artwork-modal' size='small' dimmer='blurring'>
       <Modal.Content>
         <Card fluid>
           <Image src={artwork.image} wrapped ui={false} />
@@ -75,21 +82,25 @@ function ArtworkModal({ onClose, artwork }) {
                 <Header as='h3' dividing>
                   Comments
                 </Header>
-                {artwork.comments.map((comment) => (
-                  <Comment key={comment.id}>
-                    {/* <Comment.Avatar src={comment.user.profile_image} /> */}
-                    <Comment.Content>
-                      {/* <Comment.Author as='a'>{comment.user.username}</Comment.Author> */}
-                      <Comment.Metadata>
-                        <div>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</div>
-                      </Comment.Metadata>
-                      <Comment.Text>{comment.content}</Comment.Text>
-                      <Comment.Actions>
-                        <Comment.Action>Reply</Comment.Action>
-                      </Comment.Actions>
-                    </Comment.Content>
-                  </Comment>
-                ))}
+                {artwork.comments.map((comment) => {
+            const commentUser = users.find((u) => u.id === comment.user_id);
+
+            return (
+              <Comment key={comment.id}>
+                <Comment.Avatar src={commentUser ? commentUser.profile_image : ''} />
+                <Comment.Content>
+                  <Comment.Author as='a'>@{commentUser ? commentUser.username : 'Unknown User'}</Comment.Author>
+                  <Comment.Metadata>
+                    <div>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</div>
+                  </Comment.Metadata>
+                  <Comment.Text>{comment.content}</Comment.Text>
+                  <Comment.Actions>
+                    <Comment.Action>Reply</Comment.Action>
+                  </Comment.Actions>
+                </Comment.Content>
+              </Comment>
+            );
+          })}
                 <Form reply>
                   <Form.TextArea rows={2} />
                   <Button content='Add Reply' labelPosition='left' icon='edit' primary />
