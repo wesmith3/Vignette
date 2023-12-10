@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
 import { Formik } from 'formik'
 import * as yup from 'yup'
-import AlertBar from './AlertBar'
+import AlertBar from './Helpers/AlertBar'
 
 function SignUp() {
   const navigate = useNavigate()

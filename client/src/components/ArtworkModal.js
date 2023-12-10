@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react'
 import { Image, Modal, Grid, Card, Button, Icon, Comment, Form, Header } from 'semantic-ui-react'
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from './Helpers/AuthProvider'
 import { formatDistanceToNow } from 'date-fns'
 
 function ArtworkModal({ onClose, artwork }) {

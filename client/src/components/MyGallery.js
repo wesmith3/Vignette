@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 import MenuBar from './MenuBar'
 import ArtistModal from './ArtistModal'
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from './Helpers/AuthProvider'
 
 
 const MyGallery = () => {

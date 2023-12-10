@@ -1,6 +1,6 @@
 import { useContext, useState }from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from './Helpers/AuthProvider'
 import AppBar from '@mui/material/AppBar'
 import Drawer from '@mui/material/Drawer'
 import List from '@mui/material/List'

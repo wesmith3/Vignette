@@ -2,12 +2,12 @@ import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./AuthProvider";
 import Error from "./Error";
-import Login from "./Login";
-import Profile from "./Profile";
-import Signup from "./SignUp";
-import Search from "./Search";
-import Home from "./Home";
-import MyGallery from "./MyGallery";
+import Login from "../Login";
+import Profile from '../Profile/Profile'
+import Signup from "../SignUp";
+import Search from "../Search";
+import Home from "../Home";
+import MyGallery from "../MyGallery";
 import Loading from "./Loading";
 
 function Router() {
@@ -54,7 +54,7 @@ function Router() {
           path="/"
           element={<Login onLogin={(userData) => login(userData)} />}
         />
-        {/* <Route path="" element={<Error />} /> */}
+        <Route path="*" element={<Error />} />
       </Routes>
     </AuthProvider>
   );
