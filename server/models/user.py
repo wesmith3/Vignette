@@ -38,10 +38,10 @@ class User(db.Model, SerializerMixin):
         cascade="all, delete-orphan",
     )
     buyer_transactions = db.relationship(
-        "Transaction", foreign_keys="Transaction.buyer_id", back_populates="buyer"
+        "Transaction", foreign_keys="Transaction.buyer_id", back_populates="buyer", cascade="all, delete-orphan"
     )
     seller_transactions = db.relationship(
-        "Transaction", foreign_keys="Transaction.seller_id", back_populates="seller"
+        "Transaction", foreign_keys="Transaction.seller_id", back_populates="seller", cascade="all, delete-orphan"
     )
     # Serialization
     serialize_only = (

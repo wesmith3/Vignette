@@ -1,20 +1,20 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Image, Modal, Card, Button, Icon, Comment, Form, Header } from 'semantic-ui-react';
-import { AuthContext } from './Helpers/AuthProvider';
-import { formatDistanceToNow } from 'date-fns';
+import { useState, useContext, useEffect } from 'react'
+import { Image, Modal, Card, Button, Icon } from 'semantic-ui-react'
+import { AuthContext } from './Helpers/AuthProvider'
+import CommentSection from './CommentSection'
 
 function ArtworkModal({ onClose, artwork, onDelete }) {
-  const { user, users } = useContext(AuthContext);
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(artwork.likes.length);
-  const [showComments, setShowComments] = useState(false);
-  const isCurrentUserOwner = user && artwork.user_id === user.id;
+  const { user, users } = useContext(AuthContext)
+  const [liked, setLiked] = useState(false)
+  const [likeCount, setLikeCount] = useState(artwork.likes.length)
+  const [showComments, setShowComments] = useState(false)
+  const isCurrentUserOwner = user && artwork.user_id === user.id
 
   useEffect(() => {
     if (user && artwork.likes.some((like) => like.user_id === user.id)) {
-      setLiked(true);
+      setLiked(true)
     }
-  }, [user, artwork.likes]);
+  }, [user, artwork.likes])
 
   const handleDelete = async () => {
     try {
@@ -23,22 +23,22 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
         headers: {
           'Content-Type': 'application/json',
         },
-      });
+      })
 
       if (response.ok) {
-        onClose();
-        onDelete(artwork.id);
+        onClose()
+        onDelete(artwork.id)
       } else {
-        console.error('Error deleting artwork');
+        console.error('Error deleting artwork')
       }
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error('Fetch error:', error)
     }
-  };
+  }
 
   const handleLike = async () => {
-    const likeEndpoint = `/artworks/${artwork.id}/likes`;
-    const method = liked ? 'DELETE' : 'POST';
+    const likeEndpoint = `/artworks/${artwork.id}/likes`
+    const method = liked ? 'DELETE' : 'POST'
 
     try {
       const response = await fetch(likeEndpoint, {
@@ -47,51 +47,18 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ user_id: user.id }),
-      });
+      })
 
       if (response.ok) {
-        setLiked(!liked);
-        setLikeCount((count) => (liked ? count - 1 : count + 1));
+        setLiked(!liked)
+        setLikeCount((count) => (liked ? count - 1 : count + 1))
       } else {
-        console.error('Error liking/unliking artwork');
+        console.error('Error liking/unliking artwork')
       }
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error('Fetch error:', error)
     }
-  };
-
-  const renderComments = () => {
-    return (
-      <Comment.Group>
-        <Header as='h3' dividing>
-          Comments
-        </Header>
-        {artwork.comments.map((comment) => {
-          const commentUser = users.find((u) => u.id === comment.user_id);
-
-          return (
-            <Comment key={comment.id}>
-              <Comment.Avatar src={commentUser ? commentUser.profile_image : ''} />
-              <Comment.Content>
-                <Comment.Author as='a'>@{commentUser ? commentUser.username : 'Unknown User'}</Comment.Author>
-                <Comment.Metadata>
-                  <div>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</div>
-                </Comment.Metadata>
-                <Comment.Text>{comment.content}</Comment.Text>
-                <Comment.Actions>
-                  <Comment.Action>Reply</Comment.Action>
-                </Comment.Actions>
-              </Comment.Content>
-            </Comment>
-          );
-        })}
-        <Form reply>
-          <Form.TextArea style={{ maxHeight: '40px' }} />
-          <Button content='Add Comment' labelPosition='left' size='small' icon='edit' primary />
-        </Form>
-      </Comment.Group>
-    );
-  };
+  }
 
   return (
     <Modal onClose={onClose} open={true} className='artwork-modal' size='small' dimmer='blurring'>
@@ -136,13 +103,13 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
                 Delete Artwork
               </Button>
             )}
-            {showComments && renderComments()}
+            {showComments && <CommentSection artwork={artwork} users={users} />}
           </Card.Content>
         </Card>
       </Modal.Content>
     </Modal>
-  );
+  )
 }
 
-export default ArtworkModal;
+export default ArtworkModal
 

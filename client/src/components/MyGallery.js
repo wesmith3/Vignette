@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Button, Popup } from 'semantic-ui-react';
 import MenuBar from './MenuBar';
 import Gallery from './Gallery';

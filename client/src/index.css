@@ -106,6 +106,12 @@
     /* background-color: black; */
   }
 
+  .delete-btn {
+    width: 90% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .load-phrase{
     /* font-size: 100% !important; */
     font-family: cursive !important;

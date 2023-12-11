@@ -34,12 +34,12 @@ function Search() {
               // borderRadius: '25px',
               '& input': {
                 color: 'white',
-                border: 'none', // Remove the border
-                outline: 'none', // Remove the outline
+                border: 'none',
+                outline: 'none',
               },
               '& input:focus': {
-                border: 'none', // Remove the border on focus
-                outline: 'none', // Remove the outline on focus
+                border: 'none',
+                outline: 'none',
               },
             }}
           />

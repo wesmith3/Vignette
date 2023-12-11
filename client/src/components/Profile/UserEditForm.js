@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Table, Input, Button } from 'semantic-ui-react'
 
-function UserEditForm({ user }) {
+function UserEditForm({ user, setUser }) {
   const [editMode, setEditMode] = useState(false)
   const [editedUser, setEditedUser] = useState({ ...user })
 
@@ -19,7 +19,7 @@ function UserEditForm({ user }) {
 
   const handleSaveClick = async () => {
     try {
-      const { id, created_at, ...updatedUserData } = editedUser
+      const { id, created_at, ...updatedUserData } = editedUser;
 
       const response = await fetch(`/users/${user.id}`, {
         method: 'PATCH',
@@ -27,17 +27,18 @@ function UserEditForm({ user }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(updatedUserData),
-      })
+      });
 
       if (response.ok) {
+        setUser(editedUser)
         setEditMode(false)
       } else {
-        console.error('Update unsuccessful')
+        console.error('Update unsuccessful');
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const handleCancelClick = () => {
     setEditMode(false)
