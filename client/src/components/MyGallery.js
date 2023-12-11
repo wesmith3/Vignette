@@ -1,18 +1,19 @@
-import * as React from 'react'
-import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList'
-import ImageListItem from '@mui/material/ImageListItem'
-import { useContext, useEffect, useState } from 'react'
-import { Button, Popup } from 'semantic-ui-react'
-import MenuBar from './MenuBar'
-import ArtistModal from './ArtistModal'
-import { AuthContext } from './Helpers/AuthProvider'
-
+import React, { useState, useContext, useEffect } from 'react';
+import { Button, Popup } from 'semantic-ui-react';
+import MenuBar from './MenuBar';
+import Gallery from './Gallery';
+import ArtistModal from './ArtistModal';
+import { AuthContext } from './Helpers/AuthProvider';
+import ArtworkForm from './ArtworkForm';
+import AlertBar from './Helpers/AlertBar';
 
 const MyGallery = () => {
-  const { user } = useContext(AuthContext)
-  const [artworks, setArtworks] = useState([])
+  const { user, setArtworks } = useContext(AuthContext);
+  const [artworks, setArtworksLocal] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [snackType, setSnackType] = useState('');
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -22,54 +23,118 @@ const MyGallery = () => {
     setIsModalOpen(false);
   };
 
+  const handleDelete = (artworkId) => {
+    const deleteEndpoint = `/artworks/${artworkId}`;
+  
+    fetch(deleteEndpoint, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          setArtworksLocal((prevArtworks) => prevArtworks.filter((artwork) => artwork.id !== artworkId));
+          setSnackType('success');
+          setAlertMessage('Artwork deleted successfully');
+      
+          // Log the updated state
+          console.log('Updated Artworks State:', artworks);
+        } else {
+          console.error('Error deleting artwork');
+          setSnackType('error');
+          setAlertMessage('Error deleting artwork');
+        }
+      })
+      .catch((error) => {
+        console.error('Fetch error:', error);
+        setSnackType('error');
+        setAlertMessage('Error deleting artwork');
+      });
+  };
+
+  const handleArtworkSubmit = (values) => {
+    const tagsArray = values.tags.split(',').map(tag => tag.trim());
+  
+    fetch(`/users/${user.id}/artworks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...values, tags: tagsArray }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Error submitting artwork');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setArtworksLocal((prevArtworks) => [...prevArtworks, data]);
+        setIsFormVisible(false);
+        setSnackType('success');
+        setAlertMessage('Artwork created successfully');
+      })
+      .catch((error) => {
+        setSnackType('error');
+        setAlertMessage(error.message);
+      });
+  };
+
   useEffect(() => {
     fetch(`/users/${user.id}/artworks`)
-      .then(res => res.json())
-      .then(data => {
-        setArtworks(data)
+      .then((res) => res.json())
+      .then((data) => {
+        setArtworksLocal(data);
       })
-      .catch(err => console.log(err))
-  }, [user.id])
-
+      .catch((err) => console.log(err));
+  }, [user.id, isFormVisible]);
 
   return (
     <>
       <MenuBar />
       <br />
-        <Popup 
+      <Popup
         content='Add New Artwork'
         position='left center'
         trigger={
-          <Button className='add-artwork-btn'
-          color='black'
-          icon='add'
-          circular
-          floated='right'/>
-          } 
-        />
+          <Button
+            className='add-artwork-btn'
+            color='black'
+            icon='add'
+            circular
+            floated='right'
+            onClick={() => setIsFormVisible(true)}
+          />
+        }
+      />
+      {isFormVisible && (
+        <>
+          <ArtworkForm onSubmit={handleArtworkSubmit} onCancel={() => setIsFormVisible(false)} />
+          <AlertBar
+            message={alertMessage}
+            setAlertMessage={setAlertMessage}
+            snackType={snackType}
+            handleSnackType={setSnackType}
+          />
+        </>
+      )}
       <div className='artist-plaque' onClick={openModal}>
         <div className='carved-text'>
-        {user.full_name}
-        <br />
-        @{user.username}
-        {isModalOpen && <ArtistModal user={user} onClose={closeModal} />}
+          {user.full_name}
+          <br />
+          @{user.username}
+          {isModalOpen && <ArtistModal user={user} onClose={closeModal} />}
         </div>
       </div>
       <br />
       <div>
-        <Box sx={{ width: '100%' }}>
-          <ImageList variant="woven" cols={3} gap={0}>
-            {artworks.map((artwork) => (
-              <ImageListItem key={artwork.id} sx={{ margin: 5 }}>
-                <img className='artwork' src={artwork.image} alt={artwork.title} loading="lazy" />
-              </ImageListItem>
-            ))}
-          </ImageList>
-        </Box>
+        <br />
+        <Gallery artworks={artworks} onDelete={handleDelete} />
         <br />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default MyGallery
+export default MyGallery;

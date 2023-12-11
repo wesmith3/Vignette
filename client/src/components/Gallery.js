@@ -14,6 +14,8 @@ function Gallery({ artworks }) {
       const closeModal = () => {
         setSelectedArtworkId(null);
       }
+
+      
     
   return (
     <Box sx={{ width: '100%' }}>
