@@ -4,7 +4,7 @@ import ImageListItem from '@mui/material/ImageListItem'
 import { useState } from 'react'
 import ArtworkModal from './ArtworkModal'
 
-function Gallery({ artworks }) {
+function Gallery({ artworks, onDelete }) {
     const [selectedArtworkId, setSelectedArtworkId] = useState(null)
 
     const openModal = (artworkId) => {
@@ -30,7 +30,7 @@ function Gallery({ artworks }) {
                   onClick={() => openModal(artwork.id)}
                 />
                 {selectedArtworkId === artwork.id && (
-                  <ArtworkModal artwork={artwork} onClose={closeModal} />
+                  <ArtworkModal artwork={artwork} onClose={closeModal} onDelete={onDelete} />
                 )}
               </ImageListItem>
             ))}

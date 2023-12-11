@@ -11,6 +11,7 @@ const MyGallery = () => {
   const { user, setArtworks } = useContext(AuthContext);
   const [artworks, setArtworksLocal] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [snackType, setSnackType] = useState('');
@@ -34,22 +35,21 @@ const MyGallery = () => {
     })
       .then((response) => {
         if (response.ok) {
-          setArtworksLocal((prevArtworks) => prevArtworks.filter((artwork) => artwork.id !== artworkId));
+          setArtworks((prevArtworks) =>
+            prevArtworks.filter((artwork) => artwork.id !== artworkId)
+          );
           setSnackType('success');
           setAlertMessage('Artwork deleted successfully');
-      
-          // Log the updated state
-          console.log('Updated Artworks State:', artworks);
         } else {
-          console.error('Error deleting artwork');
-          setSnackType('error');
           setAlertMessage('Error deleting artwork');
         }
       })
       .catch((error) => {
-        console.error('Fetch error:', error);
         setSnackType('error');
         setAlertMessage('Error deleting artwork');
+      })
+      .finally(() => {
+        setIsDeleting(true);
       });
   };
 
@@ -85,10 +85,12 @@ const MyGallery = () => {
     fetch(`/users/${user.id}/artworks`)
       .then((res) => res.json())
       .then((data) => {
-        setArtworksLocal(data);
+        setArtworksLocal(data)
+        setIsDeleting(false)
       })
       .catch((err) => console.log(err));
-  }, [user.id, isFormVisible]);
+  }, [user.id, isFormVisible, isDeleting]);
+
 
   return (
     <>
@@ -111,14 +113,14 @@ const MyGallery = () => {
       {isFormVisible && (
         <>
           <ArtworkForm onSubmit={handleArtworkSubmit} onCancel={() => setIsFormVisible(false)} />
-          <AlertBar
-            message={alertMessage}
-            setAlertMessage={setAlertMessage}
-            snackType={snackType}
-            handleSnackType={setSnackType}
-          />
         </>
       )}
+        <AlertBar
+          message={alertMessage}
+          setAlertMessage={setAlertMessage}
+          snackType={snackType}
+          handleSnackType={setSnackType}
+        />
       <div className='artist-plaque' onClick={openModal}>
         <div className='carved-text'>
           {user.full_name}

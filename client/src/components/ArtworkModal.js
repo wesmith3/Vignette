@@ -1,44 +1,36 @@
-import { useState, useContext, useEffect } from 'react'
-import { Image, Modal, Card, Button, Icon } from 'semantic-ui-react'
-import { AuthContext } from './Helpers/AuthProvider'
-import CommentSection from './CommentSection'
+import { useState, useContext, useEffect } from 'react';
+import { Image, Modal, Card, Button, Icon } from 'semantic-ui-react';
+import { AuthContext } from './Helpers/AuthProvider';
+import CommentSection from './CommentSection';
 
 function ArtworkModal({ onClose, artwork, onDelete }) {
-  const { user, users } = useContext(AuthContext)
-  const [liked, setLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(artwork.likes.length)
-  const [showComments, setShowComments] = useState(false)
-  const isCurrentUserOwner = user && artwork.user_id === user.id
-
-  useEffect(() => {
-    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
-      setLiked(true)
-    }
-  }, [user, artwork.likes])
+  const { user, users } = useContext(AuthContext);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(artwork.likes.length);
+  const [showComments, setShowComments] = useState(false);
+  const isCurrentUserOwner = user && artwork.user_id === user.id;
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`/artworks/${artwork.id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
+      // Call the onDelete function passed from the parent
+      onClose();
+      onDelete(artwork.id);
 
-      if (response.ok) {
-        onClose()
-        onDelete(artwork.id)
-      } else {
-        console.error('Error deleting artwork')
-      }
+      // Additional delete logic can be handled in MyGallery if needed
     } catch (error) {
-      console.error('Fetch error:', error)
+      console.error('Error deleting artwork from modal:', error);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
+      setLiked(true);
+    }
+  }, [user, artwork.likes]);
 
   const handleLike = async () => {
-    const likeEndpoint = `/artworks/${artwork.id}/likes`
-    const method = liked ? 'DELETE' : 'POST'
+    const likeEndpoint = `/artworks/${artwork.id}/likes`;
+    const method = liked ? 'DELETE' : 'POST';
 
     try {
       const response = await fetch(likeEndpoint, {
@@ -47,18 +39,18 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ user_id: user.id }),
-      })
+      });
 
       if (response.ok) {
-        setLiked(!liked)
-        setLikeCount((count) => (liked ? count - 1 : count + 1))
+        setLiked(!liked);
+        setLikeCount((count) => (liked ? count - 1 : count + 1));
       } else {
-        console.error('Error liking/unliking artwork')
+        console.error('Error liking/unliking artwork');
       }
     } catch (error) {
-      console.error('Fetch error:', error)
+      console.error('Fetch error:', error);
     }
-  }
+  };
 
   return (
     <Modal onClose={onClose} open={true} className='artwork-modal' size='small' dimmer='blurring'>
@@ -108,8 +100,7 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
         </Card>
       </Modal.Content>
     </Modal>
-  )
+  );
 }
 
 export default ArtworkModal
-
