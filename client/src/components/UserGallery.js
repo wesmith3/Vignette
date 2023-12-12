@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import MenuBar from './MenuBar';
+import MenuBar from './Helpers/MenuBar';
 import Gallery from './Gallery';
 import ArtistModal from './ArtistModal';
 

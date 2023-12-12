@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import TextField from '@mui/material/TextField';
-import MenuBar from './MenuBar';
+import MenuBar from './Helpers/MenuBar';
 import Gallery from './Gallery';
 
 function Search() {

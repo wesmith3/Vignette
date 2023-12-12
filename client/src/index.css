@@ -41,6 +41,25 @@
   transition: transform 0.3s ease-in-out;
 }
 
+.menu-item:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+  color: #85144b ;
+}
+
+.checkout-btn:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+  background-color: #85144b !important;
+  color: white !important;
+}
+
+.cart-btn:hover {
+  transform: scale(1.05) !important;
+  transition: transform 0.3s ease-in-out !important;
+  color: #85144b !important;
+}
+
 .carved-text {
   font-size: 16px;
   font-family: 'Arial', sans-serif;
@@ -55,7 +74,6 @@
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
 }
-
 
 .app-bar-logo {
   align-items: center !important;
@@ -116,4 +134,13 @@
     /* font-size: 100% !important; */
     font-family: cursive !important;
     text-align: center !important;
+  }
+  .cart-header{
+    /* font-size: 100% !important; */
+    font-family: cursive !important;
+    text-align: center !important;
+    color: #85144b !important;
+  }
+  .total {
+    color: #85144b !important;
   }

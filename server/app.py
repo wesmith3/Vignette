@@ -6,6 +6,7 @@
 from flask import request, Flask, make_response, jsonify
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import or_
+import stripe
 from flask_restful import Resource
 from models.user import User
 from schemas.user_schema import UserSchema
@@ -662,6 +663,27 @@ class Refresh(Resource):
 api.add_resource(Refresh, "/refresh")
 
 # Views go here!
+
+@app.route('/api/checkout/<int:artwork_id>', methods=['POST'])
+def checkout(artwork_id):
+    artwork = Artwork.query.get(artwork_id)
+
+    token = request.json['stripeToken']
+
+    try:
+        charge = stripe.Charge.create(
+            amount=artwork.price * 100,
+            currency='usd',
+            description=artwork.title,
+            source=token,
+        )
+
+
+        return make_response({'message': 'Payment successful', 'artwork': artwork.title}), 200
+
+    except stripe.error.CardError as e:
+        return make_response({'error': str(e)}), 400
+
 
 @app.route('/')
 def index():

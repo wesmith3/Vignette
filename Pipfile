@@ -21,6 +21,8 @@ flask-bcrypt = "*"
 scikit-surprise = "*"
 numpy = "==1.19.5"
 implicit = "*"
+lightfm = "*"
+stripe = "*"
 
 [requires]
 python_full_version = "3.8.13"

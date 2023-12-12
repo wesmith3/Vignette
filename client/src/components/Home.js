@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { AuthContext } from './Helpers/AuthProvider'
-import MenuBar from './MenuBar'
+import MenuBar from './Helpers/MenuBar'
 import Gallery from './Gallery'
 import AlertBar from './Helpers/AlertBar'
 

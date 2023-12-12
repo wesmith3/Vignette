@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Image, Modal } from 'semantic-ui-react'
-import MenuBar from '../MenuBar'
+import MenuBar from '../Helpers/MenuBar'
 import { AuthContext } from '../Helpers/AuthProvider'
 import TransactionsTable from './TransactionsTable'
 import UserEditForm from './UserEditForm'

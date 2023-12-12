@@ -10,6 +10,7 @@ import Search from "../Search";
 import Home from "../Home";
 import MyGallery from "../MyGallery";
 import Loading from "./Loading";
+import Checkout from "../Transaction/Checkout"
 
 function Router() {
   const { login, setArtworks, setUsers, setUser } = useContext(AuthContext);
@@ -27,6 +28,7 @@ function Router() {
           }
         />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/profile/:username" element={<UserGallery />} />
         <Route path="/search" element={<Search />} />
         <Route 

@@ -148,8 +148,8 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
               {showComments ? 'Hide Comments' : `Comments (${artwork.comments.length})`}
             </Button>
             <Button color='black' icon floated='right' labelPosition='left'>
-              <Icon name='cart' />
-              Add to Cart
+              <Icon name='shopping bag' />
+              Get Yours!
             </Button>
             {isCurrentUserOwner && (
               <Button color='red' icon floated='right' labelPosition='left' onClick={handleDelete}>

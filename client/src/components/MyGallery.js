@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { Button, Popup } from 'semantic-ui-react';
-import MenuBar from './MenuBar';
+import MenuBar from './Helpers/MenuBar';
 import Gallery from './Gallery';
 import ArtistModal from './ArtistModal';
 import { AuthContext } from './Helpers/AuthProvider';
