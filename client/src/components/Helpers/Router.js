@@ -4,6 +4,7 @@ import { AuthProvider, AuthContext } from "./AuthProvider";
 import Error from "./Error";
 import Login from "../Login";
 import Profile from '../Profile/Profile'
+import UserGallery from '../UserGallery'
 import Signup from "../SignUp";
 import Search from "../Search";
 import Home from "../Home";
@@ -26,6 +27,7 @@ function Router() {
           }
         />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile/:username" element={<UserGallery />} />
         <Route path="/search" element={<Search />} />
         <Route 
           path="/loading"

@@ -1,11 +1,12 @@
-import React, { useState, useContext } from 'react'
-import { Comment, Header, Form, Button } from 'semantic-ui-react'
-import { formatDistanceToNow } from 'date-fns'
-import { AuthContext } from './Helpers/AuthProvider'
+import React, { useState, useContext } from 'react';
+import { Comment, Header, Form, Button } from 'semantic-ui-react';
+import { formatDistanceToNow } from 'date-fns';
+import { AuthContext } from './Helpers/AuthProvider';
 
-function CommentSection({ artwork, users, onUpdateComments }) {
-  const { user } = useContext(AuthContext)
-  const [newComment, setNewComment] = useState('')
+function CommentSection({ artwork, users }) {
+  const { user } = useContext(AuthContext);
+  const [comments, setComments] = useState(artwork.comments || []);
+  const [newComment, setNewComment] = useState('');
 
   const handleAddComment = async () => {
     try {
@@ -15,17 +16,17 @@ function CommentSection({ artwork, users, onUpdateComments }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ user_id: user.id, content: newComment }),
-      })
+      });
 
       if (response.ok) {
-        const updatedArtwork = await response.json()
-        onUpdateComments(updatedArtwork.comments)
-        setNewComment('')
+        const updatedArtwork = await response.json();
+        setComments(updatedArtwork.comments);
+        setNewComment('');
       } else {
-        console.error('Error adding comment')
+        console.error('Error adding comment');
       }
     } catch (error) {
-      console.error('Fetch error:', error)
+      console.error('Fetch error:', error);
     }
   }
 
@@ -36,16 +37,15 @@ function CommentSection({ artwork, users, onUpdateComments }) {
         headers: {
           'Content-Type': 'application/json',
         },
-      })
+      });
 
       if (response.ok) {
-        // Fetch updated artwork data or update state accordingly
-        onUpdateComments(artwork.comments.filter((comment) => comment.id !== commentId))
+        setComments(comments.filter((comment) => comment.id !== commentId));
       } else {
-        console.error('Error deleting comment')
+        console.error('Error deleting comment');
       }
     } catch (error) {
-      console.error('Fetch error:', error)
+      console.error('Fetch error:', error);
     }
   }
 
@@ -55,9 +55,9 @@ function CommentSection({ artwork, users, onUpdateComments }) {
         <Header as='h3' dividing>
           Comments
         </Header>
-        {artwork.comments.map((comment) => {
-          const commentUser = users.find((u) => u.id === comment.user_id)
-
+        {artwork.comments && artwork.comments.map((comment) => {
+          const commentUser = users.find((u) => u.id === comment.user_id);
+  
           return (
             <Comment key={comment.id}>
               <Comment.Avatar src={commentUser ? commentUser.profile_image : ''} />
@@ -74,7 +74,7 @@ function CommentSection({ artwork, users, onUpdateComments }) {
                 )}
               </Comment.Content>
             </Comment>
-          )
+          );
         })}
         <Form reply>
           <Form.TextArea
@@ -85,10 +85,11 @@ function CommentSection({ artwork, users, onUpdateComments }) {
           <Button content='Add Comment' labelPosition='left' size='small' icon='edit' primary onClick={handleAddComment} />
         </Form>
       </Comment.Group>
-    )
+    );
   }
+  
 
-  return <>{renderComments()}</>
+  return <>{renderComments()}</>;
 }
 
-export default CommentSection
+export default CommentSection;
