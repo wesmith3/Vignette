@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import AlertBar from './AlertBar'
-import { AuthContext } from './AuthProvider'
+import AlertBar from './Helpers/AlertBar'
+import { AuthContext } from './Helpers/AuthProvider'
 
 function Login({ onLogin }) {
   const navigate = useNavigate()

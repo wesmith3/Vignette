@@ -11,6 +11,11 @@
     box-shadow: 4px 8px 5px 5px grey !important;
 }
 
+.checkout {
+  box-shadow: 4px 8px 5px 5px grey !important;
+  font-family: monospace !important;
+}
+
 .search-bar {
   box-shadow: 4px 8px 2px 0 grey !important;
 }
@@ -29,7 +34,7 @@
   margin-left: auto;
   margin-right: auto;
 
-  color: #8C6C1F;
+  color: black;
   font-family: 'Arial', sans-serif;
   font-size: 16px;
   font-weight: bold;
@@ -41,12 +46,29 @@
   transition: transform 0.3s ease-in-out;
 }
 
+.menu-item:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+  color: #85144b ;
+}
+
+.checkout-btn:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+  background-color: #85144b !important;
+  color: white !important;
+}
+
+.cart-btn:hover {
+  transform: scale(1.05) !important;
+  transition: transform 0.3s ease-in-out !important;
+  color: #85144b !important;
+}
+
 .carved-text {
-  font-size: 16px; /* Adjust as needed */
+  font-size: 16px;
   font-family: 'Arial', sans-serif;
 
-  /* Carved text effect using text-shadow */
-  /* text-shadow: 2px 2px 2px #8C6C1F; */
 }
 
 .artist {
@@ -57,7 +79,6 @@
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
 }
-
 
 .app-bar-logo {
   align-items: center !important;
@@ -78,10 +99,6 @@
 
 .table-header {
   font-weight: bolder !important;
-  /* background-color: #FAF9F6 !important; */
-  /* border-color: black !important;
-  border-width: 2px !important;
-  color: black !important; */
 }
 
 .account-table {
@@ -112,9 +129,23 @@
     /* background-color: black; */
   }
 
-  .loading{
-    background-color: black !important;
-    color: white !important;
-    /* width: 100% !important;
-    height: 100% !important; */
+  .delete-btn {
+    width: 90% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .load-phrase{
+    /* font-size: 100% !important; */
+    font-family: cursive !important;
+    text-align: center !important;
+  }
+  .cart-header{
+    /* background-color: black; */
+    font-family: cursive !important;
+    text-align: center !important;
+    color: #85144b !important;
+  }
+  .total {
+    color: #85144b !important;
   }

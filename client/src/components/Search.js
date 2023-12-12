@@ -1,10 +1,11 @@
 import { useContext } from 'react'
-import { AuthContext } from './AuthProvider'
+import { AuthContext } from './Helpers/AuthProvider'
 import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import TextField from '@mui/material/TextField';
-import MenuBar from './MenuBar';
+import MenuBar from './Helpers/MenuBar';
+import Gallery from './Gallery';
 
 function Search() {
   const { artworks } = useContext(AuthContext);
@@ -33,12 +34,12 @@ function Search() {
               // borderRadius: '25px',
               '& input': {
                 color: 'white',
-                border: 'none', // Remove the border
-                outline: 'none', // Remove the outline
+                border: 'none',
+                outline: 'none',
               },
               '& input:focus': {
-                border: 'none', // Remove the border on focus
-                outline: 'none', // Remove the outline on focus
+                border: 'none',
+                outline: 'none',
               },
             }}
           />
@@ -47,18 +48,7 @@ function Search() {
           <br />
           <br />
           <br />
-          <div>
-            <Box sx={{ width: '100%' }}>
-              <ImageList variant="woven" cols={3} gap={0}>
-                {artworks.map((artwork) => (
-                  <ImageListItem key={artwork.id} sx={{ margin: 5 }}>
-                    <img className='artwork' src={artwork.image} alt={artwork.title} />
-                  </ImageListItem>
-                ))}
-              </ImageList>
-            </Box>
-            <br />
-          </div>
+          <Gallery artworks={artworks}/>
     </>
   );
 }

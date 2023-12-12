@@ -20,7 +20,7 @@ function ArtistModal({ onClose, user }) {
             <strong>Bio:</strong> {user.bio}
           </p>
           <p>
-            <strong>Based Out Of:</strong> {user.location}
+            <strong>Based In:</strong> {user.location}
           </p>
         </Modal.Description>
       </Modal.Content>

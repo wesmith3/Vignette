@@ -13,12 +13,14 @@ import Badge from '@mui/material/Badge'
 import MenuIcon from '@mui/icons-material/Menu'
 import Avatar from '@mui/material/Avatar'
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
+import ShoppingCartDrawer from '../Transaction/ShoppingCartDrawer'
 
 
 function MenuBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isCartOpen, setIsCartOpen] = useState(false)
   const navigate = useNavigate()
-  const { user } = useContext(AuthContext)
+  const { user, cart } = useContext(AuthContext)
 
   const handleSignOut = () => {
     fetch('/logout', {
@@ -45,7 +47,7 @@ function MenuBar() {
               edge="start"
               color="inherit"
               aria-label="open drawer"
-              onClick={() => setIsDrawerOpen(true)} // Open the drawer
+              onClick={() => setIsDrawerOpen(true)}
               sx={{ mr: 2 }}
             >
               <MenuIcon />
@@ -57,26 +59,14 @@ function MenuBar() {
             <IconButton
               size="large"
               color="inherit"
-            >
-              <Badge badgeContent={2} color="error">
+              onClick={() => setIsCartOpen(true)}
+              className='cart-btn'
+              >
+              <Badge badgeContent={cart.length} color="error">
                 <ShoppingBagIcon 
                 size="large"
                 />
               </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <Avatar 
-                alt={user.full_name}
-                src={user.profile_image} 
-                size="large"
-                />
             </IconButton>
           </Box>
         </Toolbar>
@@ -102,17 +92,17 @@ function MenuBar() {
           <List>
             <br />
             <br />
-            <ListItem button onClick={() => navigate('/home')}>
+            <ListItem className='menu-item' button onClick={() => navigate('/home')}>
               Home
             </ListItem>
             <br />
             <br />
-            <ListItem button onClick={() => navigate('/')}>
+            <ListItem className='menu-item' button onClick={() => navigate('/')}>
               Explore
             </ListItem>
             <br />
             <br />
-            <ListItem button onClick={() => navigate('/search')}>
+            <ListItem className='menu-item' button onClick={() => navigate('/search')}>
               Search
             </ListItem>
           </List>
@@ -124,17 +114,32 @@ function MenuBar() {
             fontSize: "25px"
           }}
           >
-            <ListItem button onClick={() => navigate("/my_gallery")}>
+            <ListItem className='menu-item' button onClick={() => navigate("/my_gallery")}>
               My Gallery
             </ListItem>
-            <ListItem button onClick={() => navigate("/profile")}>
+            <ListItem className='menu-item' button onClick={() => navigate("/profile")}>
               My Account
             </ListItem>
-            <ListItem button onClick={handleSignOut}>
+            <ListItem className='menu-item' button onClick={handleSignOut}>
               Sign Out
-            </ListItem>
+            <IconButton
+              size="small"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              color="inherit"
+              >
+              <Avatar 
+                alt={user.full_name}
+                src={user.profile_image} 
+                size="large"
+                />
+            </IconButton>
+                </ListItem>
           </List>
         </Drawer>
+      <ShoppingCartDrawer cart={cart} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
     </Box>
     </>
   );

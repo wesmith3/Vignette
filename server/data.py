@@ -124,6 +124,16 @@ def create_users():
     )
     a12.password= "password201"
     users.append(a12)
+    a13 = User(
+        full_name= "Willem Verbeeck",
+        username= "willemverb",
+        email= "willemverb@example.com",
+        bio= "LA based Photographer",
+        location= "Los Angeles, CA",
+        profile_image= "https://pbs.twimg.com/profile_images/1232390930034053120/Gu3Ce6OX_400x400.jpg"
+    )
+    a13.password= "password314"
+    users.append(a13)
     
     return users
 
@@ -608,5 +618,46 @@ def create_artworks():
         price=3700000.00,
         preview=True
     )
-    artworks.extend([a51,a52,a53,a54,a55,a56,a57,a58,a59])
+    a60 = Artwork(
+        user_id=13,
+        title="The House",
+        description="Taken on 35mm film.",
+        image="https://image.shopmoment.com/general/willem-verbeeck-gallery-01.jpg",
+        price=3700000.00,
+        preview=True
+    )
+    artworks.extend([a51,a52,a53,a54,a55,a56,a57,a58,a59,a60])
+    a61 = Artwork(
+        user_id=13,
+        title="The Still of the Night",
+        description="Taken on 35mm film.",
+        image="https://djwp.s3.amazonaws.com/wp-content/uploads/2022/02/25112503/THUMB_HEADER-38-1024x575.jpg",
+        price=3700000.00,
+        preview=True
+    )
+    a62 = Artwork(
+        user_id=13,
+        title="The Bridge",
+        description="Taken on 35mm film.",
+        image="https://image.shopmoment.com/general/willem-verbeeck-gallery-02.jpg",
+        price=3700000.00,
+        preview=True
+    )
+    a63 = Artwork(
+        user_id=13,
+        title="The Courtyard",
+        description="Taken on 35mm film.",
+        image="https://images.squarespace-cdn.com/content/v1/634723977fd6041c2f4c7c59/19573ec5-315a-4db3-a0c0-1d024b94e0cf/Willem_Verbeeck_13.jpg",
+        price=3700000.00,
+        preview=True
+    )
+    a64 = Artwork(
+        user_id=13,
+        title="The Night Shift",
+        description="Taken on 35mm film.",
+        image="https://images.squarespace-cdn.com/content/v1/5ede832c2c3f923fc69dad9f/1593661122694-PLUV4H9YZHDZ1ZBKNMNT/MayXT038302.jpg",
+        price=3700000.00,
+        preview=True
+    )
+    artworks.extend([a61,a62,a63,a64])
     return artworks
