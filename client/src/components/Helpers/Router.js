@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
-import { AuthProvider, AuthContext } from "./AuthProvider";
+import { AuthContext } from "./AuthProvider";
 import Error from "./Error";
 import Login from "../Login";
 import Profile from '../Profile/Profile'
@@ -13,9 +13,8 @@ import Loading from "./Loading";
 import Checkout from "../Transaction/Checkout"
 
 function Router() {
-  const { login, setArtworks, setUsers, setUser } = useContext(AuthContext);
+  const { login, setArtworks, setUsers, setUser, cart } = useContext(AuthContext);
   return (
-    <AuthProvider>
       <Routes>
         <Route
           path="/profile"
@@ -28,7 +27,7 @@ function Router() {
           }
         />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout" element={<Checkout cart={cart}/>} />
         <Route path="/profile/:username" element={<UserGallery />} />
         <Route path="/search" element={<Search />} />
         <Route 
@@ -46,7 +45,7 @@ function Router() {
         <Route
           path="/home"
           element={
-            <Home
+            <Home 
               onLoad={(artworkData, userData) => {
                 setArtworks(artworkData);
                 setUsers(userData);
@@ -60,7 +59,6 @@ function Router() {
         />
         <Route path="*" element={<Error />} />
       </Routes>
-    </AuthProvider>
   );
 }
 

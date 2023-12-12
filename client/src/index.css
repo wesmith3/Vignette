@@ -11,6 +11,11 @@
     box-shadow: 4px 8px 5px 5px grey !important;
 }
 
+.checkout {
+  box-shadow: 4px 8px 5px 5px grey !important;
+  font-family: monospace !important;
+}
+
 .search-bar {
   box-shadow: 4px 8px 2px 0 grey !important;
 }
@@ -136,7 +141,7 @@
     text-align: center !important;
   }
   .cart-header{
-    /* font-size: 100% !important; */
+    /* background-color: black; */
     font-family: cursive !important;
     text-align: center !important;
     color: #85144b !important;

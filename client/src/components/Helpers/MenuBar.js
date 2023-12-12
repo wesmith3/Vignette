@@ -20,7 +20,7 @@ function MenuBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const navigate = useNavigate()
-  const { user } = useContext(AuthContext)
+  const { user, cart } = useContext(AuthContext)
 
   const handleSignOut = () => {
     fetch('/logout', {
@@ -62,7 +62,7 @@ function MenuBar() {
               onClick={() => setIsCartOpen(true)}
               className='cart-btn'
               >
-              <Badge badgeContent={2} color="error">
+              <Badge badgeContent={cart.length} color="error">
                 <ShoppingBagIcon 
                 size="large"
                 />
@@ -139,7 +139,7 @@ function MenuBar() {
                 </ListItem>
           </List>
         </Drawer>
-      <ShoppingCartDrawer isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
+      <ShoppingCartDrawer cart={cart} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
     </Box>
     </>
   );
