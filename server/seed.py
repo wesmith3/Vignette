@@ -22,7 +22,7 @@ fake = Faker()
 
 def create_likes(users, artworks):
     likes = []
-    for _ in range(50):
+    for _ in range(300):
         user_id = rc([user.id for user in users])
         artwork_id = rc([artwork.id for artwork in artworks])
 
@@ -47,7 +47,7 @@ def create_comments(users, artworks):
     "I feel a deep connection to this artwork."
     ]
     comments = []
-    for _ in range(50):
+    for _ in range(150):
         c = Comment(
             user_id=rc([user.id for user in users]),
             artwork_id=rc([artwork.id for artwork in artworks]),
@@ -88,13 +88,11 @@ def create_transactions(users, artworks):
     transactions = []
     for _ in range(30):
         buyer_id = rc([user.id for user in users])
-        seller_id = rc([user.id for user in users if user.id != buyer_id])
         artwork_id = rc([artwork.id for artwork in artworks])
         amount_paid = randint(1000, 10000)
 
         t = Transaction(
             buyer_id=buyer_id,
-            seller_id=seller_id,
             artwork_id=artwork_id,
             amount_paid=amount_paid
         )

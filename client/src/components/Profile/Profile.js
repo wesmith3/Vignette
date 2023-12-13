@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Image, Modal } from 'semantic-ui-react'
 import MenuBar from '../Helpers/MenuBar'
 import { AuthContext } from '../Helpers/AuthProvider'
-import TransactionsTable from './TransactionsTable'
+// import TransactionsTable from './TransactionsTable'
 import UserEditForm from './UserEditForm'
 
 function Profile() {
@@ -57,7 +57,7 @@ function Profile() {
       </div>
       <br />
       <br />
-      <TransactionsTable user={user} />
+      {/* <TransactionsTable user={user} /> */}
       <br />
       <div className='delete-btn'>
         <Button onClick={openConfirmationModal} fluid loading={deleting} negative>

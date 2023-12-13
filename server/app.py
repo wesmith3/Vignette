@@ -3,7 +3,7 @@
 # Standard library imports
 
 # Remote library imports
-from flask import request, Flask, make_response, jsonify
+from flask import request, Flask, make_response, session, redirect
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import or_
 import stripe
@@ -16,7 +16,9 @@ from models.comment import Comment
 from models.follow import Follow
 from models.tag import Tag
 from models.transaction import Transaction
+import os
 import json
+import ipdb
 import flask_bcrypt
 from flask_jwt_extended import (
     create_access_token,
@@ -31,7 +33,7 @@ from flask_jwt_extended import (
 )
 
 # Local imports
-from config import app, db, api
+from config import app, db, api, jwt
 # Add your model imports
 user_schema = UserSchema(session=db.session)
 
@@ -664,31 +666,64 @@ api.add_resource(Refresh, "/refresh")
 
 # Views go here!
 
-@app.route('/api/checkout/<int:artwork_id>', methods=['POST'])
-def checkout(artwork_id):
-    artwork = Artwork.query.get(artwork_id)
+YOUR_DOMAIN = 'http://localhost:3000'
+stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+endpoint_secret = os.environ.get('ENDPOINT_SECRET')
 
-    token = request.json['stripeToken']
+@app.route('/create-checkout-session/<int:id>', methods=['POST'])
+def create_checkout_session(id):
+    artwork_to_purchase = Artwork.query.get(id)
+    
+    checkout_session = stripe.checkout.Session.create(
+        line_items=[
+            {
+                'price': artwork_to_purchase.stripe_price_id,
+                'quantity': 1
+            }
+        ],
+        mode='payment',
+        success_url=YOUR_DOMAIN + "/loading",
+        cancel_url=YOUR_DOMAIN + "/loading"
+    )
+    return redirect(checkout_session.url, code=303)
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    event = None
+    payload = request.get_data()
+    sig_header = request.headers.get('Stripe_Signature')
 
     try:
-        charge = stripe.Charge.create(
-            amount=artwork.price * 100,
-            currency='usd',
-            description=artwork.title,
-            source=token,
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
         )
+    except ValueError as e:
+        raise e
+    except stripe.error.SignatureVerificationError as e:
+        raise e
 
+    if event['type'] == 'checkout.session.completed':
+        checkout_session = event['data']['object']
+        data_for_db = Transaction()
+        data_for_db.buyer_id = checkout_session.client_reference_id
+        data_for_db.artwork_id = checkout_session.line_items.price.product
+        if checkout_session.payment_status == 'paid':
+            data_for_db.amount_paid = checkout_session.amount_total
+        db.session.add(data_for_db)
+        db.session.commit()
+    else:
+        print('Unhandled event type {}'.format(event['type']))
 
-        return make_response({'message': 'Payment successful', 'artwork': artwork.title}), 200
-
-    except stripe.error.CardError as e:
-        return make_response({'error': str(e)}), 400
-
+    return make_response(success=True)
 
 @app.route('/')
 def index():
     return '<h1>Vignette Server</h1>'
 
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data['sub']
+    return db.session.get(User, identity)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

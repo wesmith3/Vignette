@@ -12,15 +12,12 @@ import { Image } from 'semantic-ui-react'
 import Badge from '@mui/material/Badge'
 import MenuIcon from '@mui/icons-material/Menu'
 import Avatar from '@mui/material/Avatar'
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag'
-import ShoppingCartDrawer from '../Transaction/ShoppingCartDrawer'
 
 
 function MenuBar() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [isCartOpen, setIsCartOpen] = useState(false)
   const navigate = useNavigate()
-  const { user, cart } = useContext(AuthContext)
+  const { user} = useContext(AuthContext)
 
   const handleSignOut = () => {
     fetch('/logout', {
@@ -55,7 +52,7 @@ function MenuBar() {
         <Box sx={{ flexGrow: 1 }}>
           <Image src="././Logo.png" alt="logo" size="small" centered/>
         </Box>
-          <Box >
+          {/* <Box >
             <IconButton
               size="large"
               color="inherit"
@@ -67,8 +64,8 @@ function MenuBar() {
                 size="large"
                 />
               </Badge>
-            </IconButton>
-          </Box>
+            </IconButton> */}
+          {/* </Box> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -102,9 +99,9 @@ function MenuBar() {
             </ListItem>
             <br />
             <br />
-            <ListItem className='menu-item' button onClick={() => navigate('/search')}>
+            {/* <ListItem className='menu-item' button onClick={() => navigate('/search')}>
               Search
-            </ListItem>
+            </ListItem> */}
           </List>
           <List 
           sx={{ 
@@ -130,16 +127,15 @@ function MenuBar() {
               aria-haspopup="true"
               color="inherit"
               >
-              <Avatar 
+              {/* <Avatar 
                 alt={user.full_name}
                 src={user.profile_image} 
                 size="large"
-                />
+                /> */}
             </IconButton>
                 </ListItem>
           </List>
         </Drawer>
-      <ShoppingCartDrawer cart={cart} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen}/>
     </Box>
     </>
   );

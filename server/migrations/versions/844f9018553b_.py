@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 818509f964c0
+Revision ID: 844f9018553b
 Revises: 
-Create Date: 2023-12-11 08:11:57.825364
+Create Date: 2023-12-12 18:03:40.629274
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '818509f964c0'
+revision = '844f9018553b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -39,6 +39,8 @@ def upgrade():
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('image', sa.String(), nullable=False),
     sa.Column('price', sa.Float(), nullable=False),
+    sa.Column('stripe_product_id', sa.String(), nullable=True),
+    sa.Column('stripe_price_id', sa.String(), nullable=True),
     sa.Column('preview', sa.Boolean(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_artworks_user_id_users')),
@@ -84,13 +86,11 @@ def upgrade():
     op.create_table('transactions',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('buyer_id', sa.Integer(), nullable=True),
-    sa.Column('seller_id', sa.Integer(), nullable=True),
     sa.Column('amount_paid', sa.Float(), nullable=False),
     sa.Column('artwork_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.ForeignKeyConstraint(['artwork_id'], ['artworks.id'], name=op.f('fk_transactions_artwork_id_artworks')),
     sa.ForeignKeyConstraint(['buyer_id'], ['users.id'], name=op.f('fk_transactions_buyer_id_users')),
-    sa.ForeignKeyConstraint(['seller_id'], ['users.id'], name=op.f('fk_transactions_seller_id_users')),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

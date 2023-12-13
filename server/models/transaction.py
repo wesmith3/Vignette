@@ -9,7 +9,6 @@ class Transaction(db.Model, SerializerMixin):
     __tablename__ = "transactions"
     id = db.Column(db.Integer, primary_key=True)
     buyer_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    seller_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     amount_paid = db.Column(db.Float, nullable=False)
     artwork_id = db.Column(db.Integer, db.ForeignKey("artworks.id"))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -18,9 +17,6 @@ class Transaction(db.Model, SerializerMixin):
     buyer = db.relationship(
         "User", foreign_keys=[buyer_id], back_populates="buyer_transactions"
     )
-    seller = db.relationship(
-        "User", foreign_keys=[seller_id], back_populates="seller_transactions"
-    )
     artwork = db.relationship("Artwork", back_populates="transactions")
 
     # Serialization
@@ -28,7 +24,6 @@ class Transaction(db.Model, SerializerMixin):
     serialize_only = (
         "id",
         "buyer_id",
-        "seller_id",
         "amount_paid",
         "artwork_id",
         "created_at",
@@ -42,13 +37,6 @@ class Transaction(db.Model, SerializerMixin):
             return buyer_id
         else:
             raise ValueError("Buyer ID must be a valid user.")
-
-    @validates("seller_id")
-    def seller_id_validation(self, key, seller_id):
-        if seller_id and User.query.get(seller_id):
-            return seller_id
-        else:
-            raise ValueError("Seller ID must be a valid user.")
 
     @validates("amount_paid")
     def amount_paid_validation(self, key, amount_paid):
