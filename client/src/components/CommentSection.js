@@ -1,12 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Comment, Header, Form, Button } from 'semantic-ui-react';
-import { formatDistanceToNow } from 'date-fns';
 import { AuthContext } from './Helpers/AuthProvider';
+import Avatar from '@mui/material/Avatar';
 
-function CommentSection({ artwork, users }) {
+function CommentSection({ artwork, users, onUpdateComments, comments, setComments }) {
   const { user } = useContext(AuthContext);
-  const [comments, setComments] = useState(artwork.comments || []);
   const [newComment, setNewComment] = useState('');
+
 
   const handleAddComment = async () => {
     try {
@@ -19,16 +19,22 @@ function CommentSection({ artwork, users }) {
       });
 
       if (response.ok) {
-        const updatedArtwork = await response.json();
-        setComments(updatedArtwork.comments);
+        // Comment added successfully, update the comments
+        const newCommentData = await response.json();
+        setComments([...comments, newCommentData]);
+
+        // Clear the newComment input
         setNewComment('');
+
+        // Notify the parent component about the comment update
+        onUpdateComments([...comments, newCommentData]);
       } else {
         console.error('Error adding comment');
       }
     } catch (error) {
       console.error('Fetch error:', error);
     }
-  }
+  };
 
   const handleDeleteComment = async (commentId) => {
     try {
@@ -40,14 +46,18 @@ function CommentSection({ artwork, users }) {
       });
 
       if (response.ok) {
-        setComments(comments.filter((comment) => comment.id !== commentId));
+        const updatedComments = comments.filter((comment) => comment.id !== commentId);
+        setComments(updatedComments);
+
+        // Notify the parent component about the comment update
+        onUpdateComments(updatedComments);
       } else {
         console.error('Error deleting comment');
       }
     } catch (error) {
       console.error('Fetch error:', error);
     }
-  }
+  };
 
   const renderComments = () => {
     return (
@@ -55,17 +65,14 @@ function CommentSection({ artwork, users }) {
         <Header as='h3' dividing>
           Comments
         </Header>
-        {artwork.comments && artwork.comments.map((comment) => {
+        {comments.map((comment) => {
           const commentUser = users.find((u) => u.id === comment.user_id);
-  
+
           return (
             <Comment key={comment.id}>
-              <Comment.Avatar src={commentUser ? commentUser.profile_image : ''} />
+              <Avatar alt={commentUser.full_name} src={commentUser.profile_image} />
               <Comment.Content>
                 <Comment.Author as='a'>@{commentUser ? commentUser.username : 'Unknown User'}</Comment.Author>
-                <Comment.Metadata>
-                  <div>{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true })}</div>
-                </Comment.Metadata>
                 <Comment.Text>{comment.content}</Comment.Text>
                 {user && user.id === comment.user_id && (
                   <Comment.Actions>
@@ -86,10 +93,10 @@ function CommentSection({ artwork, users }) {
         </Form>
       </Comment.Group>
     );
-  }
-  
+  };
 
   return <>{renderComments()}</>;
 }
 
 export default CommentSection;
+

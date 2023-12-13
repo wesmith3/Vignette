@@ -10,7 +10,9 @@ import Search from "../Search";
 import Home from "../Home";
 import MyGallery from "../MyGallery";
 import Loading from "./Loading";
-import Checkout from "../Transaction/Checkout"
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePubKey = "pk_test_51OLr7qJxYeOx9Zwqcf5BNOofHBJ34Q47JC5eaMAXQD114sULFriIbEB3UEiaK4WX0cNrbsxcfiAuaOJuY9Rkg7vM00qbJy1vOB"
 
 function Router() {
   const { login, setArtworks, setUsers, setUser, cart } = useContext(AuthContext);
@@ -27,7 +29,6 @@ function Router() {
           }
         />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/checkout" element={<Checkout cart={cart}/>} />
         <Route path="/profile/:username" element={<UserGallery />} />
         <Route path="/search" element={<Search />} />
         <Route 

@@ -3,6 +3,10 @@ import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import { useState } from 'react'
 import ArtworkModal from './ArtworkModal'
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePubKey = "pk_test_51OLr7qJxYeOx9Zwqcf5BNOofHBJ34Q47JC5eaMAXQD114sULFriIbEB3UEiaK4WX0cNrbsxcfiAuaOJuY9Rkg7vM00qbJy1vOB"
+
 
 function Gallery({ artworks, onDelete }) {
     const [selectedArtworkId, setSelectedArtworkId] = useState(null)
@@ -30,7 +34,9 @@ function Gallery({ artworks, onDelete }) {
                   onClick={() => openModal(artwork.id)}
                 />
                 {selectedArtworkId === artwork.id && (
-                  <ArtworkModal artwork={artwork} onClose={closeModal} onDelete={onDelete} />
+                  <Elements stripe={loadStripe(stripePubKey)}>  
+                    <ArtworkModal artwork={artwork} onClose={closeModal} onDelete={onDelete} />
+                  </Elements>
                 )}
               </ImageListItem>
             ))}

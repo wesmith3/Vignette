@@ -2,6 +2,8 @@ from config import db
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.schema import UniqueConstraint
 from .user import User
+import stripe
+import os
 from . import validates, re
 
 
@@ -13,10 +15,41 @@ class Artwork(db.Model, SerializerMixin):
     description = db.Column(db.String)
     image = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
+    stripe_product_id = db.Column(db.String)
+    stripe_price_id = db.Column(db.String)
     preview = db.Column(db.Boolean, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    
+    def __init__(self, *args, **kwargs):
+        super(Artwork, self).__init__(*args, **kwargs)
+        self.create_stripe_product_and_price()
 
     __table_args__ = (UniqueConstraint("user_id", "title", name="unique_user_title"),)
+    
+    def create_stripe_product_and_price(self):
+        stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+
+        # Check if Stripe IDs already exist
+        if not self.stripe_product_id or not self.stripe_price_id:
+            # Create product on Stripe
+            stripe_product = stripe.Product.create(
+                name=self.title,
+                description=self.description,
+                type="service",
+            )
+
+            # Create price on Stripe
+            stripe_price = stripe.Price.create(
+                product=stripe_product.id,
+                unit_amount=int(self.price * 100),  # Convert to cents
+                currency="usd",
+            )
+
+            # Update artwork record with Stripe IDs
+            self.stripe_product_id = stripe_product.id
+            self.stripe_price_id = stripe_price.id
+
+            db.session.commit()
 
     # Relationships
     user = db.relationship("User", back_populates="artworks")

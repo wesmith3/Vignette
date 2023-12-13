@@ -16,6 +16,7 @@ import stripe
 import os
 
 # Local imports
+load_dotenv()
 
 # Instantiate app, set attributes
 app = Flask(__name__)
