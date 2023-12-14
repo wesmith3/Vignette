@@ -38,7 +38,7 @@ function UserGallery() {
       } catch (error) {
         console.error('Error fetching user data', error);
       } finally {
-        setIsLoading(false); // Set loading to false regardless of success or error
+        setIsLoading(false);
       }
     };
 
@@ -46,12 +46,11 @@ function UserGallery() {
   }, [username]);
 
   if (isLoading) {
-    // Display loading spinner or message while fetching data
     return <div>Loading...</div>;
   }
 
   if (!user) {
-    // If there's no user, display nothing
+    
     return null;
   }
 

@@ -36,6 +36,25 @@ from flask_jwt_extended import (
 from config import app, db, api, jwt
 # Add your model imports
 user_schema = UserSchema(session=db.session)
+YOUR_DOMAIN = 'http://localhost:3000'
+stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+endpoint_secret = os.environ.get('ENDPOINT_SECRET')
+
+def create_stripe_price(artwork_id, price_in_cents):
+        artwork = db.session.get(Artwork, artwork_id)
+        try:
+            product_id = artwork.stripe_product_id
+
+            price = stripe.Price.create(
+                product=product_id,
+                unit_amount=price_in_cents,
+                currency='usd',
+            )
+
+            return price
+        except stripe.error.StripeError as e:
+            print(f"Error creating Stripe price: {e}")
+            raise
 
 class Users(Resource):
     def get(self):
@@ -142,30 +161,6 @@ class Artworks(Resource):
             return make_response(
                 {"errors": [str(e)]}, 400
             )
-    
-    def post(self):
-        try:
-            data = json.loads(request.data)
-            pw_hash = flask_bcrypt.generate_password_hash(data["password"])
-            
-            new_user = User(
-                full_name = data["full_name"],
-                username = data["username"],
-                email = data["email"],
-                _password = pw_hash,
-                bio = data["bio"],
-                location = data["location"],
-                profile_image = data["profile_image"]
-            )
-
-            db.session.add(new_user)
-            db.session.commit()
-            return make_response(new_user.to_dict(rules=("-password",)), 201)
-        except (ValueError, AttributeError, TypeError) as e:
-            db.session.rollback()
-            return make_response(
-                {"errors": [str(e)]}, 400
-            )
 
 api.add_resource(Artworks, "/artworks")
 
@@ -241,6 +236,8 @@ class ArtworkById(Resource):
                 {"errors": [str(e)]}, 400
             )
     
+    
+        
     def patch(self, id):
         try:
             artwork = db.session.get(Artwork, id)
@@ -250,6 +247,12 @@ class ArtworkById(Resource):
                     setattr(artwork, attr, data[attr])
                 db.session.add(artwork)
                 db.session.commit()
+
+                new_price = create_stripe_price(artwork.id, artwork.price)
+
+                artwork.stripe_price_id = new_price['id']
+                db.session.commit()
+
                 return make_response(
                     artwork.to_dict(
                         rules=(
@@ -257,8 +260,8 @@ class ArtworkById(Resource):
                             "-user.following",
                             "-user.followers",
                             "-user.likes"
-                            )
-                        ), 200)
+                        )
+                    ), 200)
             else:
                 return make_response(
                     {"errors": "Update unsuccessful"}, 400
@@ -268,6 +271,7 @@ class ArtworkById(Resource):
             return make_response(
                 {"errors": [str(e)]}, 400
             )
+
     
     def delete(self, id):
         try:
@@ -528,7 +532,7 @@ api.add_resource(DeleteFollow, "/users/<int:id>/follow")
     
 class FollowersByUserId(Resource):
     def get(self, id):
-        followers = Follow.query.filter_by(following_id=id).all()
+        followers = Follow.query.filter_by(follower_id=id).all()
 
         users_following = [follow.to_dict() for follow in followers]
 
@@ -583,20 +587,20 @@ class Signup(Resource):
         try:
             data = json.loads(request.data)
             pw_hash = flask_bcrypt.generate_password_hash(data["password"])
-            
+
             new_user = User(
-                full_name = data["full_name"],
-                username = data["username"],
-                email = data["email"],
-                _password = pw_hash,
-                bio = data["bio"],
-                location = data["location"],
-                profile_image = ""
+                full_name=data["full_name"],
+                username=data["username"],
+                email=data["email"],
+                _password=pw_hash,
+                bio=data["bio"],
+                location=data["location"],
+                profile_image=""
             )
 
             db.session.add(new_user)
             db.session.commit()
-            
+
             jwt = create_access_token(identity=new_user.id)
             refresh_token = create_refresh_token(identity=new_user.id)
             serialized_user = user_schema.dump(new_user)
@@ -604,9 +608,17 @@ class Signup(Resource):
             set_access_cookies(response, jwt)
             set_refresh_cookies(response, refresh_token)
             return response
-        except (Exception, IntegrityError) as e:
+        except IntegrityError as e:
             db.session.rollback()
-            return {"message": str(e)}, 400
+
+            # Check if the error is related to a unique constraint violation
+            if 'UNIQUE constraint failed: users.email' in str(e):
+                return {"message": "Please choose another email."}, 400
+            elif 'UNIQUE constraint failed: users.username' in str(e):
+                return {"message": "Please choose another username."}, 400
+            else:
+                # Handle other IntegrityError cases if needed
+                return {"message": "An error occurred while processing your request."}, 400
 
 api.add_resource(Signup, "/signup")
 
@@ -666,10 +678,6 @@ api.add_resource(Refresh, "/refresh")
 
 # Views go here!
 
-YOUR_DOMAIN = 'http://localhost:3000'
-stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
-endpoint_secret = os.environ.get('ENDPOINT_SECRET')
-
 @app.route('/create-checkout-session/<int:id>', methods=['POST'])
 def create_checkout_session(id):
     artwork_to_purchase = Artwork.query.get(id)
@@ -682,8 +690,8 @@ def create_checkout_session(id):
             }
         ],
         mode='payment',
-        success_url=YOUR_DOMAIN + "/loading",
-        cancel_url=YOUR_DOMAIN + "/loading"
+        success_url=YOUR_DOMAIN + "/success",
+        cancel_url=YOUR_DOMAIN + "/cancelled"
     )
     return redirect(checkout_session.url, code=303)
 

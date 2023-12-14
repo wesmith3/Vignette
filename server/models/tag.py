@@ -14,7 +14,11 @@ class Tag(db.Model, SerializerMixin):
     artworks = db.relationship("Artwork", back_populates="tags")
     
     #Serialization
-    serialize_rules = ("-artworks.tags",)
+    serialize_only = (
+        "id",
+        "keyword",
+        "artwork_id"
+    )
     
     #Validations
     @validates('artwork_id')

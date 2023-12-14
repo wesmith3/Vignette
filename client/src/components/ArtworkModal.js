@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { Image, Modal, Card, Button, Icon } from 'semantic-ui-react';
 import Avatar from '@mui/material/Avatar';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthContext } from './Helpers/AuthProvider';
 import CommentSection from './CommentSection';
 
@@ -12,33 +12,39 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const isCurrentUserOwner = user && artwork.user_id === user.id
+  const [editedArtwork, setEditedArtwork] = useState({
+    title: artwork.title,
+    description: artwork.description,
+    price: artwork.price,
+    tags: artwork.tags,
+  });
 
-  console.log('User:', user);
-  console.log('Artwork:', artwork)
-  
   useEffect(() => {
     if (user && artwork.likes.some((like) => like.user_id === user.id)) {
       setLiked(true);
     }
   }, [user, artwork.likes]);
-  
+
   useEffect(() => {
-    if (user && artwork.user.followers.some((follower) => follower.follower_id === user.id)) {
+    if (
+      user &&
+      artwork.user.followers.some((follower) => follower.follower_id === user.id)
+    ) {
       setIsFollowing(true);
     } else {
       setIsFollowing(false);
     }
   }, [user, artwork.user.followers]);
 
-  
   useEffect(() => {
     fetch(`/artworks/${artwork.id}/comments`)
-    .then(res => res.json())
-    .then(data => setComments(data))
-    .catch(err => console.log(err))
+      .then((res) => res.json())
+      .then((data) => setComments(data))
+      .catch((err) => console.log(err));
   }, []);
-  
+
   const handleDelete = async () => {
     try {
       onClose();
@@ -49,13 +55,44 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
   };
 
   const handleEdit = () => {
+    setIsEditing(true);
+  };
 
-  }
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // Flatten the payload
+      const flattenedPayload = {
+        id: artwork.id,
+        title: editedArtwork.title,
+        description: editedArtwork.description,
+        price: editedArtwork.price,
+        tags: editedArtwork.tags.map((tag) => ({ ...tag, ...tag[0] })),
+      };
+  
+      const response = await fetch(`/artworks/${artwork.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(flattenedPayload),
+      });
+  
+      if (response.ok) {
+        setIsEditing(false);
+        // Optionally, you can fetch the updated artwork details here
+      } else {
+        console.error('Error updating artwork:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
+  };
 
   const handleLike = async () => {
     const likeEndpoint = `/artworks/${artwork.id}/likes`;
     const method = liked ? 'DELETE' : 'POST';
-    
+
     try {
       const response = await fetch(likeEndpoint, {
         method: method,
@@ -119,84 +156,139 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
   return (
     <Modal onClose={onClose} open={true} className='artwork-modal' size='small' dimmer='blurring'>
       <Modal.Content>
-        <Card fluid>
-          <Card.Content>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Avatar alt={user.full_name} src={artwork.user.profile_image} size='large' />
-              <div style={{ marginLeft: '10px', fontSize: '1.5em', display: 'flex', alignItems: 'center' }}>
-                <Link to={`/profile/${artwork.user.username}`}>
-                  <strong>@{artwork.user.username}</strong>
-                </Link>
-              </div>
-              <Button
-                color={isFollowing ? 'green' : 'blue'}
-                icon={isFollowing ? 'check' : 'plus'}
-                labelPosition='right'
-                floated='right'
-                onClick={() => (isFollowing ? handleUnfollow(artwork.user_id) : handleFollow(artwork.user_id))}
-                content={isFollowing ? 'Following' : 'Follow'}
+        {isEditing ? (
+          // Render the edit form
+          <form onSubmit={handleEditSubmit}>
+            <label>
+              Title:
+              <input
+                type='text'
+                value={editedArtwork.title}
+                onChange={(e) => setEditedArtwork({ ...editedArtwork, title: e.target.value })}
+                placeholder='Title'
               />
-            </div>
-          </Card.Content>
-          <Image src={artwork.image} wrapped ui={false} />
-          <Card.Content>
-            <Card.Header>{artwork.title}</Card.Header>
-            <Card.Description>
-              <p>{artwork.description}</p>
+            </label>
+            <label>
+              Description:
+              <textarea
+                value={editedArtwork.description}
+                onChange={(e) => setEditedArtwork({ ...editedArtwork, description: e.target.value })}
+                placeholder='Description'
+              />
+            </label>
+            <label>
+              Price:
+              <input
+                type='number'
+                value={editedArtwork.price}
+                onChange={(e) => setEditedArtwork({ ...editedArtwork, price: e.target.value })}
+                placeholder='Price'
+              />
+            </label>
+            {/* Add similar input fields for other artwork details */}
+            <button type='submit'>Save Changes</button>
+          </form>
+        ) : (
+          // Render artwork details
+          <Card fluid>
+            <Card.Content>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Avatar alt={user.full_name} src={artwork.user.profile_image} size='large' />
+                <div
+                  style={{
+                    marginLeft: '10px',
+                    fontSize: '1.5em',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Link to={`/profile/${artwork.user.username}`}>
+                    <strong>@{artwork.user.username}</strong>
+                  </Link>
+                </div>
+                <Button
+                  color={isFollowing ? 'green' : 'blue'}
+                  icon={isFollowing ? 'check' : 'plus'}
+                  labelPosition='right'
+                  floated='right'
+                  onClick={() =>
+                    isFollowing ? handleUnfollow(artwork.user_id) : handleFollow(artwork.user_id)
+                  }
+                  content={isFollowing ? 'Following' : 'Follow'}
+                />
+              </div>
+            </Card.Content>
+            <Image src={artwork.image} wrapped ui={false} />
+            <Card.Content>
+              <Card.Header>{artwork.title}</Card.Header>
+              <Card.Description>
+                <p>{artwork.description}</p>
+                <br />
+                <p>
+                  <strong>Price:</strong> ${artwork.price}.00
+                </p>
+              </Card.Description>
               <br />
-              <p>
-                <strong>Price:</strong> ${artwork.price}.00
-              </p>
-            </Card.Description>
-            <br />
-            <div>
-              {artwork.tags.map((tag, index) => (
-                <span key={index}>
-                  <strong>#{tag.keyword}</strong>
-                  {index < artwork.tags.length - 1 ? ', ' : ''}
-                </span>
-              ))}
-            </div>
-          </Card.Content>
-          <Card.Content extra>
-            <Button
-              color={liked ? 'red' : 'grey'}
-              onClick={handleLike}
-              icon={liked ? 'heart' : 'heart outline'}
-              labelPosition='right'
-              label={{
-                basic: true,
-                color: 'red',
-                pointing: 'left',
-                content: likeCount.toString(),
-              }}
-            />
-            <Button color='blue' icon labelPosition='left' onClick={() => setShowComments(!showComments)}>
-              <Icon name='comment' />
-              {showComments ? 'Hide Comments' : `Comments (${comments.length})`}
-            </Button>
-            {isCurrentUserOwner ? (
-              <>
-              <Button color='red' icon floated='right' labelPosition='left' onClick={handleDelete}>
-                <Icon name='trash' />
-                Delete Artwork
+              <div>
+                {artwork.tags.map((tag, index) => (
+                  <span key={index}>
+                    <strong>#{tag.keyword}</strong>
+                    {index < artwork.tags.length - 1 ? ', ' : ''}
+                  </span>
+                ))}
+              </div>
+            </Card.Content>
+            <Card.Content extra>
+              <Button
+                color={liked ? 'red' : 'grey'}
+                onClick={handleLike}
+                icon={liked ? 'heart' : 'heart outline'}
+                labelPosition='right'
+                label={{
+                  basic: true,
+                  color: 'red',
+                  pointing: 'left',
+                  content: likeCount.toString(),
+                }}
+              />
+              <Button
+                color='blue'
+                icon
+                labelPosition='left'
+                onClick={() => setShowComments(!showComments)}
+              >
+                <Icon name='comment' />
+                {showComments ? 'Hide Comments' : `Comments (${comments.length})`}
               </Button>
-              <Button icon floated='right' labelPosition='left' onClick={handleEdit}>
-                <Icon name='edit' />
-                Edit Artwork
-              </Button>
-              </>
-            ) : (
-              <form action={`/create-checkout-session/${artwork.id}`} method='POST'>
-                <button type='submit'>Checkout</button>
-            </form>
-            )}
-            {showComments && <CommentSection artwork={artwork} users={users} comments={comments} setComments={setComments} />}
-          </Card.Content>
-        </Card>
+              {isCurrentUserOwner ? (
+                <>
+                  <Button
+                    color='red'
+                    icon
+                    floated='right'
+                    labelPosition='left'
+                    onClick={handleDelete}
+                  >
+                    <Icon name='trash' />
+                    Delete Artwork
+                  </Button>
+                  <Button icon floated='right' labelPosition='left' onClick={handleEdit}>
+                    <Icon name='edit' />
+                    Edit Artwork
+                  </Button>
+                </>
+              ) : (
+                <form action={`/create-checkout-session/${artwork.id}`} method='POST'>
+                  <Button floated='right' type='submit'>Checkout</Button>
+                </form>
+              )}
+              {showComments && <CommentSection artwork={artwork} users={users} comments={comments} setComments={setComments} />}
+            </Card.Content>
+          </Card>
+        )}
       </Modal.Content>
     </Modal>
-  )
+  );
 }
 
-export default ArtworkModal
+export default ArtworkModal;

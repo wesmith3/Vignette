@@ -7,7 +7,7 @@ const Alert = forwardRef((props, ref) => (
 ));
 
 const AlertBar = ({ message, setAlertMessage, snackType, handleSnackType }) => {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     if (message) {

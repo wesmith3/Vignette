@@ -23,8 +23,8 @@ function Gallery({ onDelete }) {
   };
 
   const isUserFollowing = (artwork) => {
-    // Check if user.id is in the followers array
-    return artwork.user.followers.includes(user.id);
+    // Check if user is loaded and if the user is following
+    return user?.id && artwork.user?.followers.includes(user.id);
   };
 
   return (
@@ -34,7 +34,6 @@ function Gallery({ onDelete }) {
     <Box sx={{ width: '100%' }}>
       <ImageList variant="woven" cols={3} gap={0}>
         {artworks.map((artwork) => (
-          // Check if the user is following and preview is true or if preview is true
           (isUserFollowing(artwork) || artwork.preview) && (
             <ImageListItem key={artwork.id} sx={{ margin: 5 }}>
               <img
@@ -55,7 +54,7 @@ function Gallery({ onDelete }) {
               )}
             </ImageListItem>
           )
-          ))}
+        ))}
       </ImageList>
     </Box>
     </>

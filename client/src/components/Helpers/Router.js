@@ -11,10 +11,8 @@ import Explore from "../Explore";
 import Home from "../Home";
 import MyGallery from "../MyGallery";
 import Loading from "./Loading";
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-const stripePubKey = "pk_test_51OLr7qJxYeOx9Zwqcf5BNOofHBJ34Q47JC5eaMAXQD114sULFriIbEB3UEiaK4WX0cNrbsxcfiAuaOJuY9Rkg7vM00qbJy1vOB"
-
+import Success from "./Success";
+import Cancelled from "./Cancelled";
 function Router() {
   const { login, setArtworks, setUsers, setUser, cart } = useContext(AuthContext);
   return (
@@ -33,6 +31,8 @@ function Router() {
         <Route path="/profile/:username" element={<UserGallery />} />
         <Route path="/search" element={<Search />} />
         <Route path="/explore" element={<Explore />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancelled" element={<Cancelled />} />
         <Route 
           path="/loading"
           element={

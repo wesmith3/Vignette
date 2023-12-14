@@ -120,6 +120,20 @@
     box-shadow: 4px 6px 2px 0 grey !important;
   }
 
+  .success-message {
+    width: 90% !important;
+    margin: 2% auto !important;
+    text-align: center !important;
+    align-content: center !important;
+  }
+
+  .cancel-message {
+    width: 90% !important;
+    margin: 2% auto !important;
+    text-align: center !important;
+    align-content: center !important;
+  }
+
   .profile {
     background-color: #FAF9F6;
   }
