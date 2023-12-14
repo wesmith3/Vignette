@@ -14,54 +14,10 @@ const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [artToPurchase, setArtToPurchase] = useState(null);
 
- const getAuthTokenFromCookie = () => {
-    const name = "access_token_cookie=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const cookieArray = decodedCookie.split(';');
-  
-    for(let i = 0; i < cookieArray.length; i++) {
-      let cookie = cookieArray[i].trim();
-      if (cookie.indexOf(name) == 0) {
-        return cookie.substring(name.length, cookie.length);
-      }
-    }
-  
-    return null;
-  };
 
-  // useEffect(() => {
-  //   const token = getAuthTokenFromCookie()
-  //   console.log(token)
-  //   if (token) {
-  //     fetch('/me', {
-  //       headers: {
-  //         // 'Authorization': `Bearer ${token}`,
-  //         'X-CSRF-TOKEN': getCookie('csrf_access_token')
-  //       },
-  //     })
-  //       .then(response => {
-  //         if (!response.ok) {
-  //           if (response.status === 401) {
-  //             // Handle unauthorized (token expired) - you might want to redirect to login
-  //             console.error('Token expired');
-  //           } else {
-  //             throw new Error('Failed to fetch user information');
-  //           }
-  //         }
-  //         return response.json();
-  //       })
-  //       .then(userData => {
-  //         setUser(userData);
-  //       })
-  //       .catch(error => {
-  //         console.error('Failed to fetch user information on page load', error);
-  //       });
-  //   }
-  // }, []);
   useEffect(() => {
       fetch('/me', {
         headers: {
-          // 'Authorization': `Bearer ${token}`,
           'X-CSRF-TOKEN': getCookie('csrf_access_token')
         },
       })
@@ -91,7 +47,13 @@ const AuthProvider = ({ children }) => {
           setUser(userData)
           fetch("/artworks")
           .then(response => response.json())
-          .then(data => setArtworks(data))
+          .then(data => {
+            setArtworks(data)
+            fetch("/users")
+            .then(response => response.json())
+            .then(data => setUsers(data))
+            .catch(err => console.log(err))
+          })
           .catch(err => console.log(err))
         })
         .catch(error => {

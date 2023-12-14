@@ -82,15 +82,22 @@ const MyGallery = () => {
   };
 
   useEffect(() => {
-    fetch(`/users/${user.id}/artworks`)
-      .then((res) => res.json())
-      .then((data) => {
-        setArtworksLocal(data)
-        setIsDeleting(false)
-      })
-      .catch((err) => console.log(err));
-  }, [user.id, isFormVisible, isDeleting]);
+    // Check if user data is available before fetching artworks
+    if (user) {
+      fetch(`/users/${user.id}/artworks`)
+        .then((res) => res.json())
+        .then((data) => {
+          setArtworksLocal(data);
+          setIsDeleting(false);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user, isFormVisible, isDeleting]);
 
+  if (!user) {
+    // Render a loading state or return null until user data is available
+    return null;
+  }
 
   return (
     <>

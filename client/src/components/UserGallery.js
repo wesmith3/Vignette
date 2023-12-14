@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MenuBar from './Helpers/MenuBar';
 import Gallery from './Gallery';
@@ -9,6 +9,7 @@ function UserGallery() {
   const [user, setUser] = useState(null);
   const [artworks, setArtworks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -36,12 +37,23 @@ function UserGallery() {
         }
       } catch (error) {
         console.error('Error fetching user data', error);
+      } finally {
+        setIsLoading(false); // Set loading to false regardless of success or error
       }
     };
 
     fetchUserData();
   }, [username]);
 
+  if (isLoading) {
+    // Display loading spinner or message while fetching data
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
+    // If there's no user, display nothing
+    return null;
+  }
 
   return (
     <>

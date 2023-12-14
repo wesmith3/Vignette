@@ -94,14 +94,14 @@ function MenuBar() {
             </ListItem>
             <br />
             <br />
-            <ListItem className='menu-item' button onClick={() => navigate('/')}>
+            <ListItem className='menu-item' button onClick={() => navigate('/explore')}>
               Explore
             </ListItem>
             <br />
             <br />
-            {/* <ListItem className='menu-item' button onClick={() => navigate('/search')}>
+            <ListItem className='menu-item' button onClick={() => navigate('/search')}>
               Search
-            </ListItem> */}
+            </ListItem>
           </List>
           <List 
           sx={{ 
@@ -119,20 +119,16 @@ function MenuBar() {
             </ListItem>
             <ListItem className='menu-item' button onClick={handleSignOut}>
               Sign Out
-            <IconButton
-              size="small"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-              >
-              {/* <Avatar 
-                alt={user.full_name}
-                src={user.profile_image} 
-                size="large"
-                /> */}
-            </IconButton>
+              {user && (
+                <IconButton
+                  size="small"
+                  edge="end"
+                  aria-label="account of current user"
+                  color="inherit"
+                >
+                  <Avatar alt={user.full_name} src={user.profile_image} size="large" />
+                </IconButton>
+              )}
                 </ListItem>
           </List>
         </Drawer>

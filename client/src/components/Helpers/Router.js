@@ -7,6 +7,7 @@ import Profile from '../Profile/Profile'
 import UserGallery from '../UserGallery'
 import Signup from "../SignUp";
 import Search from "../Search";
+import Explore from "../Explore";
 import Home from "../Home";
 import MyGallery from "../MyGallery";
 import Loading from "./Loading";
@@ -31,6 +32,7 @@ function Router() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile/:username" element={<UserGallery />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/explore" element={<Explore />} />
         <Route 
           path="/loading"
           element={

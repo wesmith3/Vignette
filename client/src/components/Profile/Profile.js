@@ -1,46 +1,51 @@
-import { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Button, Image, Modal } from 'semantic-ui-react'
-import MenuBar from '../Helpers/MenuBar'
-import { AuthContext } from '../Helpers/AuthProvider'
-// import TransactionsTable from './TransactionsTable'
-import UserEditForm from './UserEditForm'
+import { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Image, Modal } from 'semantic-ui-react';
+import MenuBar from '../Helpers/MenuBar';
+import { AuthContext } from '../Helpers/AuthProvider';
+import UserEditForm from './UserEditForm';
 
 function Profile() {
-  const { user, setUser } = useContext(AuthContext)
-  const navigate = useNavigate()
-  const [deleting, setDeleting] = useState(false)
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [deleting, setDeleting] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
 
   const handleDelete = async () => {
     try {
-      setDeleting(true)
+      setDeleting(true);
       const response = await fetch(`/users/${user.id}`, {
         method: 'DELETE',
-      })
+      });
       if (response.ok) {
-        navigate('/')
+        navigate('/');
       } else {
-        console.error('Failed to delete user')
+        console.error('Failed to delete user');
       }
     } catch (error) {
-      console.error('Error during user deletion:', error)
+      console.error('Error during user deletion:', error);
     } finally {
-      setDeleting(false)
-      setShowConfirmationModal(false)
+      setDeleting(false);
+      setShowConfirmationModal(false);
     }
-  }
+  };
 
   const openConfirmationModal = () => {
-    setShowConfirmationModal(true)
-  }
+    setShowConfirmationModal(true);
+  };
 
   const closeConfirmationModal = () => {
-    setShowConfirmationModal(false)
+    setShowConfirmationModal(false);
+  };
+
+  if (!user) {
+    // Render a loading state or return null until user data is available
+    return null;
   }
 
   return (
-    <div className='profile'>
+    <div className="profile">
       <MenuBar />
       <br />
       <br />
@@ -51,21 +56,21 @@ function Profile() {
           justifyContent: 'center',
         }}
       >
-        <Image src={user.profile_image} className='account-image' alt='Profile' size='medium' circular />
-        <Button className='edit-image' icon='edit outline' circular size='tiny' />
+        <Image src={user.profile_image} className="account-image" alt="Profile" size="medium" circular />
+        <Button className="edit-image" icon="edit outline" circular size="tiny" />
         <UserEditForm user={user} setUser={setUser} />
       </div>
       <br />
       <br />
       {/* <TransactionsTable user={user} /> */}
       <br />
-      <div className='delete-btn'>
+      <div className="delete-btn">
         <Button onClick={openConfirmationModal} fluid loading={deleting} negative>
           Delete Account
         </Button>
       </div>
       <br />
-      <Modal open={showConfirmationModal} onClose={closeConfirmationModal} size='mini'>
+      <Modal open={showConfirmationModal} onClose={closeConfirmationModal} size="mini">
         <Modal.Header>Confirm Deletion</Modal.Header>
         <Modal.Content>
           <p>
@@ -74,7 +79,7 @@ function Profile() {
           </p>
         </Modal.Content>
         <Modal.Actions>
-          <Button color='black' onClick={closeConfirmationModal}>
+          <Button color="black" onClick={closeConfirmationModal}>
             Cancel
           </Button>
           <Button negative onClick={handleDelete} loading={deleting}>
@@ -83,8 +88,8 @@ function Profile() {
         </Modal.Actions>
       </Modal>
     </div>
-  )
+  );
 }
 
-export default Profile
+export default Profile;
 

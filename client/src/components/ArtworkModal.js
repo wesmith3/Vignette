@@ -14,7 +14,31 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const isCurrentUserOwner = user && artwork.user_id === user.id
 
+  console.log('User:', user);
+  console.log('Artwork:', artwork)
+  
+  useEffect(() => {
+    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
+      setLiked(true);
+    }
+  }, [user, artwork.likes]);
+  
+  useEffect(() => {
+    if (user && artwork.user.followers.some((follower) => follower.follower_id === user.id)) {
+      setIsFollowing(true);
+    } else {
+      setIsFollowing(false);
+    }
+  }, [user, artwork.user.followers]);
 
+  
+  useEffect(() => {
+    fetch(`/artworks/${artwork.id}/comments`)
+    .then(res => res.json())
+    .then(data => setComments(data))
+    .catch(err => console.log(err))
+  }, []);
+  
   const handleDelete = async () => {
     try {
       onClose();
@@ -24,16 +48,14 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
     }
   };
 
-  useEffect(() => {
-    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
-      setLiked(true);
-    }
-  }, [user, artwork.likes]);
+  const handleEdit = () => {
+
+  }
 
   const handleLike = async () => {
     const likeEndpoint = `/artworks/${artwork.id}/likes`;
     const method = liked ? 'DELETE' : 'POST';
-
+    
     try {
       const response = await fetch(likeEndpoint, {
         method: method,
@@ -53,19 +75,6 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
       console.error('Fetch error:', error);
     }
   };
-
-  useEffect(() => {
-    if (user && artwork.user.followers.some((follower) => follower.id === user.id)) {
-      setIsFollowing(true);
-    }
-  }, [user, artwork.user.followers]);
-
-  useEffect(() => {
-    fetch(`/artworks/${artwork.id}/comments`)
-    .then(res => res.json())
-    .then(data => setComments(data))
-    .catch(err => console.log(err))
-  }, []);
 
   const handleFollow = async (followingId) => {
     try {
@@ -167,10 +176,16 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
               {showComments ? 'Hide Comments' : `Comments (${comments.length})`}
             </Button>
             {isCurrentUserOwner ? (
+              <>
               <Button color='red' icon floated='right' labelPosition='left' onClick={handleDelete}>
                 <Icon name='trash' />
                 Delete Artwork
               </Button>
+              <Button icon floated='right' labelPosition='left' onClick={handleEdit}>
+                <Icon name='edit' />
+                Edit Artwork
+              </Button>
+              </>
             ) : (
               <form action={`/create-checkout-session/${artwork.id}`} method='POST'>
                 <button type='submit'>Checkout</button>
