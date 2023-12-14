@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
 import { Button, Popup } from 'semantic-ui-react';
-import MenuBar from './Helpers/MenuBar';
-import Gallery from './Gallery';
-import ArtistModal from './ArtistModal';
-import { AuthContext } from './Helpers/AuthProvider';
+import MenuBar from '../Helpers/MenuBar';
+import Gallery from '../Gallery';
+import ArtistModal from '../ArtistModal';
+import { AuthContext } from '../Helpers/AuthProvider';
 import ArtworkForm from './ArtworkForm';
-import AlertBar from './Helpers/AlertBar';
+import AlertBar from '../Helpers/AlertBar';
 
 const MyGallery = () => {
   const { user, setArtworks } = useContext(AuthContext);
@@ -82,7 +82,6 @@ const MyGallery = () => {
   };
 
   useEffect(() => {
-    // Check if user data is available before fetching artworks
     if (user) {
       fetch(`/users/${user.id}/artworks`)
         .then((res) => res.json())
@@ -95,7 +94,6 @@ const MyGallery = () => {
   }, [user, isFormVisible, isDeleting]);
 
   if (!user) {
-    // Render a loading state or return null until user data is available
     return null;
   }
 

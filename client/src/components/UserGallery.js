@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MenuBar from './Helpers/MenuBar';
 import Gallery from './Gallery';
@@ -31,7 +31,10 @@ function UserGallery() {
 
           const artworksResponse = await fetch(`/users/${foundUser.id}/artworks`);
           const artworksData = await artworksResponse.json();
-          setArtworks(artworksData);
+
+          const previewArtworks = artworksData.filter((artwork) => artwork.preview === true);
+
+          setArtworks(previewArtworks);
         } else {
           console.error('User not found');
         }
@@ -50,7 +53,6 @@ function UserGallery() {
   }
 
   if (!user) {
-    
     return null;
   }
 
@@ -65,7 +67,7 @@ function UserGallery() {
           @{user.username}
           {isModalOpen && <ArtistModal user={user} onClose={closeModal} />}
         </div>
-      </div>  
+      </div>
       <br />
       <div>
         <br />

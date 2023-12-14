@@ -9,7 +9,7 @@ import Signup from "../SignUp";
 import Search from "../Search";
 import Explore from "../Explore";
 import Home from "../Home";
-import MyGallery from "../MyGallery";
+import MyGallery from "../Profile/MyGallery";
 import Loading from "./Loading";
 import Success from "./Success";
 import Cancelled from "./Cancelled";

@@ -40,7 +40,6 @@ function Profile() {
   };
 
   if (!user) {
-    // Render a loading state or return null until user data is available
     return null;
   }
 

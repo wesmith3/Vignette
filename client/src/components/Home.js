@@ -5,11 +5,24 @@ import Gallery from './Gallery'
 import AlertBar from './Helpers/AlertBar'
 
 function Home() {
-  const { artworks, setArtworks, user } = useContext(AuthContext)
+  const { artworks, setArtworks, user, setFollowing, following } = useContext(AuthContext)
   const [isDeleting, setIsDeleting] = useState(false)
   const [alertMessage, setAlertMessage] = useState(null)
   const [snackType, setSnackType] = useState('')
-  const [followers, setFollowers] = useState([])
+  
+  useEffect(() => {
+    if (user) {
+      fetch(`/users/${user.id}/followers`)
+        .then((response) => response.json())
+        .then((data) => setFollowing(data))
+        .catch((error) => {
+          setAlertMessage(error)
+          setSnackType('error')
+        })
+    }
+  }, [user, setFollowing])
+
+  console.log(following)
 
   const handleDelete = (artworkId) => {
     const deleteEndpoint = `/artworks/${artworkId}`
@@ -40,17 +53,6 @@ function Home() {
       })
   }
 
-  useEffect(() => {
-    if (user) {
-      fetch(`/users/${user.id}/followers`)
-        .then((response) => response.json())
-        .then((data) => setFollowers(data))
-        .catch((error) => {
-          setAlertMessage(error)
-          setSnackType('error')
-        })
-    }
-  }, [user])
 
   const shuffledArtworks = [...artworks]
 
@@ -61,7 +63,7 @@ function Home() {
 
   const followerArtworks = user
     ? shuffledArtworks.filter((artwork) =>
-        followers.some((follower) => follower.following_id === artwork.user_id)
+        following.some((follower) => follower.following_id === artwork.user_id)
       )
     : []
 
