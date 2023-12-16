@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { Image, Modal, Card } from 'semantic-ui-react'
 import { AuthContext } from '../Helpers/AuthProvider'
 import EditForm from './EditForm'
@@ -8,6 +8,20 @@ import Actions from './Actions'
 function ArtworkModal({ onClose, artwork, onDelete }) {
   const { user, users } = useContext(AuthContext)
   const [isEditing, setIsEditing] = useState(false)
+  const [comments, setComments] = useState([])
+  const [likes, setLikes] = useState([])
+
+  useEffect(() => {
+    fetch(`/artworks/${artwork.id}/comments`)
+    .then(res => res.json())
+    .then(data => {
+      setComments(data)
+      fetch(`/artworks/${artwork.id}/likes`)
+      .then(res => res.json())
+      .then(setLikes(data.length))
+    })
+    .catch(err => console.log(err))
+  }, [])
 
 
   return (
@@ -44,7 +58,18 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
               </div>
             </Card.Content>
             <Card.Content extra>
-              <Actions artwork={artwork} user={user} users={users} setIsEditing={setIsEditing} onDelete={onDelete} onClose={onClose}/>
+              <Actions
+                artwork={artwork}
+                user={user}
+                users={users}
+                setIsEditing={setIsEditing}
+                onDelete={onDelete}
+                onClose={onClose}
+                likes={likes}
+                setLikes={setLikes}
+                comments={comments}
+                setComments={setComments}
+              />
             </Card.Content>
           </Card>
         )}

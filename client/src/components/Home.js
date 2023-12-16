@@ -25,7 +25,6 @@ function Home() {
     }
   }, [user, setFollowing])
 
-  console.log(following)
 
   const handleDelete = (artworkId) => {
     const deleteEndpoint = `/artworks/${artworkId}`

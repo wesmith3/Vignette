@@ -1,61 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Button, Icon } from 'semantic-ui-react'
 import CommentSection from './CommentSection';
+import AlertBar from '../Helpers/AlertBar'
 
-function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState([]);
-  const [showComments, setShowComments] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [loadingLikes, setLoadingLikes] = useState(true);
-  const [loadingComments, setLoadingComments] = useState(true);
-  const isCurrentUserOwner = user && artwork.user_id === user.id;
+function Actions({ artwork, user, users, setIsEditing, onDelete, onClose, likes, setLikes, comments, setComments }) {
+  const [liked, setLiked] = useState(false)
+  const [showComments, setShowComments] = useState(false)
+  const [alertMessage, setAlertMessage] = useState(null)
+  const [snackType, setSnackType] = useState('')
+  const isCurrentUserOwner = user && artwork.user_id === user.id
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await fetch(`/artworks/${artwork.id}/comments`);
-        const data = await res.json();
-        setComments(data);
-      } catch (error) {
-        console.log('Error fetching comments:', error);
-      } finally {
-        setLoadingComments(false);
-      }
-    };
-
-    if (showComments && loadingComments) {
-      fetchComments();
-    }
-  }, [artwork.id, showComments, loadingComments]);
-
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const res = await fetch(`/artworks/${artwork.id}/likes`);
-        const data = await res.json();
-        setLikes(data);
   
-        // Set liked based on whether the current user has already liked the artwork
-        if (user && data.some((like) => like.user_id === user.id)) {
-          setLiked(true);
-        }
-      } catch (error) {
-        console.log('Error fetching likes:', error);
-      } finally {
-        setLoadingLikes(false);
-      }
-    };
-  
-    fetchLikes();
-  }, [artwork.id, user]);
-
   const handleLike = async () => {
     const likeEndpoint = `/artworks/${artwork.id}/likes`;
     const method = liked ? 'DELETE' : 'POST';
 
     try {
-      // Optimistic update
       setLiked(!liked);
       setLikes((count) => (liked ? count - 1 : count + 1));
 
@@ -68,10 +28,10 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
       });
 
       if (!response.ok) {
-        // Revert changes on failure
         setLiked(liked);
         setLikes((count) => (liked ? count + 1 : count - 1));
-        console.error('Error liking/unliking artwork');
+        setAlertMessage('Error liking/unliking artwork')
+        setSnackType("error")
       }
     } catch (error) {
       console.error('Fetch error:', error);
@@ -109,7 +69,7 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
                   basic: true,
                   color: 'red',
                   pointing: 'left',
-                  content: loadingLikes ? '...' : likes.length,
+                  content: likes,
                 }}
               />
               <Button
@@ -144,6 +104,14 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
                 </form>
               )}
               {showComments && <CommentSection artwork={artwork} users={users} comments={comments} setComments={setComments} />}
+              {alertMessage && (
+              <AlertBar
+                message={alertMessage}
+                setAlertMessage={setAlertMessage}
+                snackType={snackType}
+                handleSnackType={setSnackType}
+              />
+            )}
           </>
   );
 }
