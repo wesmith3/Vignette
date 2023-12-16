@@ -20,7 +20,10 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
             <Card.Content>
              <UserInfo artwork={artwork} user={user}/>
             </Card.Content>
-            <Image src={artwork.image} wrapped ui={false} />
+            <div className="watermark-container">
+              <div className="watermark">Vignette</div>
+              <Image src={artwork.image} />
+            </div>
             <Card.Content>
               <Card.Header>{artwork.title}</Card.Header>
               <Card.Description>

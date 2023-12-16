@@ -52,19 +52,6 @@
   color: #85144b ;
 }
 
-.checkout-btn:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
-  background-color: #85144b !important;
-  color: white !important;
-}
-
-.cart-btn:hover {
-  transform: scale(1.05) !important;
-  transition: transform 0.3s ease-in-out !important;
-  color: #85144b !important;
-}
-
 .carved-text {
   font-size: 16px;
   font-family: 'Arial', sans-serif;
@@ -154,12 +141,18 @@
     font-family: cursive !important;
     text-align: center !important;
   }
-  .cart-header{
-    /* background-color: black; */
-    font-family: cursive !important;
-    text-align: center !important;
-    color: #85144b !important;
+
+  .watermark-container {
+    position: relative !important;
   }
-  .total {
-    color: #85144b !important;
+  
+  .watermark {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    font-size: 24px !important; /* Adjust font size as needed */
+    color: rgba(255, 255, 255, 0.5) !important; /* Adjust color and opacity as needed */
+    pointer-events: none !important; /* Ensure the watermark does not interfere with user interactions */
+    z-index: 1 !important;
   }

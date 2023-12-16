@@ -12,9 +12,12 @@ function Home() {
   
   useEffect(() => {
     if (user) {
-      fetch(`/users/${user.id}/followers`)
+      fetch(`/users/${user.id}/following`)
         .then((response) => response.json())
-        .then((data) => setFollowing(data))
+        .then((data) => {
+          const followingIds = data.map(item => item.following_id);
+          setFollowing(followingIds);
+        })
         .catch((error) => {
           setAlertMessage(error)
           setSnackType('error')
@@ -62,10 +65,8 @@ function Home() {
   }
 
   const followerArtworks = user
-    ? shuffledArtworks.filter((artwork) =>
-        following.some((follower) => follower.following_id === artwork.user_id)
-      )
-    : []
+  ? shuffledArtworks.filter((artwork) => following.includes(artwork.user_id))
+  : [];
 
   return (
     <>

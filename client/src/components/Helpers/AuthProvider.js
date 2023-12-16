@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -14,6 +15,7 @@ const AuthProvider = ({ children }) => {
   const [artworks, setArtworks] = useState([]);
   const [users, setUsers] = useState([]);
   const [artToPurchase, setArtToPurchase] = useState(null);
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -32,7 +34,16 @@ const AuthProvider = ({ children }) => {
           })
           .then(response => {
                     if (!response.ok) {
-                        console.error('No Refresh Token');
+                      fetch('/logout', {
+                        method: 'DELETE',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      }).then((res) => {
+                        if (res.ok) {
+                          navigate('/');
+                        }
+                      });
                       } else {
                         return response.json()
                       }
@@ -41,7 +52,9 @@ const AuthProvider = ({ children }) => {
           }
           else {
             response.json()
-            .then(data => setUser(data))
+            .then(data => {
+              setUser(data)
+            })
           }
         })
         .then(userData => {

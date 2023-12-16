@@ -3,30 +3,62 @@ import { Button, Icon } from 'semantic-ui-react'
 import CommentSection from './CommentSection';
 
 function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
-  const [liked, setLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(artwork.likes.length)
-  const [showComments, setShowComments] = useState(false)
-  const [comments, setComments] = useState([])
-  const isCurrentUserOwner = user && artwork.user_id === user.id
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState([]);
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [loadingLikes, setLoadingLikes] = useState(true);
+  const [loadingComments, setLoadingComments] = useState(true);
+  const isCurrentUserOwner = user && artwork.user_id === user.id;
 
   useEffect(() => {
-    fetch(`/artworks/${artwork.id}/comments`)
-      .then((res) => res.json())
-      .then((data) => setComments(data))
-      .catch((err) => console.log(err))
-  }, [])
+    const fetchComments = async () => {
+      try {
+        const res = await fetch(`/artworks/${artwork.id}/comments`);
+        const data = await res.json();
+        setComments(data);
+      } catch (error) {
+        console.log('Error fetching comments:', error);
+      } finally {
+        setLoadingComments(false);
+      }
+    };
 
-  useEffect(() => {
-    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
-      setLiked(true)
+    if (showComments && loadingComments) {
+      fetchComments();
     }
-  }, [user, artwork.likes])
+  }, [artwork.id, showComments, loadingComments]);
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const res = await fetch(`/artworks/${artwork.id}/likes`);
+        const data = await res.json();
+        setLikes(data);
+  
+        // Set liked based on whether the current user has already liked the artwork
+        if (user && data.some((like) => like.user_id === user.id)) {
+          setLiked(true);
+        }
+      } catch (error) {
+        console.log('Error fetching likes:', error);
+      } finally {
+        setLoadingLikes(false);
+      }
+    };
+  
+    fetchLikes();
+  }, [artwork.id, user]);
 
   const handleLike = async () => {
     const likeEndpoint = `/artworks/${artwork.id}/likes`;
     const method = liked ? 'DELETE' : 'POST';
-  
+
     try {
+      // Optimistic update
+      setLiked(!liked);
+      setLikes((count) => (liked ? count - 1 : count + 1));
+
       const response = await fetch(likeEndpoint, {
         method: method,
         headers: {
@@ -34,17 +66,23 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
         },
         body: JSON.stringify({ user_id: user.id }),
       });
-  
-      if (response.ok) {
-        setLiked(!liked);
-        setLikeCount((count) => (liked ? count - 1 : count + 1));
-      } else {
+
+      if (!response.ok) {
+        // Revert changes on failure
+        setLiked(liked);
+        setLikes((count) => (liked ? count + 1 : count - 1));
         console.error('Error liking/unliking artwork');
       }
     } catch (error) {
       console.error('Fetch error:', error);
     }
-  }
+  };
+
+  useEffect(() => {
+    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
+      setLiked(true)
+    }
+  }, [user, artwork.likes])
 
   const handleDelete = async () => {
     try {
@@ -62,7 +100,7 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
 
   return (
     <>
-    <Button
+            <Button
                 color={liked ? 'red' : 'grey'}
                 onClick={handleLike}
                 icon={liked ? 'heart' : 'heart outline'}
@@ -71,9 +109,9 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose }) {
                   basic: true,
                   color: 'red',
                   pointing: 'left',
-                  content: likeCount.toString(),
+                  content: loadingLikes ? '...' : likes.length,
                 }}
-                />
+              />
               <Button
                 color='blue'
                 icon
