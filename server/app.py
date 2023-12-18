@@ -407,7 +407,7 @@ class LikesByArtworkId(Resource):
 
             db.session.add(new_like)
             db.session.commit()
-            return make_response(new_like.to_dict(), 201)
+            return make_response(new_like.to_dict(rules=("-artwork_id",)), 201)
         except (ValueError, AttributeError, TypeError) as e:
             db.session.rollback()
             return make_response(

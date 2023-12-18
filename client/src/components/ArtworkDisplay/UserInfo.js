@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 function UserInfo({ artwork, user }) {
   const { following, setFollowing } = useContext(AuthContext)
   const [isFollowing, setIsFollowing] = useState(false)
-  const isCurrentUser = user.id === artwork.user_id;
+  const isCurrentUser = user?.id === artwork.user_id;
 
   useEffect(() => {
     following.includes(artwork.user_id) && user.id !== artwork.user_id

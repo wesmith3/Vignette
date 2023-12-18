@@ -3,22 +3,18 @@ import { Button, Icon } from 'semantic-ui-react'
 import CommentSection from './CommentSection';
 import AlertBar from '../Helpers/AlertBar'
 
-function Actions({ artwork, user, users, setIsEditing, onDelete, onClose, likes, setLikes, comments, setComments }) {
-  const [liked, setLiked] = useState(false)
+function Actions({ artwork, user, users, setIsEditing, onDelete, onClose, likes, setLikes, comments, setComments, isLiked, setIsLiked }) {
   const [showComments, setShowComments] = useState(false)
   const [alertMessage, setAlertMessage] = useState(null)
   const [snackType, setSnackType] = useState('')
   const isCurrentUserOwner = user && artwork.user_id === user.id
-
+  
   
   const handleLike = async () => {
     const likeEndpoint = `/artworks/${artwork.id}/likes`;
-    const method = liked ? 'DELETE' : 'POST';
-
+    const method = isLiked ? 'DELETE' : 'POST';
+    
     try {
-      setLiked(!liked);
-      setLikes((count) => (liked ? count - 1 : count + 1));
-
       const response = await fetch(likeEndpoint, {
         method: method,
         headers: {
@@ -26,23 +22,30 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose, likes,
         },
         body: JSON.stringify({ user_id: user.id }),
       });
-
+      
       if (!response.ok) {
-        setLiked(liked);
-        setLikes((count) => (liked ? count + 1 : count - 1));
-        setAlertMessage('Error liking/unliking artwork')
-        setSnackType("error")
+        setAlertMessage('Error liking/unliking artwork');
+        setSnackType('error');
+      } else {
+        const responseData = await response.text()
+        
+        const updatedLike = responseData ? JSON.parse(responseData) : {};
+        
+        if (isLiked) {
+          setLikes(likes.filter(like => like.user_id !== user.id))
+        } else {
+          setLikes([...likes, updatedLike])
+        }
+        setIsLiked(!isLiked)
       }
     } catch (error) {
       console.error('Fetch error:', error);
+      setAlertMessage('Error liking/unliking artwork');
+      setSnackType('error');
     }
   };
+  
 
-  useEffect(() => {
-    if (user && artwork.likes.some((like) => like.user_id === user.id)) {
-      setLiked(true)
-    }
-  }, [user, artwork.likes])
 
   const handleDelete = async () => {
     try {
@@ -61,15 +64,15 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose, likes,
   return (
     <>
             <Button
-                color={liked ? 'red' : 'grey'}
+                color={isLiked ? 'red' : 'grey'}
                 onClick={handleLike}
-                icon={liked ? 'heart' : 'heart outline'}
+                icon={isLiked ? 'heart' : 'heart outline'}
                 labelPosition='right'
                 label={{
                   basic: true,
                   color: 'red',
                   pointing: 'left',
-                  content: likes,
+                  content: likes.length,
                 }}
               />
               <Button

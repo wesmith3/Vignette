@@ -3,7 +3,7 @@ import { Comment, Header, Form, Button } from 'semantic-ui-react';
 import { AuthContext } from '../Helpers/AuthProvider';
 import Avatar from '@mui/material/Avatar';
 
-function CommentSection({ artwork, users, onUpdateComments, comments, setComments }) {
+function CommentSection({ artwork, users, comments, setComments }) {
   const { user } = useContext(AuthContext);
   const [newComment, setNewComment] = useState('');
 
@@ -21,8 +21,7 @@ function CommentSection({ artwork, users, onUpdateComments, comments, setComment
       if (response.ok) {
         const newCommentData = await response.json();
         setComments([...comments, newCommentData]);
-        setNewComment('');
-        onUpdateComments([...comments, newCommentData]);
+        setNewComment('')
       } else {
         console.error('Error adding comment');
       }
@@ -43,7 +42,6 @@ function CommentSection({ artwork, users, onUpdateComments, comments, setComment
       if (response.ok) {
         const updatedComments = comments.filter((comment) => comment.id !== commentId);
         setComments(updatedComments)
-        onUpdateComments(updatedComments);
       } else {
         console.error('Error deleting comment');
       }

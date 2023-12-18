@@ -11,11 +11,6 @@
     box-shadow: 4px 8px 5px 5px grey !important;
 }
 
-.checkout {
-  box-shadow: 4px 8px 5px 5px grey !important;
-  font-family: monospace !important;
-}
-
 .search-bar {
   box-shadow: 4px 8px 2px 0 grey !important;
 }
@@ -55,7 +50,6 @@
 .carved-text {
   font-size: 16px;
   font-family: 'Arial', sans-serif;
-
 }
 
 .artist {
@@ -127,7 +121,6 @@
 
   .gallery {
     background-color: #FAF9F6;
-    /* background-color: black; */
   }
 
   .delete-btn {
@@ -137,7 +130,6 @@
   }
 
   .load-phrase{
-    /* font-size: 100% !important; */
     font-family: cursive !important;
     text-align: center !important;
   }

@@ -10,18 +10,26 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
   const [isEditing, setIsEditing] = useState(false)
   const [comments, setComments] = useState([])
   const [likes, setLikes] = useState([])
+  const [isLiked, setIsLiked] = useState(false)
 
-  useEffect(() => {
-    fetch(`/artworks/${artwork.id}/comments`)
+useEffect(() => {
+  fetch(`/artworks/${artwork.id}/comments`)
     .then(res => res.json())
-    .then(data => {
-      setComments(data)
+    .then(comments => {
+      setComments(comments)
       fetch(`/artworks/${artwork.id}/likes`)
-      .then(res => res.json())
-      .then(setLikes(data.length))
-    })
-    .catch(err => console.log(err))
-  }, [])
+        .then(res => res.json())
+        .then(likes => {
+          setLikes([...likes])
+          const userExists = user && likes.some(like => like.user_id === user.id)
+          if (userExists) {
+            setIsLiked(true);
+          }
+        })
+        })
+    .catch(err => console.log(err));
+}, []);
+
 
 
   return (
@@ -66,6 +74,8 @@ function ArtworkModal({ onClose, artwork, onDelete }) {
                 onDelete={onDelete}
                 onClose={onClose}
                 likes={likes}
+                isLiked={isLiked}
+                setIsLiked={setIsLiked}
                 setLikes={setLikes}
                 comments={comments}
                 setComments={setComments}
