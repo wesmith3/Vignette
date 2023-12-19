@@ -58,8 +58,8 @@ const ArtworkForm = ({ onSubmit, onCancel }) => {
           <ErrorMessage name='price' component='div' />
         </SemanticForm.Field>
         <SemanticForm.Field>
-          <label>Preview:</label>
-          <Field as={Checkbox} type='checkbox' name='preview' />
+          <label>Public:</label>
+          <Field as={Checkbox} type='radio' name='preview' />
           <ErrorMessage name='preview' component='div' />
         </SemanticForm.Field>
         <Button type='submit'>Create Artwork</Button>

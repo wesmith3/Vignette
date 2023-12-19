@@ -41,7 +41,6 @@ const AuthProvider = ({ children }) => {
                         },
                       }).then((res) => {
                         if (res.ok) {
-                          navigate('/');
                         }
                       });
                       } else {

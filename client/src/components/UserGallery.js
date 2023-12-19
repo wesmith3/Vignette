@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from './Helpers/AuthProvider'
 import { useParams } from 'react-router-dom';
 import MenuBar from './Helpers/MenuBar';
 import Gallery from './Gallery';
 import ArtistModal from './ArtistModal';
 
 function UserGallery() {
-  const { username } = useParams();
-  const [user, setUser] = useState(null);
+  const { username } = useParams()
+  const { user } = useContext(AuthContext)
+  const [artist, setArtist] = useState(null);
   const [artworks, setArtworks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,14 +29,18 @@ function UserGallery() {
         const foundUser = allUsersData.find((u) => u.username === username);
 
         if (foundUser) {
-          setUser(foundUser);
-
-          const artworksResponse = await fetch(`/users/${foundUser.id}/artworks`);
+          setArtist(foundUser)
+          const userFollowing = user && foundUser.followers && foundUser.followers.some(follow => follow.follower_id === user.id);
+          
+          const artworksResponse = await fetch(`/users/${foundUser.id}/artworks`)
           const artworksData = await artworksResponse.json();
+          if (userFollowing) {
+            setArtworks(artworksData)
+          } else {
+            const previewArtworks = artworksData.filter((artwork) => artwork.preview === true);
+            setArtworks(previewArtworks);
+          }
 
-          const previewArtworks = artworksData.filter((artwork) => artwork.preview === true);
-
-          setArtworks(previewArtworks);
         } else {
           console.error('User not found');
         }
@@ -52,7 +58,7 @@ function UserGallery() {
     return <div>Loading...</div>;
   }
 
-  if (!user) {
+  if (!artist) {
     return null;
   }
 
@@ -62,10 +68,10 @@ function UserGallery() {
       <br />
       <div className='artist-plaque' onClick={openModal}>
         <div className='carved-text'>
-          {user.full_name}
+          {artist.full_name}
           <br />
-          @{user.username}
-          {isModalOpen && <ArtistModal user={user} onClose={closeModal} />}
+          @{artist.username}
+          {isModalOpen && <ArtistModal artist={artist} onClose={closeModal} />}
         </div>
       </div>
       <br />

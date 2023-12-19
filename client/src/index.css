@@ -143,8 +143,81 @@
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
-    font-size: 24px !important; /* Adjust font size as needed */
-    color: rgba(255, 255, 255, 0.5) !important; /* Adjust color and opacity as needed */
-    pointer-events: none !important; /* Ensure the watermark does not interfere with user interactions */
+    font-size: 24px !important;
+    color: rgba(255, 255, 255, 0.5) !important; 
+    pointer-events: none !important;
     z-index: 1 !important;
   }
+
+  .artwork-form {
+    max-width: 600px !important;
+    margin: 0 auto !important;
+  }
+  
+  label {
+    display: block !important;
+    margin-bottom: 0.5em !important;
+    font-weight: bold !important;
+  }
+  
+  .artwork-form .ui.form .field {
+    margin-bottom: 1em !important;
+  }
+  
+  .artwork-form .ui.error.message {
+    display: block !important;
+    color: #9f3a38 !important; /* Semantic UI red color for error messages */
+    margin-top: 0.5em !important;
+  }
+  
+  .artwork-form button {
+    margin-top: 1em !important;
+  }
+  
+  /* Optional: Add some additional styling for the form elements */
+  .artwork-form input[type="text"],
+  .artwork-form input[type="number"],
+  .artwork-form textarea {
+    width: 100% !important;
+    padding: 0.5em !important;
+    margin-top: 0.5em !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Optional: Style the checkbox for better visibility */
+  .artwork-form .ui.checkbox input:checked ~ label:before,
+  .artwork-form .ui.checkbox input:checked ~ label:after {
+    background-color: #2185d0 !important; /* Semantic UI blue color for checked state */
+  }
+  
+  /* Optional: Adjust styling for buttons */
+  .artwork-form button {
+    background-color: #2185d0 !important; /* Semantic UI blue color for buttons */
+    color: #ffffff !important; /* White text on blue background */
+    padding: 0.7em 1.5em !important;
+    border: none !important;
+    border-radius: 0.25em !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+  }
+  
+  .artwork-form button:hover {
+    background-color: #1678c2 !important; /* Darker blue on hover */
+  }
+  
+  .artwork-form button + button {
+    margin-left: 0.5em !important;
+    background-color: #d4d4d5 !important; /* Semantic UI grey color for the "Cancel" button */
+    color: #000000 !important; /* Black text on grey background */
+  }
+  
+  .artwork-form button + button:hover {
+    background-color: #c1c1c1 !important; /* Darker grey on hover */
+  }
+  
+  
+  
+  
+  
+  
+  

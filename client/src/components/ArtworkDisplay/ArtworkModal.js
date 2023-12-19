@@ -56,10 +56,11 @@ useEffect(() => {
                 </p>
               </Card.Description>
               <br />
+              <div><strong>Tags:</strong></div>
               <div>
                 {artwork.tags.map((tag, index) => (
                   <span key={index}>
-                    <strong>#{tag.keyword}</strong>
+                    #{tag.keyword}
                     {index < artwork.tags.length - 1 ? ', ' : ''}
                   </span>
                 ))}

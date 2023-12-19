@@ -1,6 +1,6 @@
 import { Image, Modal } from 'semantic-ui-react'
 
-function ArtistModal({ onClose, user }) {
+function ArtistModal({ onClose, artist }) {
   return (
     <Modal
       onClose={onClose}
@@ -8,19 +8,19 @@ function ArtistModal({ onClose, user }) {
       className='artist'
     >
       <Modal.Content image>
-        <Image size='huge' src={user.profile_image} circular />
+        <Image size='huge' src={artist.profile_image} circular />
         <Modal.Description>
           <p>
-            <strong>Name:</strong> {user.full_name}
+            <strong>Name:</strong> {artist.full_name}
           </p>
           <p>
-            <strong>Username:</strong> @{user.username}
+            <strong>Username:</strong> @{artist.username}
           </p>
           <p>
-            <strong>Bio:</strong> {user.bio}
+            <strong>Bio:</strong> {artist.bio}
           </p>
           <p>
-            <strong>Based In:</strong> {user.location}
+            <strong>Based In:</strong> {artist.location}
           </p>
         </Modal.Description>
       </Modal.Content>

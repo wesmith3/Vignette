@@ -70,7 +70,7 @@ function UserInfo({ artwork, user }) {
           alignItems: 'center',
         }}
       >
-        <Link to={`/profile/${artwork.user.username}`}>
+        <Link to={`/${artwork.user.username}`}>
           <strong>@{artwork.user.username}</strong>
         </Link>
       </div>

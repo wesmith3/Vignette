@@ -9,7 +9,7 @@ from faker import Faker
 # Local imports
 from app import app
 from config import db
-from data import create_users, create_artworks
+from new_data import create_users, create_artworks
 from models.user import User
 from models.artwork import Artwork
 from models.comment import Comment

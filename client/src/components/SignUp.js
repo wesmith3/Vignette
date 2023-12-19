@@ -46,6 +46,7 @@ function SignUp() {
         const userData = await response.json()
         setAlertMessage("User registered successfully")
         setSnackType('success')
+        
 
         navigate('/')
       } else {

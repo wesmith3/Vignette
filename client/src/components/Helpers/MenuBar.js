@@ -9,7 +9,6 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import { Image } from 'semantic-ui-react'
-import Badge from '@mui/material/Badge'
 import MenuIcon from '@mui/icons-material/Menu'
 import Avatar from '@mui/material/Avatar'
 
@@ -32,8 +31,6 @@ function MenuBar() {
     });
   };
 
-  const menuId = 'primary-search-account-menu';
-
   return (
     <>
     <Box sx={{ flexGrow: 1 }}>
@@ -52,20 +49,6 @@ function MenuBar() {
         <Box sx={{ flexGrow: 1 }}>
           <Image src="././Logo.png" alt="logo" size="small" centered/>
         </Box>
-          {/* <Box >
-            <IconButton
-              size="large"
-              color="inherit"
-              onClick={() => setIsCartOpen(true)}
-              className='cart-btn'
-              >
-              <Badge badgeContent={cart.length} color="error">
-                <ShoppingBagIcon 
-                size="large"
-                />
-              </Badge>
-            </IconButton> */}
-          {/* </Box> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -75,7 +58,7 @@ function MenuBar() {
           onClose={() => setIsDrawerOpen(false)}
           PaperProps={{
             sx: {
-              width: '15%',
+              width: '18%',
               padding: '15px',
               backgroundColor: 'black',
               color: "white",

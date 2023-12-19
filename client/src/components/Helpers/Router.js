@@ -14,7 +14,7 @@ import Loading from "./Loading";
 import Success from "./Success";
 import Cancelled from "./Cancelled";
 function Router() {
-  const { login, setArtworks, setUsers, setUser, cart } = useContext(AuthContext);
+  const { login, setArtworks, setUsers, setUser, user } = useContext(AuthContext);
   return (
       <Routes>
         <Route
@@ -28,7 +28,7 @@ function Router() {
           }
         />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile/:username" element={<UserGallery />} />
+        <Route path="/:username" element={<UserGallery user={user}/>} />
         <Route path="/search" element={<Search />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/success" element={<Success />} />
