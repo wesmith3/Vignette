@@ -9,7 +9,6 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import { Image } from 'semantic-ui-react'
-import Badge from '@mui/material/Badge'
 import MenuIcon from '@mui/icons-material/Menu'
 import Avatar from '@mui/material/Avatar'
 
@@ -32,8 +31,6 @@ function MenuBar() {
     });
   };
 
-  const menuId = 'primary-search-account-menu';
-
   return (
     <>
     <Box sx={{ flexGrow: 1 }}>
@@ -52,20 +49,6 @@ function MenuBar() {
         <Box sx={{ flexGrow: 1 }}>
           <Image src="././Logo.png" alt="logo" size="small" centered/>
         </Box>
-          {/* <Box >
-            <IconButton
-              size="large"
-              color="inherit"
-              onClick={() => setIsCartOpen(true)}
-              className='cart-btn'
-              >
-              <Badge badgeContent={cart.length} color="error">
-                <ShoppingBagIcon 
-                size="large"
-                />
-              </Badge>
-            </IconButton> */}
-          {/* </Box> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -75,7 +58,7 @@ function MenuBar() {
           onClose={() => setIsDrawerOpen(false)}
           PaperProps={{
             sx: {
-              width: '15%',
+              width: '18%',
               padding: '15px',
               backgroundColor: 'black',
               color: "white",
@@ -94,14 +77,14 @@ function MenuBar() {
             </ListItem>
             <br />
             <br />
-            <ListItem className='menu-item' button onClick={() => navigate('/')}>
+            <ListItem className='menu-item' button onClick={() => navigate('/explore')}>
               Explore
             </ListItem>
             <br />
             <br />
-            {/* <ListItem className='menu-item' button onClick={() => navigate('/search')}>
+            <ListItem className='menu-item' button onClick={() => navigate('/search')}>
               Search
-            </ListItem> */}
+            </ListItem>
           </List>
           <List 
           sx={{ 
@@ -119,20 +102,16 @@ function MenuBar() {
             </ListItem>
             <ListItem className='menu-item' button onClick={handleSignOut}>
               Sign Out
-            <IconButton
-              size="small"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-              >
-              {/* <Avatar 
-                alt={user.full_name}
-                src={user.profile_image} 
-                size="large"
-                /> */}
-            </IconButton>
+              {user && (
+                <IconButton
+                  size="small"
+                  edge="end"
+                  aria-label="account of current user"
+                  color="inherit"
+                >
+                  <Avatar alt={user.full_name} src={user.profile_image} size="large" />
+                </IconButton>
+              )}
                 </ListItem>
           </List>
         </Drawer>

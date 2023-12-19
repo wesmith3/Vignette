@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form, Grid, Image, Message, Segment } from 'semantic-ui-react'
-import { Formik } from 'formik'
+import { useFormik } from 'formik'
 import * as yup from 'yup'
 import AlertBar from './Helpers/AlertBar'
 
@@ -44,18 +44,17 @@ function SignUp() {
 
       if (response.ok) {
         const userData = await response.json()
+        setAlertMessage("User registered successfully")
+        setSnackType('success')
         
-        console.log('User registered successfully:', userData)
 
         navigate('/')
       } else {
         const errorData = await response.json()
-        console.error('Error from server:', errorData)
         setAlertMessage(errorData.message || 'Failed to register user.')
         setSnackType('error')
       }
     } catch (errors) {
-      console.error('Validation errors:', errors.errors)
       setErrors(errors.errors.reduce((acc, error) => ({ ...acc, [error.path]: error.message }), {}))
       setAlertMessage('Please fix the highlighted fields.')
       setSnackType('error')
@@ -63,6 +62,12 @@ function SignUp() {
       setSubmitting(false)
     }
   }
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema: signUpSchema,
+    onSubmit: handleSubmit,
+  })
 
   return (
     <Grid
@@ -78,104 +83,96 @@ function SignUp() {
       <Grid.Column style={{ maxWidth: 450 }}>
         <Image src="././Logo.png" size="large" />
         <br />
-        <Formik
-          initialValues={initialValues}
-          validationSchema={signUpSchema}
-          onSubmit={handleSubmit}
-        >
-          {(formikProps) => (
-            <Form onSubmit={formikProps.handleSubmit} id="formikSignUp" size="large">
-              <Segment stacked>
-                <Form.Group widths="two">
-                  <Form.Input
-                    fluid
-                    id="full_name"
-                    type="text"
-                    icon="user"
-                    iconPosition="left"
-                    placeholder="Full Name"
-                    onChange={formikProps.handleChange}
-                    onBlur={formikProps.handleBlur}
-                    value={formikProps.values.full_name}
-                    error={formikProps.touched.full_name && formikProps.errors.full_name ? { content: formikProps.errors.full_name } : null}
-                  />
-                  <Form.Input
-                    fluid
-                    id="username"
-                    type="text"
-                    icon="user circle"
-                    iconPosition="left"
-                    placeholder="Username"
-                    onChange={formikProps.handleChange}
-                    onBlur={formikProps.handleBlur}
-                    value={formikProps.values.username}
-                    error={formikProps.touched.username && formikProps.errors.username ? { content: formikProps.errors.username } : null}
-                  />
-                </Form.Group>
-                <Form.Input
-                  fluid
-                  id="email"
-                  type="text"
-                  icon="mail"
-                  iconPosition="left"
-                  placeholder="E-mail address"
-                  onChange={formikProps.handleChange}
-                  onBlur={formikProps.handleBlur}
-                  value={formikProps.values.email}
-                  error={formikProps.touched.email && formikProps.errors.email ? { content: formikProps.errors.email } : null}
-                />
-                <Form.Group widths="two">
-                  <Form.Input
-                    fluid
-                    icon="lock"
-                    id="password"
-                    iconPosition="left"
-                    placeholder="Password"
-                    type="password"
-                    onChange={formikProps.handleChange}
-                    onBlur={formikProps.handleBlur}
-                    value={formikProps.values.password}
-                    error={formikProps.touched.password && formikProps.errors.password ? { content: formikProps.errors.password } : null}
-                  />
-                  <Form.Input
-                    fluid
-                    icon="location arrow"
-                    id="location"
-                    iconPosition="left"
-                    placeholder="Location"
-                    onChange={formikProps.handleChange}
-                    onBlur={formikProps.handleBlur}
-                    value={formikProps.values.location}
-                    error={formikProps.touched.location && formikProps.errors.location ? { content: formikProps.errors.location } : null}
-                  />
-                </Form.Group>
-                <Form.TextArea
-                  id="bio"
-                  control={Form.TextArea}
-                  label="Bio"
-                  placeholder="Tell us about yourself..."
-                  onChange={formikProps.handleChange}
-                  onBlur={formikProps.handleBlur}
-                  value={formikProps.values.bio}
-                  error={formikProps.touched.bio && formikProps.errors.bio ? { content: formikProps.errors.bio } : null}
-                />
-                <Button type="submit" color="black" fluid size="large">
-                  Sign Up
-                </Button>
-                {alertMessage && (
-                  <AlertBar
-                    message={alertMessage}
-                    setAlertMessage={setAlertMessage}
-                    snackType={snackType}
-                    handleSnackType={setSnackType}
-                  />
-                )}
-              </Segment>
-            </Form>
-          )}
-        </Formik>
+        <Form onSubmit={formik.handleSubmit} id="formikSignUp" size="large">
+          <Segment stacked>
+            <Form.Group widths="two">
+              <Form.Input
+                fluid
+                id="full_name"
+                type="text"
+                icon="user"
+                iconPosition="left"
+                placeholder="Full Name"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.full_name}
+                error={formik.touched.full_name && formik.errors.full_name ? { content: formik.errors.full_name } : null}
+              />
+              <Form.Input
+                fluid
+                id="username"
+                type="text"
+                icon="user circle"
+                iconPosition="left"
+                placeholder="Username"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.username}
+                error={formik.touched.username && formik.errors.username ? { content: formik.errors.username } : null}
+              />
+            </Form.Group>
+            <Form.Input
+              fluid
+              id="email"
+              type="text"
+              icon="mail"
+              iconPosition="left"
+              placeholder="E-mail address"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              error={formik.touched.email && formik.errors.email ? { content: formik.errors.email } : null}
+            />
+            <Form.Group widths="two">
+              <Form.Input
+                fluid
+                icon="lock"
+                id="password"
+                iconPosition="left"
+                placeholder="Password"
+                type="password"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                error={formik.touched.password && formik.errors.password ? { content: formik.errors.password } : null}
+              />
+              <Form.Input
+                fluid
+                icon="location arrow"
+                id="location"
+                iconPosition="left"
+                placeholder="Location"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.location}
+                error={formik.touched.location && formik.errors.location ? { content: formik.errors.location } : null}
+              />
+            </Form.Group>
+            <Form.TextArea
+              id="bio"
+              control={Form.TextArea}
+              label="Bio"
+              placeholder="Tell us about yourself..."
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.bio}
+              error={formik.touched.bio && formik.errors.bio ? { content: formik.errors.bio } : null}
+            />
+            <Button type="submit" color="black" fluid size="large">
+              Sign Up
+            </Button>
+            {alertMessage && (
+              <AlertBar
+                message={alertMessage}
+                setAlertMessage={setAlertMessage}
+                snackType={snackType}
+                handleSnackType={setSnackType}
+              />
+            )}
+          </Segment>
+        </Form>
         <Message>
-          Already have an account? <a href="/login">Click Here</a>
+          Already have an account? <a href="/">Click Here</a>
         </Message>
       </Grid.Column>
     </Grid>

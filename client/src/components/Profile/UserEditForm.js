@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Table, Input, Button } from 'semantic-ui-react'
 
 function UserEditForm({ user, setUser }) {

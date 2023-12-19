@@ -1,11 +1,11 @@
 import { useState, useContext, useEffect } from 'react';
 import { Button, Popup } from 'semantic-ui-react';
-import MenuBar from './Helpers/MenuBar';
-import Gallery from './Gallery';
-import ArtistModal from './ArtistModal';
-import { AuthContext } from './Helpers/AuthProvider';
+import MenuBar from '../Helpers/MenuBar';
+import Gallery from '../Gallery';
+import ArtistModal from '../ArtistModal';
+import { AuthContext } from '../Helpers/AuthProvider';
 import ArtworkForm from './ArtworkForm';
-import AlertBar from './Helpers/AlertBar';
+import AlertBar from '../Helpers/AlertBar';
 
 const MyGallery = () => {
   const { user, setArtworks } = useContext(AuthContext);
@@ -82,15 +82,20 @@ const MyGallery = () => {
   };
 
   useEffect(() => {
-    fetch(`/users/${user.id}/artworks`)
-      .then((res) => res.json())
-      .then((data) => {
-        setArtworksLocal(data)
-        setIsDeleting(false)
-      })
-      .catch((err) => console.log(err));
-  }, [user.id, isFormVisible, isDeleting]);
+    if (user) {
+      fetch(`/users/${user.id}/artworks`)
+        .then((res) => res.json())
+        .then((data) => {
+          setArtworksLocal(data);
+          setIsDeleting(false);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [user, isFormVisible, isDeleting]);
 
+  if (!user) {
+    return null;
+  }
 
   return (
     <>

@@ -7,15 +7,14 @@ import Profile from '../Profile/Profile'
 import UserGallery from '../UserGallery'
 import Signup from "../SignUp";
 import Search from "../Search";
+import Explore from "../Explore";
 import Home from "../Home";
-import MyGallery from "../MyGallery";
+import MyGallery from "../Profile/MyGallery";
 import Loading from "./Loading";
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-const stripePubKey = "pk_test_51OLr7qJxYeOx9Zwqcf5BNOofHBJ34Q47JC5eaMAXQD114sULFriIbEB3UEiaK4WX0cNrbsxcfiAuaOJuY9Rkg7vM00qbJy1vOB"
-
+import Success from "./Success";
+import Cancelled from "./Cancelled";
 function Router() {
-  const { login, setArtworks, setUsers, setUser, cart } = useContext(AuthContext);
+  const { login, setArtworks, setUsers, setUser, user } = useContext(AuthContext);
   return (
       <Routes>
         <Route
@@ -29,8 +28,11 @@ function Router() {
           }
         />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile/:username" element={<UserGallery />} />
+        <Route path="/:username" element={<UserGallery user={user}/>} />
         <Route path="/search" element={<Search />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancelled" element={<Cancelled />} />
         <Route 
           path="/loading"
           element={

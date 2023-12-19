@@ -77,13 +77,6 @@ class Artwork(db.Model, SerializerMixin):
         else:
             raise ValueError("User id must be a valid user")
 
-    @validates("image")
-    def image_validation(self, k, image):
-        if image:
-            return image
-        else:
-            raise ValueError("Image cannot be empty")
-
     @validates("title")
     def title_validation(self, key, title):
         if title and (1 <= len(title) <= 130):

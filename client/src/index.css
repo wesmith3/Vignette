@@ -11,11 +11,6 @@
     box-shadow: 4px 8px 5px 5px grey !important;
 }
 
-.checkout {
-  box-shadow: 4px 8px 5px 5px grey !important;
-  font-family: monospace !important;
-}
-
 .search-bar {
   box-shadow: 4px 8px 2px 0 grey !important;
 }
@@ -52,23 +47,9 @@
   color: #85144b ;
 }
 
-.checkout-btn:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
-  background-color: #85144b !important;
-  color: white !important;
-}
-
-.cart-btn:hover {
-  transform: scale(1.05) !important;
-  transition: transform 0.3s ease-in-out !important;
-  color: #85144b !important;
-}
-
 .carved-text {
   font-size: 16px;
   font-family: 'Arial', sans-serif;
-
 }
 
 .artist {
@@ -120,13 +101,26 @@
     box-shadow: 4px 6px 2px 0 grey !important;
   }
 
+  .success-message {
+    width: 90% !important;
+    margin: 2% auto !important;
+    text-align: center !important;
+    align-content: center !important;
+  }
+
+  .cancel-message {
+    width: 90% !important;
+    margin: 2% auto !important;
+    text-align: center !important;
+    align-content: center !important;
+  }
+
   .profile {
     background-color: #FAF9F6;
   }
 
   .gallery {
     background-color: #FAF9F6;
-    /* background-color: black; */
   }
 
   .delete-btn {
@@ -136,16 +130,94 @@
   }
 
   .load-phrase{
-    /* font-size: 100% !important; */
     font-family: cursive !important;
     text-align: center !important;
   }
-  .cart-header{
-    /* background-color: black; */
-    font-family: cursive !important;
-    text-align: center !important;
-    color: #85144b !important;
+
+  .watermark-container {
+    position: relative !important;
   }
-  .total {
-    color: #85144b !important;
+  
+  .watermark {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    font-size: 24px !important;
+    color: rgba(255, 255, 255, 0.5) !important; 
+    pointer-events: none !important;
+    z-index: 1 !important;
   }
+
+  .artwork-form {
+    max-width: 600px !important;
+    margin: 0 auto !important;
+  }
+  
+  label {
+    display: block !important;
+    margin-bottom: 0.5em !important;
+    font-weight: bold !important;
+  }
+  
+  .artwork-form .ui.form .field {
+    margin-bottom: 1em !important;
+  }
+  
+  .artwork-form .ui.error.message {
+    display: block !important;
+    color: #9f3a38 !important; /* Semantic UI red color for error messages */
+    margin-top: 0.5em !important;
+  }
+  
+  .artwork-form button {
+    margin-top: 1em !important;
+  }
+  
+  /* Optional: Add some additional styling for the form elements */
+  .artwork-form input[type="text"],
+  .artwork-form input[type="number"],
+  .artwork-form textarea {
+    width: 100% !important;
+    padding: 0.5em !important;
+    margin-top: 0.5em !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Optional: Style the checkbox for better visibility */
+  .artwork-form .ui.checkbox input:checked ~ label:before,
+  .artwork-form .ui.checkbox input:checked ~ label:after {
+    background-color: #2185d0 !important; /* Semantic UI blue color for checked state */
+  }
+  
+  /* Optional: Adjust styling for buttons */
+  .artwork-form button {
+    background-color: #2185d0 !important; /* Semantic UI blue color for buttons */
+    color: #ffffff !important; /* White text on blue background */
+    padding: 0.7em 1.5em !important;
+    border: none !important;
+    border-radius: 0.25em !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+  }
+  
+  .artwork-form button:hover {
+    background-color: #1678c2 !important; /* Darker blue on hover */
+  }
+  
+  .artwork-form button + button {
+    margin-left: 0.5em !important;
+    background-color: #d4d4d5 !important; /* Semantic UI grey color for the "Cancel" button */
+    color: #000000 !important; /* Black text on grey background */
+  }
+  
+  .artwork-form button + button:hover {
+    background-color: #c1c1c1 !important; /* Darker grey on hover */
+  }
+  
+  
+  
+  
+  
+  
+  

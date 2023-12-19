@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -10,58 +11,16 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [following, setFollowing] = useState([]);
   const [artworks, setArtworks] = useState([]);
   const [users, setUsers] = useState([]);
   const [artToPurchase, setArtToPurchase] = useState(null);
+  const navigate = useNavigate()
 
- const getAuthTokenFromCookie = () => {
-    const name = "access_token_cookie=";
-    const decodedCookie = decodeURIComponent(document.cookie);
-    const cookieArray = decodedCookie.split(';');
-  
-    for(let i = 0; i < cookieArray.length; i++) {
-      let cookie = cookieArray[i].trim();
-      if (cookie.indexOf(name) == 0) {
-        return cookie.substring(name.length, cookie.length);
-      }
-    }
-  
-    return null;
-  };
 
-  // useEffect(() => {
-  //   const token = getAuthTokenFromCookie()
-  //   console.log(token)
-  //   if (token) {
-  //     fetch('/me', {
-  //       headers: {
-  //         // 'Authorization': `Bearer ${token}`,
-  //         'X-CSRF-TOKEN': getCookie('csrf_access_token')
-  //       },
-  //     })
-  //       .then(response => {
-  //         if (!response.ok) {
-  //           if (response.status === 401) {
-  //             // Handle unauthorized (token expired) - you might want to redirect to login
-  //             console.error('Token expired');
-  //           } else {
-  //             throw new Error('Failed to fetch user information');
-  //           }
-  //         }
-  //         return response.json();
-  //       })
-  //       .then(userData => {
-  //         setUser(userData);
-  //       })
-  //       .catch(error => {
-  //         console.error('Failed to fetch user information on page load', error);
-  //       });
-  //   }
-  // }, []);
   useEffect(() => {
       fetch('/me', {
         headers: {
-          // 'Authorization': `Bearer ${token}`,
           'X-CSRF-TOKEN': getCookie('csrf_access_token')
         },
       })
@@ -75,7 +34,15 @@ const AuthProvider = ({ children }) => {
           })
           .then(response => {
                     if (!response.ok) {
-                        console.error('No Refresh Token');
+                      fetch('/logout', {
+                        method: 'DELETE',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      }).then((res) => {
+                        if (res.ok) {
+                        }
+                      });
                       } else {
                         return response.json()
                       }
@@ -84,14 +51,22 @@ const AuthProvider = ({ children }) => {
           }
           else {
             response.json()
-            .then(data => setUser(data))
+            .then(data => {
+              setUser(data)
+            })
           }
         })
         .then(userData => {
           setUser(userData)
           fetch("/artworks")
           .then(response => response.json())
-          .then(data => setArtworks(data))
+          .then(data => {
+            setArtworks(data)
+            fetch("/users")
+            .then(response => response.json())
+            .then(data => setUsers(data))
+            .catch(err => console.log(err))
+          })
           .catch(err => console.log(err))
         })
         .catch(error => {
@@ -119,7 +94,9 @@ const AuthProvider = ({ children }) => {
         users,
         setUsers,
         artToPurchase,
-        setArtToPurchase
+        setArtToPurchase,
+        following,
+        setFollowing
       }}
     >
       {children}
