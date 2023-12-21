@@ -57,7 +57,6 @@ function Profile() {
 
   const handleSaveProfileImage = async () => {
     try {
-      // Assuming you have an API endpoint to update the user's profile picture
       const response = await fetch(`/users/${user.id}`, {
         method: 'PATCH',
         headers: {
@@ -67,9 +66,7 @@ function Profile() {
       });
 
       if (response.ok) {
-        // Update the user's profile image in the local state
         setUser((prevUser) => ({ ...prevUser, profile_image: newProfileImage }));
-        // Close the modal
         closeImageEditModal();
       } else {
         console.error('Failed to update profile image');
@@ -109,7 +106,20 @@ function Profile() {
       </div>
       <br />
       <Modal open={showConfirmationModal} onClose={closeConfirmationModal} size="mini">
+        <Modal.Header>Confirm Deletion</Modal.Header>
+        <Modal.Content>
+          <p>Are you sure you want to delete your account?</p>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color="black" onClick={closeConfirmationModal}>
+            Cancel
+          </Button>
+          <Button negative onClick={handleDelete} loading={deleting}>
+            Delete
+          </Button>
+        </Modal.Actions>
       </Modal>
+      <br />
       <Modal open={showImageEditModal} onClose={closeImageEditModal} size="mini">
         <Modal.Header>Edit Profile Image</Modal.Header>
         <Modal.Content>
@@ -129,5 +139,4 @@ function Profile() {
 }
 
 export default Profile;
-
 
