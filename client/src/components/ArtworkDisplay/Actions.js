@@ -96,10 +96,10 @@ function Actions({ artwork, user, users, setIsEditing, onDelete, onClose, likes,
                     <Icon name='trash' />
                     Delete Artwork
                   </Button>
-                  <Button icon floated='right' labelPosition='left' onClick={handleEdit}>
+                  {/* <Button icon floated='right' labelPosition='left' onClick={handleEdit}>
                     <Icon name='edit' />
                     Edit Artwork
-                  </Button>
+                  </Button> */}
                 </>
               ) : (
                 <form action={`/create-checkout-session/${artwork.id}`} method='POST'>

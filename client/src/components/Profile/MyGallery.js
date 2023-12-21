@@ -131,7 +131,7 @@ const MyGallery = () => {
           {user.full_name}
           <br />
           @{user.username}
-          {isModalOpen && <ArtistModal user={user} onClose={closeModal} />}
+          {isModalOpen && <ArtistModal artist={user} onClose={closeModal} />}
         </div>
       </div>
       <br />
