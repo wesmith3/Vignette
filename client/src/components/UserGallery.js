@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from './Helpers/AuthProvider'
 import { useParams } from 'react-router-dom';
+import { Loader } from 'semantic-ui-react'
 import MenuBar from './Helpers/MenuBar';
 import Gallery from './Gallery';
 import ArtistModal from './ArtistModal';
@@ -55,9 +56,12 @@ function UserGallery() {
   }, [username]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className='loader'>
+        <Loader size='large'>The calm before the beauty...</Loader>
+      </div>
+    );
   }
-
   if (!artist) {
     return null;
   }

@@ -39,50 +39,50 @@ useEffect(() => {
           <EditForm artwork={artwork} setIsEditing={setIsEditing}/>
         ) : (
           <Card fluid>
-            <Card.Content>
-             <UserInfo artwork={artwork} user={user}/>
-            </Card.Content>
-            <div className="watermark-container">
-              <div className="watermark">Vignette</div>
-              <Image src={artwork.image} />
-            </div>
-            <Card.Content>
-              <Card.Header>{artwork.title}</Card.Header>
-              <Card.Description>
-                <p>{artwork.description}</p>
-                <br />
-                <p>
-                  <strong>Price:</strong> ${artwork.price}.00
-                </p>
-              </Card.Description>
-              <br />
-              <div><strong>Tags:</strong></div>
-              <div>
-                {artwork.tags.map((tag, index) => (
-                  <span key={index}>
-                    #{tag.keyword}
-                    {index < artwork.tags.length - 1 ? ', ' : ''}
-                  </span>
-                ))}
-              </div>
-            </Card.Content>
-            <Card.Content extra>
-              <Actions
-                artwork={artwork}
-                user={user}
-                users={users}
-                setIsEditing={setIsEditing}
-                onDelete={onDelete}
-                onClose={onClose}
-                likes={likes}
-                isLiked={isLiked}
-                setIsLiked={setIsLiked}
-                setLikes={setLikes}
-                comments={comments}
-                setComments={setComments}
-              />
-            </Card.Content>
-          </Card>
+  <Card.Content>
+    <UserInfo artwork={artwork} user={user}/>
+  </Card.Content>
+  <div className="watermark-container">
+    <div className="watermark">Vignette</div>
+    <Image src={artwork.image} centered />
+  </div>
+  <Card.Content>
+    <Card.Header>{artwork.title}</Card.Header>
+    <Card.Description>
+      <p>{artwork.description}</p>
+      <br />
+      <p>
+        <strong>Price:</strong> ${artwork.price}.00
+      </p>
+    </Card.Description>
+    <br />
+    <div><strong>Tags:</strong></div>
+    <div>
+      {artwork.tags.map((tag, index) => (
+        <span key={index}>
+          #{tag.keyword}
+          {index < artwork.tags.length - 1 ? ', ' : ''}
+        </span>
+      ))}
+    </div>
+  </Card.Content>
+  <Card.Content extra>
+    <Actions
+      artwork={artwork}
+      user={user}
+      users={users}
+      setIsEditing={setIsEditing}
+      onDelete={onDelete}
+      onClose={onClose}
+      likes={likes}
+      isLiked={isLiked}
+      setIsLiked={setIsLiked}
+      setLikes={setLikes}
+      comments={comments}
+      setComments={setComments}
+    />
+  </Card.Content>
+</Card>
         )}
       </Modal.Content>
     </Modal>
