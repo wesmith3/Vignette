@@ -10,7 +10,7 @@ import MenuBar from './Helpers/MenuBar';
 
 const stripePubKey = "pk_test_51OLr7qJxYeOx9Zwqcf5BNOofHBJ34Q47JC5eaMAXQD114sULFriIbEB3UEiaK4WX0cNrbsxcfiAuaOJuY9Rkg7vM00qbJy1vOB";
 
-function Gallery({ onDelete }) {
+function Explore({ onDelete }) {
   const [selectedArtworkId, setSelectedArtworkId] = useState(null);
   const { artworks, user } = useContext(AuthContext);
 
@@ -60,4 +60,4 @@ function Gallery({ onDelete }) {
   );
 }
 
-export default Gallery;
+export default Explore;

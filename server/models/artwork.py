@@ -23,9 +23,7 @@ class Artwork(db.Model, SerializerMixin):
     def __init__(self, *args, **kwargs):
         super(Artwork, self).__init__(*args, **kwargs)
         self.create_stripe_product_and_price()
-
-    __table_args__ = (UniqueConstraint("user_id", "title", name="unique_user_title"),)
-    
+ 
     def create_stripe_product_and_price(self):
         stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
 
@@ -51,6 +49,7 @@ class Artwork(db.Model, SerializerMixin):
 
             db.session.commit()
 
+    __table_args__ = (UniqueConstraint("user_id", "title", name="unique_user_title"),)
     # Relationships
     user = db.relationship("User", back_populates="artworks")
     likes = db.relationship(

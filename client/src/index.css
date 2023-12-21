@@ -232,7 +232,7 @@
     justify-content: center;
     font-size: 200px;
     font-family: cursive;
-    color: rgba(255, 255, 255, 0.2); /* Adjust the color as needed */
+    color: rgba(255, 255, 255, 0.1); /* Adjust the color as needed */
     pointer-events: none;
     z-index: 1;
     transform: rotate(330deg);
